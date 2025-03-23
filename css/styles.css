@@ -131,7 +131,7 @@ button, input, textarea {
     font-family: var(--font-primary);
     font-size: 3rem;
     font-weight: 700;
-    text-align: center;
+    text-align: left;
     margin-bottom: var(--spacing-lg);
     position: relative;
     letter-spacing: 2px;
@@ -151,6 +151,11 @@ button, input, textarea {
 .education-section .section-title {
     text-align: left;
     margin-left: 0;
+}
+
+.education-section .section-title::after {
+    left: 0;
+    transform: none;
 }
 
 .cursive-accent {
@@ -301,37 +306,46 @@ button, input, textarea {
     background-color: var(--color-light-bg); /* Changed from white to light pink */
 }
 
-.about-content {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: var(--spacing-lg);
-    align-items: center;
+.about-section .section-title {
+    text-align: left;
+    margin-left: 0;
 }
 
-.about-image img {
+.about-section .section-title::after {
+    left: 0;
+    transform: none;
+}
+
+.about-content {
+    display: flex;
+    flex-direction: row; /* Changed from column to row */
+    align-items: center;
+    gap: var(--spacing-lg);
+}
+
+.about-text {
+    order: 1; /* Placed first in the row */
+    flex: 1;
+}
+
+.about-image {
+    order: 2; /* Placed second in the row */
     width: 100%;
+    max-width: 350px;
+    height: auto;
     border-radius: 2px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-.about-text {
-    padding: var(--spacing-md);
-}
-
-.profession {
-    font-family: var(--font-primary);
-    font-size: 1.2rem;
-    letter-spacing: 2px;
-    margin-bottom: var(--spacing-md);
-    font-weight: 600;
-}
-
-.about-signature {
-    font-family: var(--font-secondary);
-    font-style: italic;
-    font-size: 2.5rem;
-    margin-top: var(--spacing-md);
-    color: var(--color-accent);
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+    .about-content {
+        flex-direction: column;
+    }
+    
+    .about-text, .about-image {
+        order: 0;
+    }
 }
 
 /* Education Section */
@@ -405,9 +419,6 @@ button, input, textarea {
 .timeline-content p {
     display: block; /* Display as block to start on a new line */
     margin-top: var(--spacing-xs);
-    white-space: nowrap; /* Keep text on one line */
-    overflow: hidden;
-    text-overflow: ellipsis; /* Add ellipsis for text that's too long */
 }
 
 .timeline-highlight {
