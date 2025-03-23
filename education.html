@@ -3,83 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Education - Susana Loureiro</title>
+    <title>Education | Susana Loureiro</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<!-- Background circles for subtle design flair -->
-<div class="background-circle" id="circle1"></div>
-<div class="background-circle" id="circle2"></div>
-<div class="background-circle" id="circle3"></div>
-<div class="background-circle" id="circle4"></div>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="education.html" class="active">Education</a></li>
+            <li><a href="skills.html">Skills</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
 
-<!-- Navbar with clean modern look -->
-<nav class="navbar">
-    <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="education.html" class="active">Education</a></li>
-        <li><a href="skills.html">Skills</a></li>
-        <li><a href="projects.html">Projects</a></li>
-        <li><a href="contact.html">Contact</a></li>
-    </ul>
-</nav>
-
-<!-- Education Section -->
-<section class="section">
-    <div class="container">
-        <h2 class="section-title">Education & Certifications</h2>
-        
-        <div class="education-timeline">
-            <div class="timeline-item">
-                <div class="timeline-icon">
-                    <i class="fas fa-graduation-cap"></i>
+    <!-- Education Section -->
+    <section class="education-section">
+        <div class="container">
+            <h2 class="section-title animated">EDUCATION</h2>
+            
+            <div class="timeline animated delay-1">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">2021 - Present</div>
+                    <div class="timeline-content">
+                        <h3>BSc in Informatics Engineering</h3>
+                        <h4>Instituto Superior de Engenharia do Porto (ISEP)</h4>
+                        <p>Specializing in Software Engineering with a focus on modern development methodologies, cloud computing, and AI/ML fundamentals.</p>
+                        <p class="timeline-highlight">Key areas: Software Architecture, Web Development, Database Systems, AI Principles</p>
+                    </div>
                 </div>
-                <div class="timeline-content">
-                    <h3>B.Sc. in Computer Science</h3>
-                    <h4>University of Lisbon</h4>
-                    <p class="timeline-date">2017 - 2021</p>
-                    <p>Graduated with a focus on software engineering and distributed systems. Completed coursework in algorithms, data structures, and network architecture.</p>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">2023</div>
+                    <div class="timeline-content">
+                        <h3>Machine Learning Specialization</h3>
+                        <h4>Coursera - Stanford Online</h4>
+                        <p>Comprehensive program covering the theoretical foundations and practical applications of machine learning algorithms.</p>
+                        <p class="timeline-highlight">Final Project: Predictive Analytics Model for Fashion Trend Forecasting</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">2022</div>
+                    <div class="timeline-content">
+                        <h3>Full-Stack Development Bootcamp</h3>
+                        <h4>Le Wagon</h4>
+                        <p>Intensive training in modern web development technologies with a focus on creating responsive and aesthetically pleasing applications.</p>
+                        <p class="timeline-highlight">Capstone Project: Virtual Styling Assistant with Integrated AI Recommendations</p>
+                    </div>
                 </div>
             </div>
             
-            <div class="timeline-item">
-                <div class="timeline-icon">
-                    <i class="fas fa-certificate"></i>
-                </div>
-                <div class="timeline-content">
-                    <h3>AWS Certified Cloud Practitioner</h3>
-                    <h4>Amazon Web Services</h4>
-                    <p class="timeline-date">2023</p>
-                    <p>Foundational understanding of AWS Cloud services, security, architecture, and deployment models.</p>
-                </div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-icon">
-                    <i class="fas fa-certificate"></i>
-                </div>
-                <div class="timeline-content">
-                    <h3>AWS Certified Solutions Architect Associate</h3>
-                    <h4>Amazon Web Services</h4>
-                    <p class="timeline-date">In Progress</p>
-                    <p>Currently preparing for this certification to deepen my knowledge of AWS services and architectures for building cloud solutions.</p>
-                </div>
+            <div class="education-quote animated delay-2">
+                <blockquote>
+                    "Education is not the learning of facts, but the training of the mind to think."
+                    <footer>— Albert Einstein</footer>
+                </blockquote>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<footer class="footer">
-    <div class="container">
-        <p>&copy; 2025 Susana Loureiro. All Rights Reserved.</p>
-    </div>
-</footer>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Susana Loureiro. All Rights Reserved.</p>
+        </div>
+    </footer>
 
-<script src="js/main.js"></script>
+    <script>
+        // Simple script to handle navbar styling on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            } else {
+                navbar.style.background = 'transparent';
+            }
+        });
+    </script>
 </body>
 </html>
