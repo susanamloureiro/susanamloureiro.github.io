@@ -337,6 +337,22 @@ button, input, textarea {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
+.profession {
+    font-family: var(--font-primary);
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    margin-bottom: var(--spacing-md);
+    font-weight: 600;
+}
+
+.about-signature {
+    font-family: var(--font-secondary);
+    font-style: italic;
+    font-size: 2.5rem;
+    margin-top: var(--spacing-md);
+    color: var(--color-accent);
+}
+
 /* Responsive adjustments for mobile */
 @media (max-width: 768px) {
     .about-content {
@@ -511,10 +527,20 @@ button, input, textarea {
     background-color: var(--color-light-bg); /* Changed from white to light pink */
 }
 
+.skills-section .section-title {
+    text-align: left;
+    margin-left: 0;
+}
+
+.skills-section .section-title::after {
+    left: 0;
+    transform: none;
+}
+
 .skills-intro {
     max-width: 800px;
     margin: 0 auto var(--spacing-lg);
-    text-align: center;
+    text-align: left; /* Changed from center to left */
 }
 
 .skills-categories {
@@ -596,10 +622,20 @@ button, input, textarea {
     background-color: var(--color-light-bg);
 }
 
+.projects-section .section-title {
+    text-align: left;
+    margin-left: 0;
+}
+
+.projects-section .section-title::after {
+    left: 0;
+    transform: none;
+}
+
 .projects-intro {
     max-width: 800px;
     margin: 0 auto var(--spacing-md);
-    text-align: center;
+    text-align: left; /* Changed from center to left */
 }
 
 .projects-filter {
@@ -737,13 +773,23 @@ button, input, textarea {
 /* Contact Section */
 .contact-section {
     padding: var(--spacing-xl) 0;
-    background-color: var(--color-white);
+    background-color: var(--color-light-bg);
+}
+
+.contact-section .section-title {
+    text-align: left;
+    margin-left: 0;
+}
+
+.contact-section .section-title::after {
+    left: 0;
+    transform: none;
 }
 
 .contact-intro {
     max-width: 800px;
     margin: 0 auto var(--spacing-lg);
-    text-align: center;
+    text-align: left; /* Changed from center to left */
 }
 
 .contact-content {
