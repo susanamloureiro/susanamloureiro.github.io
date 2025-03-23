@@ -104,6 +104,16 @@ button, input, textarea {
     animation-delay: 0.9s;
 }
 
+@font-face {
+    font-family: Hirjnotes;
+    src: url("/fonts/Hijrnotes.ttf");
+}
+
+@font-face {
+    font-family: Quentin;
+    src: url("/fonts/Quentin.otf");
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -220,7 +230,7 @@ button, input, textarea {
 }
 
 .name-title {
-    font-family: var(--font-primary);
+    font-family: 'Quentin', sans-serif;
     font-size: 5rem;
     font-weight: 700;
     letter-spacing: 4px;
