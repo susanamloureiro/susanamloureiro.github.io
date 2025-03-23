@@ -87,6 +87,41 @@
             letter-spacing: 2px;
             margin-bottom: 10px;
             color: #000;
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 0;
+            animation: typing 3s steps(15) forwards;
+        }
+
+        .name-container {
+            display: flex;
+            justify-content: center;
+            min-height: 4.5rem; /* Reserve space for the text */
+        }
+
+        .cursor {
+            position: relative;
+        }
+
+        .cursor::after {
+            content: '|';
+            position: absolute;
+            right: -10px;
+            top: 0;
+            color: #000;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink {
+            from { opacity: 1; }
+            to { opacity: 0; }
         }
         
         .home-tagline {
@@ -135,12 +170,12 @@
         }
         
         .delay-1 {
-            animation-delay: 0.3s;
+            animation-delay: 3.2s; /* Start after typing animation */
             opacity: 0;
         }
         
         .delay-2 {
-            animation-delay: 0.6s;
+            animation-delay: 3.5s; /* Start after typing animation */
             opacity: 0;
         }
     </style>
@@ -160,7 +195,9 @@
 
         <!-- Simple centered content -->
         <div class="home-content">
-            <h1 class="name-title animated">Susana Loureiro</h1>
+            <div class="name-container">
+                <h1 class="name-title cursor">Susana Loureiro</h1>
+            </div>
             <div class="title-divider animated delay-1"></div>
             <p class="home-tagline animated delay-1">Software Engineer • AI Specialist • Design Enthusiast</p>
             

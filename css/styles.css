@@ -13,6 +13,7 @@
     --font-primary: 'Playfair Display', serif;
     --font-secondary: 'Bodoni Moda', serif;
     --font-body: 'Roboto', sans-serif;
+    --font-button: 'Open Sans', sans-serif; /* New font for buttons */
     --spacing-xs: 0.5rem;
     --spacing-sm: 1rem;
     --spacing-md: 2rem;
@@ -145,6 +146,11 @@ button, input, textarea {
     width: 50px;
     height: 2px;
     background-color: var(--color-accent);
+}
+
+.education-section .section-title {
+    text-align: left;
+    margin-left: 0;
 }
 
 .cursive-accent {
@@ -292,7 +298,7 @@ button, input, textarea {
 /* About Section */
 .about-section {
     padding: var(--spacing-xl) 0;
-    background-color: var(--color-white);
+    background-color: var(--color-light-bg); /* Changed from white to light pink */
 }
 
 .about-content {
@@ -336,8 +342,10 @@ button, input, textarea {
 
 .timeline {
     position: relative;
-    max-width: 800px;
+    max-width: 600px; /* Made even smaller */
     margin: 0 auto;
+    margin-right: auto;
+    margin-left: 0; /* Move timeline to the left */
     padding: var(--spacing-md) 0;
 }
 
@@ -345,8 +353,7 @@ button, input, textarea {
     content: '';
     position: absolute;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 30px; /* Fixed distance from left (in pixels) */
     width: 1px;
     height: 100%;
     background-color: var(--color-accent);
@@ -355,12 +362,12 @@ button, input, textarea {
 .timeline-item {
     position: relative;
     margin-bottom: var(--spacing-lg);
-    padding: 0 var(--spacing-md);
+    padding-left: 60px; /* Add padding to push content right of the line */
 }
 
 .timeline-dot {
     position: absolute;
-    left: 50%;
+    left: 30px; /* Fixed distance from left (in pixels) */
     transform: translateX(-50%);
     width: 16px;
     height: 16px;
@@ -371,39 +378,42 @@ button, input, textarea {
 }
 
 .timeline-date {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 50%;
-    padding-right: var(--spacing-lg);
-    text-align: right;
+    position: relative; /* Changed from absolute */
+    display: inline-block; /* Display inline */
     font-weight: 500;
     color: var(--color-grey);
+    margin-right: var(--spacing-sm);
 }
 
 .timeline-content {
-    margin-left: 50%;
-    padding-left: var(--spacing-lg);
-    padding-bottom: var(--spacing-md);
+    margin-left: 0; /* Reset margin */
+    padding-left: 0; /* Reset padding */
+    display: inline; /* Display inline */
 }
 
 .timeline-content h3 {
-    font-size: 1.5rem;
-    margin-bottom: var(--spacing-xs);
+    display: inline-block; /* Display inline */
+    margin-right: var(--spacing-sm);
+    margin-bottom: 0;
 }
 
 .timeline-content h4 {
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 1.1rem;
-    color: var(--color-grey);
+    display: inline-block; /* Display inline */
     margin-bottom: var(--spacing-sm);
 }
 
+.timeline-content p {
+    display: block; /* Display as block to start on a new line */
+    margin-top: var(--spacing-xs);
+    white-space: nowrap; /* Keep text on one line */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis for text that's too long */
+}
+
 .timeline-highlight {
-    font-style: italic;
+    font-weight: 500;
     color: var(--color-accent);
-    margin-top: var(--spacing-sm);
+    margin-top: var(--spacing-xs);
 }
 
 .education-quote {
@@ -426,10 +436,68 @@ button, input, textarea {
     color: var(--color-grey);
 }
 
+/* Certification Badges Section */
+.certification-section {
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.certification-title {
+    font-family: var(--font-primary);
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.certification-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.certification-badge {
+    background-color: var(--color-white);
+    border-radius: 8px;
+    padding: var(--spacing-md);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: var(--transition-standard);
+    width: auto;
+}
+
+.certification-badge:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.badge-image {
+    width: 100px;
+    height: 100px;
+    margin-bottom: var(--spacing-sm);
+}
+
+.badge-title {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: var(--spacing-xs);
+}
+
+.badge-issuer {
+    font-size: 0.8rem;
+    color: var(--color-grey);
+    text-align: center;
+}
+
 /* Skills Section */
 .skills-section {
     padding: var(--spacing-xl) 0;
-    background-color: var(--color-white);
+    background-color: var(--color-light-bg); /* Changed from white to light pink */
 }
 
 .skills-intro {
@@ -536,11 +604,12 @@ button, input, textarea {
     border: 1px solid var(--color-dark-text);
     padding: 0.5rem 1.5rem;
     cursor: pointer;
-    font-family: var(--font-body);
+    font-family: var(--font-button); /* Changed from Roboto to Open Sans */
     font-size: 0.9rem;
     transition: var(--transition-standard);
     text-transform: uppercase;
     letter-spacing: 1px;
+    border-radius: 25px; /* Added rounded corners */
 }
 
 .filter-btn:hover,
