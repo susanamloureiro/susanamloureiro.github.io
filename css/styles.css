@@ -165,6 +165,8 @@ button, input, textarea {
     display: flex;
     justify-content: center;
     z-index: 100;
+    font-family: var(--font-primary);
+
 }
 
 .navbar ul {
@@ -197,11 +199,9 @@ button, input, textarea {
     transition: width 0.3s ease;
 }
 
-.navbar a:hover::after,
-.navbar a.active::after {
+.navbar a:hover::after {
     width: 100%;
 }
-
 /* Page Structure */
 .page-header {
     padding-top: 120px; /* Add extra padding to account for the fixed navbar */
