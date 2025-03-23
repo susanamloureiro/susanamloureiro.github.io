@@ -160,44 +160,63 @@ button, input, textarea {
     top: 0;
     left: 0;
     width: 100%;
-    padding: var(--spacing-sm);
+    background: transparent;
+    padding: 20px;
     display: flex;
     justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    background: transparent;
-    transition: var(--transition-standard);
+    z-index: 100;
 }
 
 .navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     display: flex;
-    gap: var(--spacing-md);
+    gap: 30px;
 }
 
 .navbar a {
-    padding: 0.5rem 1rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 0.9rem;
+    text-decoration: none;
+    color: #000;
+    font-size: 14px;
     font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
     position: relative;
-    color: var(--color-dark-text);
 }
 
 .navbar a::after {
     content: '';
     position: absolute;
+    bottom: -5px;
+    left: 0;
     width: 0;
     height: 1px;
-    bottom: 0;
-    left: 0;
-    background-color: var(--color-accent);
+    background-color: #000;
     transition: width 0.3s ease;
 }
 
 .navbar a:hover::after,
 .navbar a.active::after {
     width: 100%;
+}
+
+/* Page Structure */
+.page-header {
+    padding-top: 120px; /* Add extra padding to account for the fixed navbar */
+    padding-bottom: var(--spacing-lg);
+    text-align: center;
+    background-color: var(--color-light-bg);
+}
+
+/* Making sure main sections start below the fixed navbar */
+.about-section,
+.education-section,
+.skills-section,
+.projects-section,
+.contact-section {
+    padding-top: 100px;
 }
 
 /* Home Page Styles */
