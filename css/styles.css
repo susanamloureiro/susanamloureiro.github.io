@@ -656,7 +656,7 @@ button, input, textarea {
 
 .projects-intro {
     max-width: 800px;
-    margin: 0 auto var(--spacing-md);
+    /*margin: 0 auto var(--spacing-md);*/
     text-align: left; /* Changed from center to left */
 }
 
