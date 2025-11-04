@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotlight | Susana Loureiro</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+    <style>
+        /* Spotlight Interview Specific Styles */
+        .magazine-header {
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--light-divider);
+        }
+
+        .issue-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .volume, .issue {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-loose);
+        }
+
+        .separator {
+            color: var(--light-accent);
+        }
+
+        .page-title {
+            font-family: var(--font-serif-display);
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--light-text-soft);
+        }
+        .spotlight-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+            margin: 2rem 0 4rem;
+        }
+
+        .interview-header {
+            grid-column: 1 / -1;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .interview-title {
+            font-family: var(--font-serif-display);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .interview-subtitle {
+            font-family: var(--font-serif-body);
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--light-text-soft);
+            max-width: 80%;
+        }
+
+        .interview-meta {
+            margin-top: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .interviewer {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-loose);
+        }
+
+        .interview-date {
+            font-family: var(--font-serif-display);
+            font-style: italic;
+            color: var(--light-text-soft);
+        }
+
+        .profile-column {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .profile-image-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 125%; /* 4:5 aspect ratio */
+            overflow: hidden;
+        }
+
+        .profile-image-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--light-bg-alt);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid var(--light-divider);
+        }
+
+        .profile-image-placeholder svg {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 1rem;
+            color: var(--light-accent);
+        }
+
+        .profile-image-placeholder p {
+            font-family: var(--font-serif-display);
+            font-style: italic;
+            color: var(--light-text-soft);
+        }
+
+        .profile-caption {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            font-style: italic;
+            color: var(--light-text-soft);
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        .profile-sidebar {
+            background-color: var(--light-bg-alt);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .sidebar-heading {
+            font-family: var(--font-serif-display);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .sidebar-heading:after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 0;
+            width: 40px;
+            height: 1px;
+            background-color: var(--light-accent);
+        }
+
+        .quick-facts {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .quick-facts li {
+            display: flex;
+            margin-bottom: 0.8rem;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+        }
+
+        .fact-label {
+            font-weight: 600;
+            width: 120px;
+            flex-shrink: 0;
+        }
+
+        .interview-content {
+            font-family: var(--font-serif-body);
+        }
+
+        .interview-question {
+            font-family: var(--font-serif-display);
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--light-accent-dark);
+        }
+
+        .interview-answer {
+            font-family: var(--font-sans);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .interview-quote {
+            font-family: var(--font-serif-display);
+            font-size: 1.8rem;
+            font-style: italic;
+            line-height: 1.3;
+            color: var(--light-accent-dark);
+            margin: 2.5rem 0;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .interview-quote:before {
+            content: '"';
+            position: absolute;
+            left: 0;
+            top: -0.5rem;
+            font-size: 4rem;
+            color: var(--light-accent-light);
+            line-height: 1;
+        }
+
+        /* Dark Theme Adjustments */
+        body.dark-theme .profile-image-placeholder {
+            background-color: var(--dark-bg-alt);
+            border-color: var(--dark-divider);
+        }
+
+        body.dark-theme .profile-image-placeholder svg {
+            color: var(--dark-accent);
+        }
+
+        body.dark-theme .profile-sidebar {
+            background-color: var(--dark-bg-alt);
+        }
+
+        body.dark-theme .sidebar-heading:after {
+            background-color: var(--dark-accent);
+        }
+
+        body.dark-theme .interview-question {
+            color: var(--dark-accent-light);
+        }
+
+        body.dark-theme .interview-quote {
+            color: var(--dark-accent-light);
+        }
+
+        body.dark-theme .interview-quote:before {
+            color: var(--dark-accent-dark);
+        }
+
+        @media (max-width: 768px) {
+            .spotlight-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor"></div>
+    <div class="page-transition"></div>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <div class="toggle-switch">
+            <div class="toggle-circle"></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="editorial-layout">
+        <!-- Spotlight Interview Section -->
+        <section id="spotlight" class="section-spotlight active">
+            <div class="magazine-header">
+                <div class="issue-info">
+                    <span class="volume">Vol. I</span>
+                    <span class="separator">|</span>
+                    <span class="issue">Spotlight</span>
+                </div>
+                <div class="page-title">The Engineer's Portfolio</div>
+            </div>
+
+            <div class="spotlight-layout">
+                <div class="interview-header">
+                    <h1 class="interview-title">The Engineer Behind the Code</h1>
+                    <h2 class="interview-subtitle">A conversation about creative problem-solving, machine learning, and building technology that matters</h2>
+                    <div class="interview-meta">
+                        <div class="interviewer">Interview by The Portfolio Magazine</div>
+                        <div class="interview-date">September 2025</div>
+                    </div>
+
+                    <div class="profile-sidebar" style="margin-top: 2rem; margin-bottom: 2rem;">
+                        <h3 class="sidebar-heading">Quick Facts</h3>
+                        <ul class="quick-facts">
+                            <li>
+                                <span class="fact-label">Education</span>
+                                <span class="fact-value">BSc in Informatics Engineering, ISEP</span>
+                            </li>
+                            <li>
+                                <span class="fact-label">Specialization</span>
+                                <span class="fact-value">Software Engineering, AI/ML</span>
+                            </li>
+                            <li>
+                                <span class="fact-label">Location</span>
+                                <span class="fact-value">Porto, Portugal</span>
+                            </li>
+                            <li>
+                                <span class="fact-label">Languages</span>
+                                <span class="fact-value">Portuguese, English</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <p class="interview-introduction">
+                        Some engineers live and breathe code around the clock. Susana Loureiro is not one of them. Her relationship with technology is more deliberate—she's selective about what captures her attention, approaching programming with the same thoughtful consideration she brings to everything else in her life. This perspective, grounded in logic but fueled by creativity when the right knowledge clicks into place, shapes how she thinks about building meaningful systems.
+                        <br><br>
+                        What emerges from this balanced approach is a unique fascination with artificial intelligence that goes beyond pure technical interest. For her, the appeal lies in the philosophical possibility that machines can think—not just process, but genuinely reason. It's this intersection of logical precision and creative potential that drives her work in machine learning, where she sees technology not as a replacement for human connection, but as a thoughtful enhancement to it.
+                    </p>
+                </div>
+
+                <div class="interview-content" style="grid-column: 1 / -1;">
+                    <div class="interview-question">What drives your approach to writing code—is it more about solving problems or building something elegant?</div>
+                    <div class="interview-answer">
+                        It's definitely both, but my first instinct is always problem-solving. However, I believe coding should go beyond just finding a solution—it should be about building something meaningful that genuinely helps people. I'm not interested in creating technology just for profit. What excites me is that in today's landscape, you can be as creative as an artist while working in fields that are fundamentally logical and mathematical. There's this beautiful intersection where creativity meets precision, and that's where I try to operate.
+                    </div>
+
+                    <div class="interview-question">You're transitioning more into machine learning—what draws you to that field specifically?</div>
+                    <div class="interview-answer">
+                        What fascinates me most is the idea that machines can actually think—not just process, but genuinely reason through problems. It's absolutely mind-blowing. I often think of AI systems as being like incredibly logical learners. They follow patterns and rules in ways that mirror human thinking, but with this beautiful mathematical precision. I've always felt drawn to logical, systematic thinking, and there's something deeply satisfying about working with systems that operate on clear principles and rules. It's like finding a new way to connect and communicate, but through code and algorithms.
+                    </div>
+
+                    <div class="interview-quote">
+                        The best systems are those that hide their complexity behind an interface of simplicity.
+                    </div>
+
+                    <div class="interview-question">How do you see your software engineering background helping you in machine learning?</div>
+                    <div class="interview-answer">
+                        My software engineering foundation gives me the ability to build complete, user-facing applications that actually help people in their daily lives. For example, I developed 'Her.'—a personal assistant app that demonstrates how ML can be integrated into practical tools. Having that full-stack development background means I'm not just working with models in isolation; I can create entire systems that bring machine learning capabilities directly to users in intuitive, helpful ways. It's about bridging that gap between the technology and real human needs.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page Navigation -->
+            <div class="page-navigation">
+                <a href="../index.html" class="prev-page">← Previous</a>
+                <a href="field-notes.html" class="next-page">Next →</a>
+            </div>
+        </section>
+
+        <!-- Page Numbers -->
+        <div class="page-number">01</div>
+    </main>
+
+    <script src="../js/script.js"></script>
+</body>
+</html>

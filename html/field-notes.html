@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Field Notes | Susana Loureiro</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+    <style>
+        /* Field Notes Specific Styles */
+        .magazine-header {
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--light-divider);
+        }
+        
+        .issue-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .volume, .issue {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-loose);
+        }
+        
+        .separator {
+            color: var(--light-accent);
+        }
+        
+        .page-title {
+            font-family: var(--font-serif-display);
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--light-text-soft);
+        }
+        .field-notes-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+            margin: 2rem 0 4rem;
+        }
+        
+        .field-notes-intro {
+            font-family: var(--font-serif-body);
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 3rem;
+            max-width: 800px;
+        }
+        
+        .field-notes-section {
+            margin-bottom: 4rem;
+        }
+        
+        .section-title {
+            font-family: var(--font-serif-display);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 0;
+            width: 60%;
+            height: 1px;
+            background-color: var(--light-accent);
+        }
+        
+        /* Education Journal Styles */
+        .education-journal {
+            position: relative;
+            padding: 2rem;
+            background-color: var(--light-bg-alt);
+            border: 1px solid var(--light-divider);
+            margin-bottom: 3rem;
+        }
+        
+        .journal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--light-divider);
+            padding-bottom: 1rem;
+        }
+        
+        .journal-title {
+            font-family: var(--font-serif-display);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .journal-institution {
+            font-family: var(--font-serif-body);
+            font-style: italic;
+            color: var(--light-text-soft);
+        }
+        
+        .journal-date {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            padding: 0.3rem 0.8rem;
+            background-color: var(--light-accent-light);
+            color: var(--light-accent-dark);
+            border-radius: 20px;
+        }
+        
+        .journal-content {
+            font-family: var(--font-serif-body);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .journal-highlights {
+            margin-top: 2rem;
+        }
+        
+        .highlight-title {
+            font-family: var(--font-serif-display);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .highlight-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .highlight-tag {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            padding: 0.3rem 0.8rem;
+            background-color: white;
+            border: 1px solid var(--light-divider);
+            border-radius: 20px;
+        }
+        
+        /* Certification Collection Styles */
+        .certification-collection {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .certification-card {
+            background-color: var(--light-bg-alt);
+            border: 1px solid var(--light-divider);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .certification-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        
+        .certification-badge {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .certification-badge img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .badge-placeholder {
+            width: 100%;
+            height: 100%;
+            background-color: var(--light-accent-light);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: var(--font-serif-display);
+            font-size: 2rem;
+            color: var(--light-accent-dark);
+        }
+        
+        .certification-title {
+            font-family: var(--font-serif-display);
+            font-size: 1.3rem;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .certification-issuer {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: var(--light-text-soft);
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .certification-date {
+            font-family: var(--font-serif-body);
+            font-style: italic;
+            font-size: 0.9rem;
+            color: var(--light-text-soft);
+            text-align: center;
+        }
+        
+        /* Skills Collection Styles */
+        .skills-collection {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .skill-category {
+            background-color: var(--light-bg-alt);
+            padding: 1.5rem;
+            border-top: 3px solid var(--light-accent);
+        }
+        
+        .category-title {
+            font-family: var(--font-serif-display);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .skill-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .skill-list li {
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            padding-left: 1rem;
+            position: relative;
+        }
+        
+        .skill-list li:before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--light-accent);
+        }
+        
+        /* Dark Theme Adjustments */
+        body.dark-theme .section-title:after {
+            background-color: var(--dark-accent);
+        }
+        
+        body.dark-theme .education-journal,
+        body.dark-theme .certification-card {
+            background-color: var(--dark-bg-alt);
+            border-color: var(--dark-divider);
+        }
+        
+        body.dark-theme .journal-header {
+            border-bottom-color: var(--dark-divider);
+        }
+        
+        body.dark-theme .journal-date {
+            background-color: var(--dark-accent-dark);
+            color: var(--dark-bg);
+        }
+        
+        body.dark-theme .highlight-tag {
+            background-color: var(--dark-bg);
+            border-color: var(--dark-divider);
+        }
+        
+        body.dark-theme .badge-placeholder {
+            background-color: var(--dark-accent-dark);
+            color: var(--dark-bg);
+        }
+        
+        body.dark-theme .skill-category {
+            background-color: var(--dark-bg-alt);
+            border-top-color: var(--dark-accent);
+        }
+        
+        body.dark-theme .skill-list li:before {
+            color: var(--dark-accent);
+        }
+        
+        @media (max-width: 768px) {
+            .certification-collection,
+            .skills-collection {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor"></div>
+    <div class="page-transition"></div>
+    
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <div class="toggle-switch">
+            <div class="toggle-circle"></div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <main class="editorial-layout">
+        <!-- Field Notes Section -->
+        <section id="field-notes" class="section-field-notes active">
+            <div class="magazine-header">
+                <div class="issue-info">
+                    <span class="volume">Vol. I</span>
+                    <span class="separator">|</span>
+                    <span class="issue">Field Notes</span>
+                </div>
+                <div class="page-title">The Engineer's Portfolio</div>
+            </div>
+            
+            <div class="field-notes-intro">
+                <p>A collection of educational experiences, professional certifications, and technical skills that form the foundation of my work as a software engineer. These field notes document my journey of continuous learning and growth in the ever-evolving landscape of technology.</p>
+            </div>
+            
+            <div class="field-notes-layout">
+                <!-- Education Journal Section -->
+                <div class="field-notes-section">
+                    <h2 class="section-title">Education Journal</h2>
+                    
+                    <div class="education-journal">
+                        <div class="journal-header">
+                            <div class="journal-info">
+                                <h3 class="journal-title">BSc in Informatics Engineering</h3>
+                                <div class="journal-institution">ISEP - Instituto Superior de Engenharia do Porto</div>
+                            </div>
+                            <div class="journal-date">2022 - 2026</div>
+                        </div>
+                        
+                        <div class="journal-content">
+                            <p>Pursuing a comprehensive education in informatics engineering, with a focus on software development, algorithms, and system design. The program provides a strong foundation in both theoretical concepts and practical application, preparing me for the challenges of modern software engineering.</p>
+                            
+                            <div class="journal-highlights">
+                                <h4 class="highlight-title">Key Areas of Study</h4>
+                                <div class="highlight-tags">
+                                    <span class="highlight-tag">Software Engineering</span>
+                                    <span class="highlight-tag">Database Systems</span>
+                                    <span class="highlight-tag">Algorithm Design</span>
+                                    <span class="highlight-tag">Web Development</span>
+                                    <span class="highlight-tag">Computer Networks</span>
+                                    <span class="highlight-tag">System Architecture</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Certifications Collection -->
+                <div class="field-notes-section">
+                    <h2 class="section-title">Professional Certifications</h2>
+                    
+                    <div class="certification-collection">
+                        <!-- AWS Certifications -->
+                        <!--<div class="certification-card">
+                            <div class="certification-badge">
+                                <a href=""><img src="../images/badges" alt="Data Engineer - Associate">
+                                </a>
+                            </div>
+                            <h3 class="certification-title">AWS Certified Data Engineer - Associate</h3>
+                            <div class="certification-issuer">Amazon Web Services</div>
+                            <div class="certification-date">September 2025</div>
+                        </div>-->
+                        <div class="certification-card">
+                            <div class="certification-badge">
+                                <a href="https://www.credly.com/badges/3b6df1e6-0b20-46c6-b83f-fcd45d950c6a/public_url"><img src="../images/badges/aws-certified-solutions-architect-associate.png" alt="Solutions Architect - Associate">
+                                </a>
+                            </div>
+                            <h3 class="certification-title">AWS Certified Solutions Architect - Associate</h3>
+                            <div class="certification-issuer">Amazon Web Services</div>
+                            <div class="certification-date">August 2025</div>
+                        </div>
+                        <div class="certification-card">
+                            <div class="certification-badge">
+                                <a href="https://www.credly.com/badges/3ff468ab-1ec8-48d3-87b5-bb4946792a83/public_url"><img src="../images/badges/aws-certified-machine-learning-engineer-associate.png" alt="Machine Learning Engineer - Associate">
+                                </a>
+                            </div>
+                            <h3 class="certification-title">AWS Certified Machine Learning Engineer - Associate</h3>
+                            <div class="certification-issuer">Amazon Web Services</div>
+                            <div class="certification-date">June 2025</div>
+                        </div>
+                        <div class="certification-card">
+                            <div class="certification-badge">
+                                <a href="https://www.credly.com/badges/47579900-ffba-449a-a405-64cd67cb8a8a/public_url"><img src="../images/badges/aws-certified-ai-practitioner.png" alt="AI Practitioner">
+                                </a>
+                            </div>
+                            <h3 class="certification-title">AWS Certified AI Practitioner - Foundational</h3>
+                            <div class="certification-issuer">Amazon Web Services</div>
+                            <div class="certification-date">April 2025</div>
+                        </div>
+
+                    </div>
+                </div>
+                
+                <!-- Technical Skills -->
+                <div class="field-notes-section">
+                    <h2 class="section-title">Technical Toolkit</h2>
+                    
+                    <div class="skills-collection">
+                        <div class="skill-category">
+                            <h3 class="category-title">Programming Languages</h3>
+                            <ul class="skill-list">
+                                <li>Python</li>
+                                <li>JavaScript</li>
+                                <li>Java</li>
+                                <li>TypeScript</li>
+                                <li>SQL</li>
+                                <li>HTML/CSS</li>
+                                <li>C</li>
+                                <li>C#</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h3 class="category-title">Frameworks & Libraries</h3>
+                            <ul class="skill-list">
+                                <li>Node.js</li>
+                                <li>Spring Boot</li>
+                                <li>Next.js</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h3 class="category-title">Tools & Platforms</h3>
+                            <ul class="skill-list">
+                                <li>Git</li>
+                                <li>Docker</li>
+                                <li>Linux</li>
+                                <li>Oracle</li>
+                                <li>AWS</li>
+                                <li>PostgreSQL</li>
+                                <li>Firebase</li>
+                                <li>Supabase</li>
+                                <li>Vercel</li>
+                                <li>.NET</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h3 class="category-title">Methodologies</h3>
+                            <ul class="skill-list">
+                                <li>Agile/Scrum</li>
+                                <li>Test-Driven Development</li>
+                                <li>CI/CD</li>
+                                <li>Object-Oriented Design</li>
+                                <li>SOLID Principles</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Page Navigation -->
+            <div class="page-navigation">
+                <a href="spotlight.html" class="prev-page">← Previous</a>
+                <a href="feature-articles.html" class="next-page">Next →</a>
+            </div>
+        </section>
+        
+        <!-- Page Numbers -->
+        <div class="page-number">02</div>
+    </main>
+
+    <script src="../js/script.js"></script>
+</body>
+</html>

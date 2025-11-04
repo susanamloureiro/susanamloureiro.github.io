@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feature Articles | Susana Loureiro</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+    <style>
+        /* Feature Articles Specific Styles */
+        .magazine-header {
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--light-divider);
+        }
+        
+        .issue-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .volume, .issue {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-loose);
+        }
+        
+        .separator {
+            color: var(--light-accent);
+        }
+        
+        .page-title {
+            font-family: var(--font-serif-display);
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--light-text-soft);
+        }
+        
+        .articles-intro {
+            font-family: var(--font-serif-body);
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 3rem;
+            max-width: 800px;
+        }
+        
+        .feature-articles {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+        }
+        
+        .article {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        .article.featured {
+            grid-template-columns: 1.2fr 0.8fr;
+            margin-bottom: 2rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid var(--light-divider);
+        }
+        
+        .article-category {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-loose);
+            color: var(--light-accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .article-title {
+            font-family: var(--font-serif-display);
+            font-size: 2.5rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+        
+        .article.featured .article-title {
+            font-size: 3rem;
+        }
+        
+        .article-subtitle {
+            font-family: var(--font-serif-body);
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--light-text-soft);
+            margin-bottom: 1.5rem;
+        }
+        
+        .article-image {
+            width: 100%;
+            height: 0;
+            padding-bottom: 60%;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        
+        .article.featured .article-image {
+            height: 100%;
+            padding-bottom: 0;
+        }
+        
+        .article-image img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .article:hover .article-image img {
+            transform: scale(1.05);
+        }
+        
+        .article-excerpt {
+            font-family: var(--font-serif-body);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .article-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .article-tag {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            padding: 0.3rem 0.8rem;
+            background-color: var(--light-bg-alt);
+            border-radius: 20px;
+        }
+        
+        .read-more {
+            font-family: var(--font-serif-display);
+            font-style: italic;
+            color: var(--light-accent-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: gap 0.3s ease;
+        }
+        
+        .read-more:hover {
+            gap: 0.8rem;
+        }
+        
+        .read-more svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .article-divider {
+            width: 100%;
+            height: 1px;
+            background-color: var(--light-divider);
+            margin: 2rem 0;
+        }
+        
+        /* Work in Progress Article Styles */
+        .article.work-in-progress {
+            position: relative;
+            opacity: 0.8;
+            background-color: #f5f5f5;
+            border: 2px dashed #ccc;
+        }
+        
+        body.dark-theme .article.work-in-progress {
+            background-color: #2a2a2a;
+            border-color: #555;
+        }
+        
+        .work-in-progress-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            z-index: 10;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        body.dark-theme .work-in-progress-overlay {
+            background-color: rgba(44, 44, 54, 0.9);
+        }
+        
+        .lock-icon {
+            width: 40px;
+            height: 40px;
+            color: #888;
+        }
+        
+        .wip-text {
+            font-family: var(--font-serif-display);
+            font-style: italic;
+            color: #666;
+            text-align: center;
+            margin: 0;
+        }
+        
+        body.dark-theme .wip-text {
+            color: #aaa;
+        }
+        
+        .article.work-in-progress .article-content {
+            filter: blur(1px);
+            pointer-events: none;
+        }
+        
+        /* Dark Theme Adjustments */
+        body.dark-theme .magazine-header {
+            border-bottom-color: var(--dark-divider);
+        }
+        
+        body.dark-theme .separator {
+            color: var(--dark-accent);
+        }
+        
+        body.dark-theme .article-category {
+            color: var(--dark-accent);
+        }
+        
+        body.dark-theme .article-tag {
+            background-color: var(--dark-bg-alt);
+        }
+        
+        body.dark-theme .read-more {
+            color: var(--dark-accent-light);
+        }
+        
+        body.dark-theme .article-divider,
+        body.dark-theme .article.featured {
+            border-bottom-color: var(--dark-divider);
+        }
+        
+        /* Two-column layout for non-featured articles */
+        .article-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .article.featured {
+                grid-template-columns: 1fr;
+            }
+            
+            .article-columns {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor"></div>
+    <div class="page-transition"></div>
+    
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <div class="toggle-switch">
+            <div class="toggle-circle"></div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <main class="editorial-layout">
+        <!-- Feature Articles Section -->
+        <section id="feature-articles" class="section-feature-articles active">
+            <div class="magazine-header">
+                <div class="issue-info">
+                    <span class="volume">Vol. I</span>
+                    <span class="separator">|</span>
+                    <span class="issue">Feature Articles</span>
+                </div>
+                <div class="page-title">The Engineer's Portfolio</div>
+            </div>
+            
+            <div class="articles-intro">
+                <p>A curated collection of projects and case studies that demonstrate my approach to software engineering, artificial intelligence, and system design. Each article explores the challenges, solutions, and insights gained throughout the development process.</p>
+            </div>
+            
+            <div class="feature-articles">
+                <!-- Featured Article (her.) -->
+                <article class="article featured">
+                    <div class="article-content">
+                        <div class="article-category">Machine Learning</div>
+                        <h2 class="article-title">her. - AI Personal Stylist</h2>
+                        <div class="article-subtitle">An intelligent fashion assistant using Hugging Face models to help users choose the perfect outfit</div>
+
+                        <div class="article-excerpt">
+                            <p>her. is a machine learning project that serves as a personal AI stylist, leveraging free-use models from Hugging Face to analyze fashion preferences and provide personalized outfit recommendations. The application combines computer vision and natural language processing to understand user style and suggest clothing combinations.</p>
+                            <p>Built with modern web technologies and AI frameworks, this project explores the intersection of fashion, technology, and personal expression through intelligent recommendations.</p>
+                        </div>
+
+                        <div class="article-meta">
+                            <div class="article-tags">
+                                <span class="article-tag">Python</span>
+                                <span class="article-tag">Next.js</span>
+                                <span class="article-tag">TypeScript</span>
+                                <span class="article-tag">Hugging Face</span>
+                                <span class="article-tag">Supabase</span>
+                                <span class="article-tag">Vercel</span>
+                            </div>
+                        </div>
+
+                        <a href="https://github.com/susanamloureiro/her." class="read-more">
+                            View Project
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <div class="article-image">
+                        <img src="../images/projects/her_.png" alt="Atlas AI Project">
+                    </div>
+                </article>
+                
+                <!-- Second Featured Article (Atlas AI) -->
+                <!-- <article class="article featured">
+                    <div class="article-content">
+                        <div class="article-category">Mobile Development</div>
+                        <h2 class="article-title">Atlas: Android App for Trip Planning</h2>
+                        <div class="article-subtitle">A travel companion app to help users plan and organize their journeys</div>
+                        
+                        <div class="article-excerpt">
+                            <p>Atlas is an Android application designed to simplify trip planning and organization. The app helps travelers create detailed itineraries, discover points of interest, and manage their travel schedules efficiently.</p>
+                            <p>The application features an intuitive interface that allows users to visualize their journey timeline and access important travel information even when offline.</p>
+                        </div>
+                        
+                        <div class="article-meta">
+                            <div class="article-tags">
+                                <span class="article-tag">Android</span>
+                                <span class="article-tag">Java</span>
+                                <span class="article-tag">Google Maps API</span>
+                            </div>
+                        </div>
+                        
+                        <a href="https://github.com/susanamloureiro/atlas-app" class="read-more" target="_blank">
+                            View GitHub Repository
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </div>
+                    
+                    <div class="article-image">
+                        <img src="../images/projects/atlas.webp" alt="Atlas AI Project">
+                    </div>
+                </article> -->
+                
+                <!-- Two-column Articles -->
+                <div class="article-columns">
+
+                    <!-- Port Management System Article -->
+                    <article class="article">
+                        <div class="article-image">
+                            <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%); display: flex; align-items: center; justify-content: center; color: #999; font-family: var(--font-serif-display); font-style: italic;">
+                                <img src="../images/projects/port_management_system.png" alt="Drone Management System">
+                            </div>
+                        </div>
+
+                        <div class="article-content">
+                            <div class="article-category">Full-Stack Development</div>
+                            <h2 class="article-title">Port Management System</h2>
+
+                            <div class="article-excerpt">
+                                <p>A full-stack port management application built using .NET 8 Web API backend with Entity Framework Core and PostgreSQL database. The system features a modern Angular 18 frontend with TypeScript for a responsive user interface and seamless API integration.</p>
+                                <p>The project implements Docker containerization for both development and production environments with multi-container orchestration, demonstrating modern DevOps practices and scalable architecture design.</p>
+                            </div>
+
+                            <div class="article-meta">
+                                <div class="article-tags">
+                                    <span class="article-tag">C#</span>
+                                    <span class="article-tag">.NET 8</span>
+                                    <span class="article-tag">PostgreSQL</span>
+                                    <span class="article-tag">Angular</span>
+                                    <span class="article-tag">TypeScript</span>
+                                    <span class="article-tag">Docker</span>
+                                    <span class="article-tag">Entity Framework Core</span>
+                                </div>
+                            </div>
+
+                            <a href="https://github.com/Departamento-de-Engenharia-Informatica/LEI-SEM5-PI-2025-26-3DL-E-01" class="read-more">
+                                View Project
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Drone Management System Article -->
+                    <article class="article">
+                        <div class="article-image">
+                            <img src="../images/projects/drone-management-system.png" alt="Drone Management System">
+                        </div>
+
+                        <div class="article-content">
+                            <div class="article-category">System Architecture</div>
+                            <h2 class="article-title">Drone Management System</h2>
+
+                            <div class="article-excerpt">
+                                <p>A comprehensive Java-based backoffice system developed for managing drone multimedia shows. The project featured sophisticated customer and user management capabilities, a comprehensive figure catalogue, and streamlined show proposal workflows.</p>
+                                <p>The system incorporated modern software engineering practices including Domain-Driven Design and Test-Driven Development, alongside a custom simulation engine built in C utilizing advanced system programming concepts such as processes, pipes, and shared memory.</p>
+                            </div>
+
+                            <div class="article-meta">
+                                <div class="article-tags">
+                                    <span class="article-tag">Java</span>
+                                    <span class="article-tag">C</span>
+                                    <span class="article-tag">DDD</span>
+                                    <span class="article-tag">TDD</span>
+                                    <span class="article-tag">System Programming</span>
+                                </div>
+                            </div>
+
+                            <a href="https://github.com/gabrielamoraisteixeira/isep-lapr4-project" class="read-more" target="_blank">
+                                View GitHub Repository
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </article>
+                    
+                    <!-- Green Space Article -->
+                    <article class="article">
+                        <div class="article-image">
+                            <img src="../images/projects/green-space-management.webp" alt="Green Space Management Project">
+                        </div>
+                        
+                        <div class="article-content">
+                            <div class="article-category">Desktop Application</div>
+                            <h2 class="article-title">Green Space: Management System</h2>
+                            
+                            <div class="article-excerpt">
+                                <p>A Java and JavaFX desktop application developed for managers to efficiently oversee and maintain green spaces. The program provides tools for inventory management, maintenance scheduling, and resource allocation to ensure optimal care of urban parks and gardens.</p>
+                                <p>The system features an intuitive interface designed for park administrators, enabling streamlined workflow management and comprehensive tracking of maintenance activities, equipment, and personnel across multiple green space locations.</p>
+                            </div>
+                            
+                            <div class="article-meta">
+                                <div class="article-tags">
+                                    <span class="article-tag">Java</span>
+                                    <span class="article-tag">JavaFX</span>
+                                    <span class="article-tag">Desktop App</span>
+                                </div>
+                            </div>
+                            
+                            <a href="https://github.com/francisc-o-liveira/lei-24-s2-1dp-g163" class="read-more" target="_blank">
+                                View GitHub Repository
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </article>
+                    
+
+
+                    <!-- Catalog Shop Article -->
+                    <!--<article class="article">
+                        <div class="article-image">
+                            <img src="../images/projects/catalog-shop.webp" alt="Catalog Shop Project">
+                        </div>
+
+                        <div class="article-content">
+                            <div class="article-category">Web Development</div>
+                            <h2 class="article-title">Catalog Shop: My First Real Project</h2>
+
+                            <div class="article-excerpt">
+                                <p>Catalog Shop was my first real project outside of university - a simple yet elegant e-commerce website built using only HTML and CSS. This foundational project helped me understand the core principles of web design and user interface development.</p>
+                            </div>
+
+                            <div class="article-meta">
+                                <div class="article-tags">
+                                    <span class="article-tag">HTML</span>
+                                    <span class="article-tag">CSS</span>
+                                    <span class="article-tag">UI Design</span>
+                                </div>
+                            </div>
+
+                            <a href="https://github.com/susanamloureiro/catalog-shop" class="read-more" target="_blank">
+                                View GitHub Repository
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </article>-->
+
+                </div>
+            </div>
+            
+            <!-- Page Navigation -->
+            <div class="page-navigation">
+                <a href="field-notes.html" class="prev-page">← Previous</a>
+                <a href="letters.html" class="next-page">Next →</a>
+            </div>
+        </section>
+        
+        <!-- Page Numbers -->
+        <div class="page-number">03</div>
+    </main>
+
+    <script src="../js/script.js"></script>
+</body>
+</html>
