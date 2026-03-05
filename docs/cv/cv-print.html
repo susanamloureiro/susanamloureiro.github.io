@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Susana Loureiro | Curriculum Vitae</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Printing fixes: ensure colors and backgrounds are preserved where possible. */
+        html, body {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+            color-adjust: exact;
+        }
+
+        @font-face {
+            font-family: 'Quentin';
+            src: url('../../fonts/Quentin.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        :root {
+            --bg: #ffffff; /* white base for predictable printing */
+            --left-bg: #f3efe7; /* kept as variable but not used for big block */
+            --text: #1f1f1f;
+            --text-soft: #555555;
+            --accent: #b07a3a; /* accent color */
+            --accent-dark: #8b5e2f;
+            --border: #e6e0d6; /* divider color */
+
+            --font-serif-display: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+            --font-serif-body: 'Libre Baskerville', 'Lora', Georgia, serif;
+            --font-sans: 'Nunito Sans', 'Montserrat', Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.45;
+            margin: 0;
+            padding: 0;
+            font-size: 10pt;
+        }
+
+        /* Page container (no large left background block) */
+        .cv-container {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 65mm 1fr;
+            background-color: var(--bg);
+            position: relative;
+        }
+
+        /* Left column content (no colored block behind) */
+        .cv-left-column {
+            background-color: transparent;
+            padding: 20mm 12mm 15mm 12mm;
+            position: relative;
+        }
+
+        .cv-photo-placeholder {
+            width: 36mm;
+            height: 46mm;
+            overflow: hidden;        /* prevent overflow */
+            border: none; /*2px dashed var(--accent);*/
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2mm; /* slightly more space below */
+            transform: translateY(-6mm); /* moves it up a bit */
+        }
+
+        .cv-photo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;      /* crop and preserve aspect ratio */
+            display: block;
+            border-radius: 2px;     /* optional */
+        }
+
+
+        .cv-contact { font-size: 9pt; color: var(--text-soft); }
+        .cv-contact-item { display:flex; gap:6px; align-items:center; margin-bottom:6mm; }
+        .cv-contact-item i { width:14px; text-align:center; color:var(--accent); }
+
+        /* Right column with a solid divider line on its left edge */
+        .cv-right-column {
+            padding: 20mm 18mm;
+            border-left: 1px solid var(--border); /* visible divider */
+            padding-left: 14mm; /* space between line and content */
+        }
+
+        .cv-header { margin-bottom: 12mm; }
+        .cv-name { font-family: 'Quentin', var(--font-serif-display); font-size: 28pt; line-height:1; color:var(--text); }
+        .cv-title { font-family: var(--font-serif-display); font-size:13pt; font-style:italic; color:var(--accent-dark); margin-bottom:6mm; }
+
+        .cv-section { margin-bottom: 10mm; }
+        .cv-section-title { font-family: var(--font-serif-display); font-size:12pt; color:var(--accent-dark); margin-bottom:6mm; }
+        .cv-description { font-family: var(--font-serif-body); font-size:10pt; color:var(--text); line-height:1.5; }
+
+        /* Skills */
+        .cv-skill-category-title { font-family: var(--font-serif-display); font-size:10.5pt; color:var(--accent-dark); margin-bottom:4px; }
+        .cv-skills-list { list-style:none; padding:0; display:flex; flex-wrap:wrap; gap:6px; }
+        .cv-skills-list li { background:transparent; padding-left:0; font-size:10pt; }
+
+        /* Projects */
+        .cv-project-title { font-weight:600; font-size:10.5pt; margin-bottom:2px; }
+        .cv-project-description { font-size:10pt; line-height:1.4; margin-bottom:4px; }
+        .cv-project-bullets { margin-left:12px; }
+
+        /* Certifications */
+        .cv-certification-item { margin-bottom:6mm; }
+
+        /* Page number */
+        .page-number { position:absolute; bottom:10mm; right:15mm; font-family:var(--font-serif-display); font-size:9pt; color:#777; }
+
+        .print-button { position:fixed; top:20px; right:20px; padding:10px 16px; background:var(--accent); color:white; border:none; border-radius:4px; cursor:pointer; z-index:1000; }
+        .print-button:hover { background:var(--accent-dark); }
+
+        /* --- Prevent awkward page breaks in print --- */
+        .cv-section,
+        .cv-project-item,
+        .cv-education-item,
+        .cv-certification-item {
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .cv-section-title {
+            page-break-after: avoid;
+        }
+
+        .cv-project-item {
+            margin-bottom: 8mm;
+            padding-bottom: 2mm;
+            border-bottom: 0.5px solid #ddd;
+        }
+
+        @media print {
+            /* Add consistent top/bottom padding for pages */
+            body {
+                margin: 0;
+            }
+
+            .cv-container {
+                margin: 0 auto;
+                padding-top: 10mm;
+                padding-bottom: 10mm;
+            }
+
+            /* Avoid last line being cut off */
+            .cv-right-column {
+                padding-bottom: 15mm;
+            }
+        }
+
+    </style>
+</head>
+<body>
+<!---<button class="print-button" onclick="window.print()">Print CV</button>-->
+<div class="cv-container">
+    <div class="cv-left-column">
+        <div class="cv-photo-placeholder"><img src="fotos.jpg" alt="Susana Loureiro photo">
+        </div>
+        <div class="cv-contact">
+            <div class="cv-contact-item"><i class="fas fa-envelope"></i><span>susanamloureiro@outlook.com</span></div>
+            <div class="cv-contact-item"><i class="fas fa-phone-alt"></i><span>+351 919 390 272</span></div>
+            <div class="cv-contact-item"><i class="fas fa-map-marker-alt"></i><span>Porto, Portugal</span></div>
+            <div class="cv-contact-item"><i class="fab fa-linkedin-in"></i><span>linkedin.com/in/susanamloureiro/</span></div>
+            <div class="cv-contact-item"><i class="fab fa-github"></i><span>github.com/susanamloureiro</span></div>
+        </div>
+        <section class="cv-section">
+            <h3 class="cv-section-title">Skills</h3>
+
+            <div class="cv-skill-category">
+                <h4 class="cv-skill-category-title">Programming Languages</h4>
+                <ul class="cv-skills-list">
+                    <li>Python · Java · C</li>
+                    <li>JavaScript · TypeScript · C#</li>
+                    <li>SQL (PostgreSQL, Oracle) · HTML/CSS</li>
+                </ul>
+            </div>
+
+            <div class="cv-skill-category">
+                <h4 class="cv-skill-category-title">Frameworks & Tools</h4>
+                <ul class="cv-skills-list">
+                    <li>Pandas · Scikit-Learn · Tensorflow · PyTorch</li>
+                    <li>Docker · Git · AWS · Linux</li>
+                    <li>Supabase · Vercel · Firebase</li>
+                    <li>.NET · Node.js · Next.js · SpringBoot</li>
+
+
+                </ul>
+            </div>
+        </section>
+
+        <section class="cv-section">
+            <h3 class="cv-section-title">Languages</h3>
+            <div class="cv-language-item"><strong>Portuguese</strong> — Native</div>
+            <div class="cv-language-item"><strong>English</strong> — C1</div>
+        </section>
+    </div>
+
+    <div class="cv-right-column">
+        <header class="cv-header">
+            <h1 class="cv-name">Susana Loureiro</h1>
+            <!--<h2 class="cv-title">Software Engineer</h2>-->
+        </header>
+
+        <section class="cv-section">
+            <h3 class="cv-section-title">Professional Summary</h3>
+            <p class="cv-description">
+                Informatics Engineering student at ISEP (BSc, 2026) specializing in AI/ML and cloud architecture. AWS-certified in Machine Learning and Solutions Architecture with hands-on experience building intelligent recommendation systems and data-driven applications. Proficient in Python, ML frameworks, and cloud technologies.         </p>
+        </section>
+
+        <section class="cv-section">
+            <h3 class="cv-section-title">Experience</h3>
+            <div class="cv-experience-item">
+                <div class="cv-experience-role">ML Engineer Intern</div>
+                <div class="cv-experience-company">DevScope</div>
+                <div class="cv-experience-meta">February 2026 — Present &nbsp;·&nbsp; Porto, Portugal (Hybrid)</div>
+                <ul class="cv-project-bullets" style="margin-top: 3mm; margin-bottom: 0; padding-left: 15px; list-style: disc;">
+                    <li>Developing a real-time computer vision system for automated people counting using YOLO-based object detection</li>
+                    <li>Building and training deep learning models with PyTorch to detect and track individuals across video streams</li>
+                    <li style="font-style: italic; color: var(--text-soft);">Technologies: Python, PyTorch, YOLO, Computer Vision</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="cv-section">
+            <h3 class="cv-section-title">Education</h3>
+            <div class="cv-education-item">
+                <div class="cv-degree">BSc in Informatics Engineering</div>
+                <div class="cv-institution">ISEP - Instituto Superior de Engenharia do Porto</div>
+                <div class="cv-date">2022 — 2026</div>
+            </div>
+        </section>
+
+        <section class="cv-section">
+            <h3 class="cv-section-title">Certifications & Training</h3>
+            <div class="cv-certification-item"><div class="cv-certification-name">AWS Certified AI Practitioner — Foundational</div><div class="cv-certification-issuer">Amazon Web Services</div><div class="cv-date">April 2025</div></div>
+            <div class="cv-certification-item"><div class="cv-certification-name">AWS Certified Machine Learning Engineer — Associate</div><div class="cv-certification-issuer">Amazon Web Services</div><div class="cv-date">June 2025</div></div>
+            <div class="cv-certification-item"><div class="cv-certification-name">AWS Certified Solutions Architect — Associate</div><div class="cv-certification-issuer">Amazon Web Services</div><div class="cv-date">August 2025</div></div>
+        </section>
+
+        <section class="cv-section">
+            <h3 class="cv-section-title">Projects</h3>
+
+            <!-- Personal Project -->
+            <div class="cv-project-item" style="margin-bottom: 8mm;">
+                <div class="cv-project-title">her. – Style Recommendation System </div>
+                <ul class="cv-project-bullets" style="margin-top: 3mm; margin-bottom: 0; padding-left: 15px; list-style: disc;">
+                    <li>Architected end-to-end recommendation pipeline with multi-stage data collection: user style profiling, contextual preferences (mood, time, occasion), and post-recommendation feedback analysis</li>
+                        <li>Designed relational database schema (PostgreSQL) with 8+ tables capturing user interactions, style vectors, and feedback metrics to drive recommendation refinement</li>
+                    <li>Built automated daily ETL workflows aggregating feedback data to identify style patterns and optimize recommendation accuracy over time</li>
+                        <li>Integrated Hugging Face ML models for style classification via REST API (TypeScript/Node.js), establishing feedback loop between user responses and model outputs</li>
+                    <li style="font-style: italic; color: var(--text-soft);">Technologies: TypeScript, Node.js, PostgreSQL, Supabase, Hugging Face API, Data Pipeline Architecture, ETL</li>
+                </ul>
+            </div>
+
+            <!-- Academic Projects -->
+            <!--<div class="cv-project-item" style="margin-bottom: 8mm;">
+                <div class="cv-project-title">Port Management System</div>
+                <ul class="cv-project-bullets" style="margin-top: 3mm; margin-bottom: 0; padding-left: 15px; list-style: disc;">
+                    <li> Building logistics application managing 50+ vessel records with automated route optimization reducing manual planning time</li>
+                         <li>Architected .NET 8 Web API with Entity Framework Core supporting complex multi-table queries across 10+ database entities</li>
+                        <li>Implementing Angular dashboard with real-time data visualization for 5+ operational KPIs</li>
+                        <li style="font-style: italic; color: var(--text-soft);">Technologies: C#, .NET 8, PostgreSQL, Angular, TypeScript, Docker, Entity Framework Core</li>
+                </ul>
+            </div>
+            <div class="cv-project-item" style="margin-bottom: 8mm;">
+                <div class="cv-project-title">Drone Management System (Team Project)</div>
+                <ul class="cv-project-bullets" style="margin-top: 3mm; margin-bottom: 0; padding-left: 15px; list-style: disc;">
+                    <li>Architected Java system managing 200+ show proposals with automated workflow reducing proposal processing time by 40%</li>
+                        <li>Developed C simulation engine coordinating 10+ concurrent processes via inter-process communication (pipes, shared memory)</li>
+                        <li>Applied DDD/TDD methodologies achieving 85%+ test coverage across core business logic</li>
+                    <li style="font-style: italic; color: var(--text-soft);">Technologies: Java, C, DDD, TDD, System Programming, Data Modeling</li>
+                    <li>Github Repository: https://github.com/gabrielamoraisteixeira/isep-lapr4-project</li>
+                </ul>
+            </div>
+
+            <div class="cv-project-item" style="margin-bottom: 8mm;">
+                <div class="cv-project-title">Green Space Management System (Team Project)</div>
+                <ul class="cv-project-bullets" style="margin-top: 3mm; margin-bottom: 0; padding-left: 15px; list-style: disc;">
+                    <li>Created JavaFX application managing 30+ green space locations with automated maintenance scheduling for 100+ weekly tasks</li>
+                    <li>Implemented resource allocation algorithm optimizing team assignments across multiple parks
+                    <li style="font-style: italic; color: var(--text-soft);">Technologies: Java, JavaFX, Desktop Application Development</li>
+                </ul>
+            </div>-->
+        </section>
+    </div>
+
+    <div class="page-number">Curriculum Vitae</div>
+</div>
+</body>
+</html>
