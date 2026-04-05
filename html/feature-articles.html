@@ -11,38 +11,33 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
     <style>
-        /* Feature Articles Specific Styles */
+        /* ── Magazine Header ── */
         .magazine-header {
             margin-bottom: 3rem;
             padding-bottom: 1rem;
             border-bottom: 1px solid var(--light-divider);
         }
-        
         .issue-info {
             display: flex;
             align-items: center;
             gap: 1rem;
             margin-bottom: 0.5rem;
         }
-        
         .volume, .issue {
             font-family: var(--font-sans);
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: var(--letter-spacing-loose);
         }
-        
-        .separator {
-            color: var(--light-accent);
-        }
-        
+        .separator { color: var(--light-accent); }
         .page-title {
             font-family: var(--font-serif-display);
             font-size: 1.2rem;
             font-style: italic;
             color: var(--light-text-soft);
         }
-        
+
+        /* ── Intro ── */
         .articles-intro {
             font-family: var(--font-serif-body);
             font-size: 1.2rem;
@@ -50,526 +45,605 @@
             margin-bottom: 3rem;
             max-width: 800px;
         }
-        
-        .feature-articles {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 4rem;
-        }
-        
-        .article {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-        }
-        
-        .article.featured {
-            grid-template-columns: 1.2fr 0.8fr;
+
+        /* ── Section label ── */
+        .section-label {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-loose);
+            color: var(--light-text-soft);
             margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--light-divider);
+        }
+        body.dark-theme .section-label::after { background: var(--dark-divider); }
+
+        /* ── Series block (her. + curate.) ── */
+        .series-block {
+            margin-bottom: 4rem;
             padding-bottom: 3rem;
             border-bottom: 1px solid var(--light-divider);
         }
-        
+        body.dark-theme .series-block { border-bottom-color: var(--dark-divider); }
+
+        .series-header {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 0.4rem;
+        }
+        .series-name {
+            font-family: var(--font-serif-display);
+            font-size: 0.85rem;
+            font-style: italic;
+            color: var(--light-accent-dark);
+        }
+        .series-divider {
+            height: 1px;
+            width: 40px;
+            background: var(--light-accent);
+            display: inline-block;
+            vertical-align: middle;
+            opacity: 0.5;
+        }
+        .series-tagline {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-loose);
+            color: var(--light-text-soft);
+        }
+
+        /* Two-up layout for series */
+        .series-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        /* ── Featured Article ── */
+        .article-featured {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .article-featured--hero {
+            grid-template-columns: 1.2fr 0.8fr;
+            align-items: start;
+        }
+        .article-image--hero {
+            aspect-ratio: 4/3;
+            height: 100%;
+        }
         .article-category {
             font-family: var(--font-sans);
             font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: var(--letter-spacing-loose);
             color: var(--light-accent);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
         }
-        
+        body.dark-theme .article-category { color: var(--dark-accent); }
+
         .article-title {
             font-family: var(--font-serif-display);
-            font-size: 2.5rem;
-            line-height: 1.2;
-            margin-bottom: 1rem;
+            font-size: 2.6rem;
+            line-height: 1.15;
+            margin-bottom: 0.6rem;
         }
-        
-        .article.featured .article-title {
-            font-size: 3rem;
-        }
-        
         .article-subtitle {
             font-family: var(--font-serif-body);
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-style: italic;
             color: var(--light-text-soft);
+            margin-bottom: 1.2rem;
+        }
+        .article-excerpt {
+            font-family: var(--font-serif-body);
+            font-size: 1.05rem;
+            line-height: 1.65;
             margin-bottom: 1.5rem;
         }
-        
+        .article-excerpt p + p { margin-top: 0.9rem; }
+
         .article-image {
             width: 100%;
-            height: 0;
-            padding-bottom: 60%;
-            position: relative;
+            aspect-ratio: 4/3;
             overflow: hidden;
-            margin-bottom: 1.5rem;
+            position: relative;
         }
-        
-        .article.featured .article-image {
-            height: 100%;
-            padding-bottom: 0;
-        }
-        
         .article-image img {
             position: absolute;
-            top: 0;
-            left: 0;
+            inset: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s ease;
         }
-        
-        .article:hover .article-image img {
-            transform: scale(1.05);
-        }
-        
-        .article-excerpt {
-            font-family: var(--font-serif-body);
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-        
-        .article-meta {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
+        .article-featured:hover .article-image img { transform: scale(1.04); }
+
         .article-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
+            margin-bottom: 1.4rem;
         }
-        
         .article-tag {
             font-family: var(--font-sans);
-            font-size: 0.8rem;
-            padding: 0.3rem 0.8rem;
+            font-size: 0.78rem;
+            padding: 0.25rem 0.75rem;
             background-color: var(--light-bg-alt);
             border-radius: 20px;
         }
-        
+        body.dark-theme .article-tag { background-color: var(--dark-bg-alt); }
+
         .read-more {
             font-family: var(--font-serif-display);
             font-style: italic;
             color: var(--light-accent-dark);
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 0.5rem;
             transition: gap 0.3s ease;
         }
-        
-        .read-more:hover {
-            gap: 0.8rem;
+        .read-more:hover { gap: 0.85rem; }
+        body.dark-theme .read-more { color: var(--dark-accent-light); }
+
+        /* ── Companion article (curate.) ── */
+        .companion-article {
+            border-left: 1px solid var(--light-divider);
+            padding-left: 2.5rem;
         }
-        
-        .read-more svg {
-            width: 16px;
-            height: 16px;
+        body.dark-theme .companion-article { border-left-color: var(--dark-divider); }
+
+        .companion-label {
+            font-family: var(--font-sans);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-loose);
+            color: var(--light-text-soft);
+            margin-bottom: 1.2rem;
+            opacity: 0.7;
         }
-        
-        .article-divider {
+        .companion-article .article-title {
+            font-size: 2rem;
+        }
+        .companion-article .article-image {
+            aspect-ratio: 3/2;
+            margin-bottom: 1.2rem;
+        }
+        /* placeholder image for curate. */
+        .curate-placeholder {
             width: 100%;
-            height: 1px;
-            background-color: var(--light-divider);
-            margin: 2rem 0;
-        }
-        
-        /* Work in Progress Article Styles */
-        .article.work-in-progress {
-            position: relative;
-            opacity: 0.8;
-            background-color: #f5f5f5;
-            border: 2px dashed #ccc;
-        }
-        
-        body.dark-theme .article.work-in-progress {
-            background-color: #2a2a2a;
-            border-color: #555;
-        }
-        
-        .work-in-progress-overlay {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            height: 100%;
+            background: linear-gradient(135deg, #f0ece6 0%, #e4ddd4 100%);
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 1rem;
-            z-index: 10;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        
-        body.dark-theme .work-in-progress-overlay {
-            background-color: rgba(44, 44, 54, 0.9);
-        }
-        
-        .lock-icon {
-            width: 40px;
-            height: 40px;
-            color: #888;
-        }
-        
-        .wip-text {
+            justify-content: center;
             font-family: var(--font-serif-display);
             font-style: italic;
-            color: #666;
-            text-align: center;
-            margin: 0;
+            font-size: 2.5rem;
+            color: #c4b9a8;
+            letter-spacing: 0.05em;
         }
-        
-        body.dark-theme .wip-text {
-            color: #aaa;
+        body.dark-theme .curate-placeholder {
+            background: linear-gradient(135deg, #2a2620 0%, #1e1c18 100%);
+            color: #4a4438;
         }
-        
-        .article.work-in-progress .article-content {
-            filter: blur(1px);
-            pointer-events: none;
+
+        /* ── Hero featured article ── */
+        .article-featured--hero {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 3rem;
+            align-items: start;
         }
-        
-        /* Dark Theme Adjustments */
-        body.dark-theme .magazine-header {
-            border-bottom-color: var(--dark-divider);
-        }
-        
-        body.dark-theme .separator {
-            color: var(--dark-accent);
-        }
-        
-        body.dark-theme .article-category {
-            color: var(--dark-accent);
-        }
-        
-        body.dark-theme .article-tag {
-            background-color: var(--dark-bg-alt);
-        }
-        
-        body.dark-theme .read-more {
-            color: var(--dark-accent-light);
-        }
-        
-        body.dark-theme .article-divider,
-        body.dark-theme .article.featured {
-            border-bottom-color: var(--dark-divider);
-        }
-        
-        /* Two-column layout for non-featured articles */
+        .article-image--hero { aspect-ratio: 4/3; }
+        .article-title--hero { font-size: 3.5rem !important; }
+        .article-featured-body { display: flex; flex-direction: column; }
+
+        /* ── Three-column grid ── */
         .article-columns {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            margin-top: 3rem;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2.5rem;
+            margin-bottom: 4rem;
         }
-        
-        @media (max-width: 768px) {
-            .article.featured {
-                grid-template-columns: 1fr;
-            }
-            
-            .article-columns {
-                grid-template-columns: 1fr;
-            }
+
+        .article {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.2rem;
+        }
+        .article .article-title { font-size: 1.9rem; }
+        .article .article-image {
+            aspect-ratio: 16/9;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ── Bachelor projects drawer ── */
+        .bachelors-section {
+            margin-top: 1rem;
+        }
+
+        .bachelors-toggle {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            user-select: none;
+            padding: 1rem 0;
+            border-top: 1px solid var(--light-divider);
+            border-bottom: 1px solid var(--light-divider);
+            transition: opacity 0.2s ease;
+        }
+        .bachelors-toggle:hover { opacity: 0.7; }
+        body.dark-theme .bachelors-toggle {
+            border-color: var(--dark-divider);
+        }
+
+        .toggle-label {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-loose);
+            flex: 1;
+        }
+        .toggle-sub {
+            font-family: var(--font-serif-display);
+            font-style: italic;
+            font-size: 0.9rem;
+            color: var(--light-text-soft);
+        }
+        .toggle-icon {
+            font-size: 1rem;
+            transition: transform 0.35s ease;
+            color: var(--light-text-soft);
+        }
+        .bachelors-toggle.open .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .bachelors-drawer {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.4s ease;
+        }
+        .bachelors-drawer.open {
+            grid-template-rows: 1fr;
+        }
+        .bachelors-drawer-inner {
+            overflow: hidden;
+        }
+        .bachelors-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            padding: 2.5rem 0;
+        }
+
+        /* Compact bachelor card */
+        .bachelor-card {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--light-divider);
+        }
+        body.dark-theme .bachelor-card { border-color: var(--dark-divider); }
+
+        .bachelor-card-image {
+            width: 100%;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            position: relative;
+            background: var(--light-bg-alt);
+        }
+        body.dark-theme .bachelor-card-image { background: var(--dark-bg-alt); }
+
+        .bachelor-card-image img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(20%);
+            transition: filter 0.3s ease, transform 0.4s ease;
+        }
+        .bachelor-card:hover .bachelor-card-image img {
+            filter: grayscale(0%);
+            transform: scale(1.04);
+        }
+
+        .bachelor-card-cat {
+            font-family: var(--font-sans);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-loose);
+            color: var(--light-text-soft);
+        }
+        .bachelor-card-title {
+            font-family: var(--font-serif-display);
+            font-size: 1.25rem;
+            line-height: 1.25;
+        }
+        .bachelor-card-excerpt {
+            font-family: var(--font-serif-body);
+            font-size: 0.9rem;
+            line-height: 1.55;
+            color: var(--light-text-soft);
+        }
+        .bachelor-card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+        }
+        .bachelor-card-tag {
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            background-color: var(--light-bg-alt);
+            border-radius: 20px;
+        }
+        body.dark-theme .bachelor-card-tag { background-color: var(--dark-bg-alt); }
+
+        .bachelor-read-more {
+            font-family: var(--font-serif-display);
+            font-style: italic;
+            font-size: 0.9rem;
+            color: var(--light-accent-dark);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: gap 0.25s ease;
+            margin-top: auto;
+        }
+        .bachelor-read-more:hover { gap: 0.7rem; }
+        body.dark-theme .bachelor-read-more { color: var(--dark-accent-light); }
+
+        /* ── Dark theme adjustments ── */
+        body.dark-theme .magazine-header { border-bottom-color: var(--dark-divider); }
+        body.dark-theme .separator { color: var(--dark-accent); }
+        body.dark-theme .series-block { border-bottom-color: var(--dark-divider); }
+
+        /* ── Responsive ── */
+        @media (max-width: 1100px) {
+            .article-columns { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 900px) {
+            .article-featured--hero { grid-template-columns: 1fr; }
+            .article-columns { grid-template-columns: 1fr; }
+            .bachelors-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 600px) {
+            .bachelors-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <div class="cursor"></div>
-    <div class="page-transition"></div>
-    
-    <!-- Theme Toggle -->
-    <div class="theme-toggle">
-        <div class="toggle-switch">
-            <div class="toggle-circle"></div>
-        </div>
+<div class="cursor"></div>
+<div class="page-transition"></div>
+
+<div class="theme-toggle">
+    <div class="toggle-switch">
+        <div class="toggle-circle"></div>
     </div>
-    
-    <!-- Main Content -->
-    <main class="editorial-layout">
-        <!-- Feature Articles Section -->
-        <section id="feature-articles" class="section-feature-articles active">
-            <div class="magazine-header">
-                <div class="issue-info">
-                    <span class="volume">Vol. I</span>
-                    <span class="separator">|</span>
-                    <span class="issue">Feature Articles</span>
+</div>
+
+<main class="editorial-layout">
+    <section id="feature-articles" class="section-feature-articles active">
+
+        <div class="magazine-header">
+            <div class="issue-info">
+                <span class="volume">Vol. I</span>
+                <span class="separator">|</span>
+                <span class="issue">Feature Articles</span>
+            </div>
+            <div class="page-title">The Engineer's Portfolio</div>
+        </div>
+
+        <div class="articles-intro">
+            <p>A curated collection of projects and case studies that demonstrate my approach to software engineering, artificial intelligence, and system design. Each article explores the challenges, solutions, and insights gained throughout the development process.</p>
+        </div>
+
+        <!-- ─── Personal Projects ─── -->
+        <!--<div class="section-label">Personal Projects</div>-->
+
+        <!-- her. — full spotlight -->
+        <div class="series-block">
+            <article class="article-featured article-featured--hero">
+                <div class="article-featured-body">
+                    <div class="article-category">Machine Learning</div>
+                    <h2 class="article-title article-title--hero">her.</h2>
+                    <div class="article-subtitle">An intelligent fashion assistant using Hugging Face models to help users choose the perfect outfit</div>
+                    <div class="article-excerpt">
+                        <p>her. is a machine learning project that serves as a personal AI stylist, leveraging free-use models from Hugging Face to analyse fashion preferences and provide personalised outfit recommendations. The application combines computer vision and natural language processing to understand user style and suggest clothing combinations.</p>
+                        <p>Built with modern web technologies and AI frameworks, this project explores the intersection of fashion, technology, and personal expression through intelligent recommendations.</p>
+                    </div>
+                    <div class="article-tags">
+                        <span class="article-tag">Python</span>
+                        <span class="article-tag">Next.js</span>
+                        <span class="article-tag">TypeScript</span>
+                        <span class="article-tag">Hugging Face</span>
+                        <span class="article-tag">Supabase</span>
+                        <span class="article-tag">Vercel</span>
+                    </div>
+                    <a href="https://her-dot.vercel.app" class="read-more">
+                        View Project
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
                 </div>
-                <div class="page-title">The Engineer's Portfolio</div>
+                <div class="article-image article-image--hero">
+                    <img src="../images/projects/her_.png" alt="her. AI Personal Stylist">
+                </div>
+            </article>
+        </div>
+
+        <!-- ─── curate. + headsup + Port Management ─── -->
+        <div class="article-columns">
+            <!-- curate. -->
+            <article class="article">
+                <div class="article-image">
+                    <div class="curate-placeholder">curate.</div>
+                </div>
+                <div>
+                    <div class="article-category">NLP · Recommendation</div>
+                    <h2 class="article-title">curate.</h2>
+                    <div class="article-subtitle" style="font-family:var(--font-serif-body);font-style:italic;color:var(--light-text-soft);font-size:1rem;margin-bottom:0.8rem;">A conversational outfit recommender trained on Polyvore data</div>
+                    <div class="article-excerpt">
+                        <p>Given a garment you already own, curate. suggests what to pair it with — trained on the Polyvore dataset, treating outfit compatibility as a language modelling problem. A natural companion to her., built as a conversational interface rather than a catalogue.</p>
+                    </div>
+                    <div class="article-tags">
+                        <span class="article-tag">Python</span>
+                        <span class="article-tag">NLP</span>
+                        <span class="article-tag">Polyvore Dataset</span>
+                        <span class="article-tag">Transformers</span>
+                    </div>
+                    <a href="https://github.com/susanamloureiro/curate." class="read-more">
+                        View Repository
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+            </article>
+
+            <!-- headsup -->
+            <article class="article">
+                <div class="article-image">
+                    <img src="../images/projects/headsup.png" alt="Real-Time People Counting System">
+                </div>
+                <div>
+                    <div class="article-category">Computer Vision · MLOps</div>
+                    <h2 class="article-title">headsup</h2>
+                    <div class="article-excerpt">
+                        <p>An end-to-end solo-built system using YOLOv8 and DeepSORT to count people moving through an office environment in real time — tracking entries, exits, and persistent IDs across frames without double-counting. Surfaced through a Power BI dashboard backed by PostgreSQL.</p>
+                    </div>
+                    <div class="article-tags">
+                        <span class="article-tag">Python</span>
+                        <span class="article-tag">YOLOv8</span>
+                        <span class="article-tag">DeepSORT</span>
+                        <span class="article-tag">PostgreSQL</span>
+                        <span class="article-tag">Power BI</span>
+                    </div>
+                </div>
+            </article>
+
+
+
+        </div>
+
+        <!-- ─── Bachelor Projects Drawer ─── -->
+        <div class="bachelors-section">
+            <div class="bachelors-toggle" id="bachelorsToggle">
+                <div>
+                    <div class="toggle-label">Bachelor's Projects</div>
+                    <div class="toggle-sub">Earlier academic work</div>
+                </div>
+                <span class="toggle-icon">↓</span>
             </div>
-            
-            <div class="articles-intro">
-                <p>A curated collection of projects and case studies that demonstrate my approach to software engineering, artificial intelligence, and system design. Each article explores the challenges, solutions, and insights gained throughout the development process.</p>
-            </div>
-            
-            <div class="feature-articles">
-                <!-- Featured Article (her.) -->
-                <article class="article featured">
-                    <div class="article-content">
-                        <div class="article-category">Machine Learning</div>
-                        <h2 class="article-title">her. - AI Personal Stylist</h2>
-                        <div class="article-subtitle">An intelligent fashion assistant using Hugging Face models to help users choose the perfect outfit</div>
 
-                        <div class="article-excerpt">
-                            <p>her. is a machine learning project that serves as a personal AI stylist, leveraging free-use models from Hugging Face to analyze fashion preferences and provide personalized outfit recommendations. The application combines computer vision and natural language processing to understand user style and suggest clothing combinations.</p>
-                            <p>Built with modern web technologies and AI frameworks, this project explores the intersection of fashion, technology, and personal expression through intelligent recommendations.</p>
-                        </div>
+            <div class="bachelors-drawer" id="bachelorsDrawer">
+                <div class="bachelors-drawer-inner">
+                    <div class="bachelors-grid">
 
-                        <div class="article-meta">
-                            <div class="article-tags">
-                                <span class="article-tag">Python</span>
-                                <span class="article-tag">Next.js</span>
-                                <span class="article-tag">TypeScript</span>
-                                <span class="article-tag">Hugging Face</span>
-                                <span class="article-tag">Supabase</span>
-                                <span class="article-tag">Vercel</span>
-                            </div>
-                        </div>
 
-                        <a href="https://her-dot.vercel.app" class="read-more">
-                            View Project
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </a>
-                    </div>
 
-                    <div class="article-image">
-                        <img src="../images/projects/her_.png" alt="Atlas AI Project">
-                    </div>
-                </article>
-                
-                <!-- Second Featured Article (Atlas AI) -->
-                <!-- <article class="article featured">
-                    <div class="article-content">
-                        <div class="article-category">Mobile Development</div>
-                        <h2 class="article-title">Atlas: Android App for Trip Planning</h2>
-                        <div class="article-subtitle">A travel companion app to help users plan and organize their journeys</div>
-                        
-                        <div class="article-excerpt">
-                            <p>Atlas is an Android application designed to simplify trip planning and organization. The app helps travelers create detailed itineraries, discover points of interest, and manage their travel schedules efficiently.</p>
-                            <p>The application features an intuitive interface that allows users to visualize their journey timeline and access important travel information even when offline.</p>
-                        </div>
-                        
-                        <div class="article-meta">
-                            <div class="article-tags">
-                                <span class="article-tag">Android</span>
-                                <span class="article-tag">Java</span>
-                                <span class="article-tag">Google Maps API</span>
-                            </div>
-                        </div>
-                        
-                        <a href="https://github.com/susanamloureiro/atlas-app" class="read-more" target="_blank">
-                            View GitHub Repository
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </a>
-                    </div>
-                    
-                    <div class="article-image">
-                        <img src="../images/projects/atlas.webp" alt="Atlas AI Project">
-                    </div>
-                </article> -->
-                
-                <!-- Two-column Articles -->
-                <div class="article-columns">
-
-                    <!-- Featured Article (People Counting System) -->
-                    <article class="article">
-                        <div class="article-image">
-                            <img src="../images/projects/headsup.png" alt="Real-Time People Counting System">
-                        </div>
-                        <div class="article-content">
-                            <div class="article-category">Computer Vision · MLOps</div>
-                            <h2 class="article-title">headsup</h2>
-                            <!--<div class="article-subtitle">A computer vision pipeline that tracks occupancy in real time, from live stream to dashboard</div>-->
-
-                            <div class="article-excerpt">
-                                <p>Designed and built end-to-end as a solo engineer, this system uses YOLOv8 for person detection combined with DeepSORT for multi-object tracking to count people moving through an office environment in real time. The pipeline processes live camera streams, assigns persistent IDs to individuals across frames, and accurately tracks entries and exits without double-counting.</p>
-                                <p>Tracking data is persisted in PostgreSQL and surfaced through a Power BI dashboard, giving stakeholders live and historical visibility into space occupancy. The project spans the full ML engineering stack — from model inference and tracking logic through to data storage and business intelligence.</p>
+                        <!-- Port Management System -->
+                        <div class="bachelor-card">
+                            <div class="bachelor-card-image">
+                                <img src="../images/projects/port_management_system.png" alt="Port Management System">
                             </div>
 
-                            <div class="article-meta">
-                                <div class="article-tags">
-                                    <span class="article-tag">Python</span>
-                                    <span class="article-tag">YOLOv8</span>
-                                    <span class="article-tag">DeepSORT</span>
-                                    <span class="article-tag">PostgreSQL</span>
-                                    <span class="article-tag">Power BI</span>
-                                    <span class="article-tag">Computer Vision</span>
-                                    <span class="article-tag">Real-Time</span>
-                                </div>
+                            <div class="bachelor-card-cat">Full-Stack Development</div>
+                            <h2 class="bachelor-card-title">Port Management System</h2>
+                            <div class="bachelor-card-excerpt">
+                                A full-stack port management application with a .NET 8 Web API backend, Entity Framework Core, PostgreSQL, and a modern Angular 18 frontend. Containerised with Docker for multi-container orchestration across development and production environments.
                             </div>
-                        </div>
-
-
-                    </article>
-
-                    <!-- Port Management System Article -->
-                    <article class="article">
-                        <div class="article-image">
-                            <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%); display: flex; align-items: center; justify-content: center; color: #999; font-family: var(--font-serif-display); font-style: italic;">
-                                <img src="../images/projects/port_management_system.png" alt="Drone Management System">
+                            <div class="bachelor-card-tags">
+                                <span class="bachelor-card-tag">C#</span>
+                                <span class="bachelor-card-tag">.NET 8</span>
+                                <span class="bachelor-card-tag">Angular</span>
+                                <span class="bachelor-card-tag">Docker</span>
+                                <span class="bachelor-card-tag">PostgreSQL</span>
                             </div>
-                        </div>
-
-                        <div class="article-content">
-                            <div class="article-category">Full-Stack Development</div>
-                            <h2 class="article-title">Port Management System</h2>
-
-                            <div class="article-excerpt">
-                                <p>A full-stack port management application built using .NET 8 Web API backend with Entity Framework Core and PostgreSQL database. The system features a modern Angular 18 frontend with TypeScript for a responsive user interface and seamless API integration.</p>
-                                <p>The project implements Docker containerization for both development and production environments with multi-container orchestration, demonstrating modern DevOps practices and scalable architecture design.</p>
-                            </div>
-
-                            <div class="article-meta">
-                                <div class="article-tags">
-                                    <span class="article-tag">C#</span>
-                                    <span class="article-tag">.NET 8</span>
-                                    <span class="article-tag">PostgreSQL</span>
-                                    <span class="article-tag">Angular</span>
-                                    <span class="article-tag">TypeScript</span>
-                                    <span class="article-tag">Docker</span>
-                                    <span class="article-tag">Entity Framework Core</span>
-                                </div>
-                            </div>
-
                             <a href="https://github.com/Departamento-de-Engenharia-Informatica/LEI-SEM5-PI-2025-26-3DL-E-01" class="read-more">
-                                View GitHub Repository
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
+                                View Repository
+                                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </a>
+
+                        </div>
+
+                        <!-- Drone Management -->
+                        <div class="bachelor-card">
+                            <div class="bachelor-card-image">
+                                <img src="../images/projects/drone-management-system.png" alt="Drone Management System">
+                            </div>
+                            <div class="bachelor-card-cat">System Architecture</div>
+                            <div class="bachelor-card-title">Drone Management System</div>
+                            <div class="bachelor-card-excerpt">Java backoffice for drone multimedia shows with DDD, TDD, and a C simulation engine using processes, pipes, and shared memory.</div>
+                            <div class="bachelor-card-tags">
+                                <span class="bachelor-card-tag">Java</span>
+                                <span class="bachelor-card-tag">C</span>
+                                <span class="bachelor-card-tag">DDD</span>
+                                <span class="bachelor-card-tag">TDD</span>
+                            </div>
+                            <a href="https://github.com/gabrielamoraisteixeira/isep-lapr4-project" class="bachelor-read-more" target="_blank">
+                                View Repository <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                             </a>
                         </div>
-                    </article>
 
-                    <!-- Drone Management System Article -->
-                    <!--<article class="article">
-                        <div class="article-image">
-                            <img src="../images/projects/drone-management-system.png" alt="Drone Management System">
-                        </div>
-
-                        <div class="article-content">
-                            <div class="article-category">System Architecture</div>
-                            <h2 class="article-title">Drone Management System</h2>
-
-                            <div class="article-excerpt">
-                                <p>A comprehensive Java-based backoffice system developed for managing drone multimedia shows. The project featured sophisticated customer and user management capabilities, a comprehensive figure catalogue, and streamlined show proposal workflows.</p>
-                                <p>The system incorporated modern software engineering practices including Domain-Driven Design and Test-Driven Development, alongside a custom simulation engine built in C utilizing advanced system programming concepts such as processes, pipes, and shared memory.</p>
+                        <!-- Green Space -->
+                        <div class="bachelor-card">
+                            <div class="bachelor-card-image">
+                                <img src="../images/projects/green-space-management.webp" alt="Green Space Management">
                             </div>
-
-                            <div class="article-meta">
-                                <div class="article-tags">
-                                    <span class="article-tag">Java</span>
-                                    <span class="article-tag">C</span>
-                                    <span class="article-tag">DDD</span>
-                                    <span class="article-tag">TDD</span>
-                                    <span class="article-tag">System Programming</span>
-                                </div>
+                            <div class="bachelor-card-cat">Desktop Application</div>
+                            <div class="bachelor-card-title">Green Space</div>
+                            <div class="bachelor-card-excerpt">JavaFX desktop system for park managers — inventory, maintenance scheduling, and resource allocation across multiple green spaces.</div>
+                            <div class="bachelor-card-tags">
+                                <span class="bachelor-card-tag">Java</span>
+                                <span class="bachelor-card-tag">JavaFX</span>
                             </div>
-
-                            <a href="https://github.com/gabrielamoraisteixeira/isep-lapr4-project" class="read-more" target="_blank">
-                                View GitHub Repository
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
+                            <a href="https://github.com/francisc-o-liveira/lei-24-s2-1dp-g163" class="bachelor-read-more" target="_blank">
+                                View Repository <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                             </a>
                         </div>
-                    </article>
-                    
-                     Green Space Article
-                    <article class="article">
-                        <div class="article-image">
-                            <img src="../images/projects/green-space-management.webp" alt="Green Space Management Project">
-                        </div>
-                        
-                        <div class="article-content">
-                            <div class="article-category">Desktop Application</div>
-                            <h2 class="article-title">Green Space: Management System</h2>
-                            
-                            <div class="article-excerpt">
-                                <p>A Java and JavaFX desktop application developed for managers to efficiently oversee and maintain green spaces. The program provides tools for inventory management, maintenance scheduling, and resource allocation to ensure optimal care of urban parks and gardens.</p>
-                                <p>The system features an intuitive interface designed for park administrators, enabling streamlined workflow management and comprehensive tracking of maintenance activities, equipment, and personnel across multiple green space locations.</p>
-                            </div>
-                            
-                            <div class="article-meta">
-                                <div class="article-tags">
-                                    <span class="article-tag">Java</span>
-                                    <span class="article-tag">JavaFX</span>
-                                    <span class="article-tag">Desktop App</span>
-                                </div>
-                            </div>
-                            
-                            <a href="https://github.com/francisc-o-liveira/lei-24-s2-1dp-g163" class="read-more" target="_blank">
-                                View GitHub Repository
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </a>
-                        </div>
-                    </article>-->
-                    
 
 
-                    <!-- Catalog Shop Article -->
-                    <!--<article class="article">
-                        <div class="article-image">
-                            <img src="../images/projects/catalog-shop.webp" alt="Catalog Shop Project">
-                        </div>
 
-                        <div class="article-content">
-                            <div class="article-category">Web Development</div>
-                            <h2 class="article-title">Catalog Shop: My First Real Project</h2>
-
-                            <div class="article-excerpt">
-                                <p>Catalog Shop was my first real project outside of university - a simple yet elegant e-commerce website built using only HTML and CSS. This foundational project helped me understand the core principles of web design and user interface development.</p>
-                            </div>
-
-                            <div class="article-meta">
-                                <div class="article-tags">
-                                    <span class="article-tag">HTML</span>
-                                    <span class="article-tag">CSS</span>
-                                    <span class="article-tag">UI Design</span>
-                                </div>
-                            </div>
-
-                            <a href="https://github.com/susanamloureiro/catalog-shop" class="read-more" target="_blank">
-                                View GitHub Repository
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </a>
-                        </div>
-                    </article>-->
-
+                    </div>
                 </div>
             </div>
-            
-            <!-- Page Navigation -->
-            <div class="page-navigation">
-                <a href="field-notes.html" class="prev-page">← Previous</a>
-                <a href="letters.html" class="next-page">Next →</a>
-            </div>
-        </section>
-        
-        <!-- Page Numbers -->
-        <div class="page-number">03</div>
-    </main>
+        </div>
 
-    <script src="../js/script.js"></script>
+    </section>
+
+    <!-- Page Navigation -->
+    <div class="page-navigation">
+        <a href="field-notes.html" class="prev-page">← Previous</a>
+        <a href="letters.html" class="next-page">Next →</a>
+    </div>
+
+    <div class="page-number">03</div>
+</main>
+
+<script src="../js/script.js"></script>
+<script>
+    const toggle = document.getElementById('bachelorsToggle');
+    const drawer = document.getElementById('bachelorsDrawer');
+    toggle.addEventListener('click', () => {
+        const open = drawer.classList.toggle('open');
+        toggle.classList.toggle('open', open);
+    });
+</script>
 </body>
 </html>
