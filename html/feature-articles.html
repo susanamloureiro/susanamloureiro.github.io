@@ -199,6 +199,58 @@
         .read-more:hover { gap: 0.85rem; }
         body.dark-theme .read-more { color: var(--dark-accent-light); }
 
+        /* Make deep learning cards actually smaller */
+
+        .article-columns--compact {
+            grid-template-columns: repeat(2, minmax(0, 420px));
+            justify-content: center;   /* centers the cards */
+            gap: 2rem;
+        }
+
+        /* Reduce image height */
+        .article-columns--compact .article-image {
+            aspect-ratio: 2.2 / 1; /* shorter images */
+        }
+
+        /* Reduce typography slightly */
+        .article-columns--compact .article-title {
+            font-size: 1.5rem;
+        }
+
+        .article-columns--compact .article-subtitle {
+            font-size: 0.95rem !important;
+        }
+
+        .article-columns--compact .article-excerpt {
+            font-size: 0.95rem;
+        }
+
+        /* Reduce spacing */
+        .article-columns--compact .article {
+            gap: 0.75rem;
+        }
+
+        /* Reduce title size more */
+        .article-columns--compact .article-title {
+            font-size: 1.45rem;
+        }
+
+        /* Reduce subtitle */
+        .article-columns--compact .article-subtitle {
+            font-size: 0.9rem !important;
+        }
+
+        /* Reduce body text slightly */
+        .article-columns--compact .article-excerpt {
+            font-size: 0.92rem;
+        }
+
+        /* Reduce tag size */
+        .article-columns--compact .article-tag {
+            font-size: 0.68rem;
+            padding: 0.2rem 0.55rem;
+        }
+
         /* ── Companion article (curate.) ── */
         .companion-article {
             border-left: 1px solid var(--light-divider);
@@ -453,7 +505,7 @@
         </div>
 
         <div class="articles-intro">
-            <p>A curated collection of projects and case studies that demonstrate my approach to software engineering, artificial intelligence, and system design. Each article explores the challenges, solutions, and insights gained throughout the development process.</p>
+            <p>A curated collection of projects and case studies that demonstrate my approach to machine learning engineering, artificial intelligence, and system design. Each article explores the challenges, solutions, and insights gained throughout the development process.</p>
         </div>
 
         <!-- ─── Personal Projects ─── -->
@@ -538,6 +590,61 @@
             </article>
 
 
+
+        </div>
+
+        <!-- ─── Deep Learning Experiments ─── -->
+        <div class="article-columns article-columns--compact">
+
+            <!-- LSTM -->
+            <article class="article-card">
+                <div class="bachelor-card-image">
+                    <img src="../images/projects/lstm.png" alt="LSTM Sentiment Analyser">
+                </div>
+                <div>
+                    <div class="article-category">NLP · Deep Learning</div>
+                    <h2 class="bachelor-card-title">LSTM Sentiment Analyser</h2>
+                    <!--<div class="bachelor-card-subtitle" style="font-family:var(--font-serif-body);font-style:italic;color:var(--light-text-soft);font-size:1rem;margin-bottom:0.8rem;">Binary sentiment classification built from scratch in PyTorch</div>-->
+                    <div class="bachelor-card-excerpt">
+                        <p>A 2-layer LSTM trained on 25,000 IMDB reviews for binary sentiment classification, achieving 80% accuracy. Built end-to-end: custom tokenisation pipeline, embedding layer, and a FastAPI serving layer — now live on Hugging Face Spaces.</p>
+                    </div>
+                    <div class="article-tags">
+                        <span class="bachelor-card-tag">Python</span>
+                        <span class="bachelor-card-tag">PyTorch</span>
+                        <span class="bachelor-card-tag">LSTM</span>
+                        <span class="bachelor-card-tag">FastAPI</span>
+                    </div>
+                    <a href="https://huggingface.co/spaces/susanamloureiro/lstm-sentiment-analyser" class="read-more">
+                        Live Demo
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Transformer -->
+            <article class="article-card">
+                <div class="bachelor-card-image">
+                    <img src="../images/projects/transformer.png" alt="Transformer from Scratch">
+                </div>
+                <div>
+                    <div class="article-category">NLP · Deep Learning</div>
+                    <h2 class="bachelor-card-title">Transformer from Scratch</h2>
+                    <!--<div class="article-subtitle" style="font-family:var(--font-serif-body);font-style:italic;color:var(--light-text-soft);font-size:1rem;margin-bottom:0.8rem;">Character-level language model trained on the complete works of Shakespeare</div>-->
+                    <div class="bachelor-card-excerpt">
+                        <p>A decoder-only transformer built from first principles in PyTorch — attention heads, positional encoding, and all. Trained on Shakespeare's complete works as a character-level generative model, producing period-plausible prose.</p>
+                    </div>
+                    <div class="bachelor-card-tags">
+                        <span class="bachelor-card-tag">Python</span>
+                        <span class="bachelor-card-tag">PyTorch</span>
+                        <span class="bachelor-card-tag">Transformers</span>
+                        <span class="bachelor-card-tag">Generative</span>
+                    </div>
+                    <!--<a href="https://github.com/susanamloureiro" class="read-more">
+                        View Repository
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>-->
+                </div>
+            </article>
 
         </div>
 
