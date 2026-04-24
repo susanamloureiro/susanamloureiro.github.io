@@ -308,6 +308,26 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        .read-more {
+            font-family: var(--font-serif-display);
+            font-style: italic;
+            color: var(--light-accent-dark);
+            display: inline-flex;
+            align-items: end;
+            gap: 0.5rem;
+            transition: gap 0.3s ease;
+        }
+        .read-more:hover { gap: 0.85rem; }
+        body.dark-theme .read-more { color: var(--dark-accent-light); }
+
+
+        .field-notes-section .read-more {
+            display: block;
+            width: fit-content;
+            margin-left: auto; /* pushes it to the far right */
+            margin-top: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -335,7 +355,7 @@
             </div>
 
             <div class="field-notes-intro">
-                <p>A collection of educational experiences, professional certifications, and technical skills that form the foundation of my work as a software engineer. These field notes document my journey of continuous learning and growth in the ever-evolving landscape of technology.</p>
+                <p>A collection of educational experiences, professional certifications, and technical skills that form the foundation of my work as a machine learning engineer. These field notes document my journey of continuous learning and growth in the ever-evolving landscape of technology.</p>
             </div>
 
             <div class="field-notes-layout">
@@ -412,8 +432,9 @@
                             <div class="certification-issuer">Amazon Web Services</div>
                             <div class="certification-date">April 2025</div>
                         </div>
-
                     </div>
+                    <a href="https://www.credly.com/users/susanamloureiro/badges#credly" class="read-more">All Certifications →</a>
+
                 </div>
 
                 <!-- Technical Skills -->
@@ -460,10 +481,9 @@
                                 <li>PostgreSQL</li>
                                 <li>MongoDB</li>
                                 <li>Firebase</li>
-                                <li>Supabase</li>
-                                <li>Vercel</li>
                                 <li>.NET</li>
                                 <li>Hugging Face</li>
+                                <li>Gradio</li>
                             </ul>
                         </div>
 

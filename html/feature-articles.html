@@ -132,6 +132,7 @@
             letter-spacing: var(--letter-spacing-loose);
             color: var(--light-accent);
             margin-bottom: 0.4rem;
+            margin-top: 0.8rem;
         }
         body.dark-theme .article-category { color: var(--dark-accent); }
 
@@ -202,9 +203,13 @@
         /* Make deep learning cards actually smaller */
 
         .article-columns--compact {
+            display: grid;
             grid-template-columns: repeat(2, minmax(0, 420px));
-            justify-content: center;   /* centers the cards */
+            justify-content: center;
             gap: 2rem;
+
+            /* THIS is key */
+            align-items: stretch;
         }
 
         /* Reduce image height */
@@ -480,6 +485,12 @@
         @media (max-width: 600px) {
             .bachelors-grid { grid-template-columns: 1fr; }
         }
+
+        .article-columns .article{
+            display: grid;
+            grid-template-rows: subgrid;
+            grid-row: span 2;
+        }
     </style>
 </head>
 <body>
@@ -527,13 +538,11 @@
                         <span class="article-tag">Next.js</span>
                         <span class="article-tag">TypeScript</span>
                         <span class="article-tag">Hugging Face</span>
-                        <span class="article-tag">Supabase</span>
-                        <span class="article-tag">Vercel</span>
                     </div>
-                    <a href="https://her-dot.vercel.app" class="read-more">
+                    <!--<a href="https://her-dot.vercel.app" class="read-more">
                         View Project
                         <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </a>
+                    </a>-->
                 </div>
                 <div class="article-image article-image--hero">
                     <img src="../images/projects/her_.png" alt="her. AI Personal Stylist">
@@ -577,13 +586,12 @@
                     <h2 class="article-title">headsup</h2>
                     <div class="article-subtitle" style="font-family:var(--font-serif-body);font-style:italic;color:var(--light-text-soft);font-size:1rem;margin-bottom:0.8rem;">Computer vision model adapted to the workplace</div>
                     <div class="article-excerpt">
-                        <p>An end-to-end solo-built system using YOLOv8 and DeepSORT to count people moving through an office environment in real time: tracking entries, exits, and persistent IDs across frames without double-counting. Surfaced through a Power BI dashboard backed by MongoDB.</p>
+                        <p>An end-to-end solo-built system using YOLOv8n to count people moving through an office environment in real time: tracking entries. Surfaced through a Power BI dashboard backed by MongoDB.</p>
                     </div>
                     <div class="article-tags">
                         <span class="article-tag">Python</span>
-                        <span class="article-tag">YOLOv8</span>
-                        <span class="article-tag">DeepSORT</span>
-                        <span class="article-tag">PostgreSQL</span>
+                        <span class="article-tag">YOLOv8n</span>
+                        <span class="article-tag">MongoDB</span>
                         <span class="article-tag">Power BI</span>
                     </div>
                 </div>
@@ -604,9 +612,8 @@
                 <div>
                     <div class="article-category">NLP · Deep Learning</div>
                     <h2 class="bachelor-card-title">LSTM Sentiment Analyser</h2>
-                    <!--<div class="bachelor-card-subtitle" style="font-family:var(--font-serif-body);font-style:italic;color:var(--light-text-soft);font-size:1rem;margin-bottom:0.8rem;">Binary sentiment classification built from scratch in PyTorch</div>-->
                     <div class="bachelor-card-excerpt">
-                        <p>A 2-layer LSTM trained on 25,000 IMDB reviews for binary sentiment classification, achieving 80% accuracy. Built end-to-end: custom tokenisation pipeline, embedding layer, and a FastAPI serving layer — now live on Hugging Face Spaces.</p>
+                        <p>A 2-layer LSTM trained on 25,000 IMDB reviews for binary sentiment classification, achieving 80% accuracy. Built end-to-end: custom tokenisation pipeline, embedding layer, and a FastAPI serving layer. Live on Hugging Face Spaces.</p>
                     </div>
                     <div class="article-tags">
                         <span class="bachelor-card-tag">Python</span>
@@ -629,20 +636,19 @@
                 <div>
                     <div class="article-category">NLP · Deep Learning</div>
                     <h2 class="bachelor-card-title">Transformer from Scratch</h2>
-                    <!--<div class="article-subtitle" style="font-family:var(--font-serif-body);font-style:italic;color:var(--light-text-soft);font-size:1rem;margin-bottom:0.8rem;">Character-level language model trained on the complete works of Shakespeare</div>-->
                     <div class="bachelor-card-excerpt">
-                        <p>A decoder-only transformer built from first principles in PyTorch — attention heads, positional encoding, and all. Trained on Shakespeare's complete works as a character-level generative model, producing period-plausible prose.</p>
+                        <p>A decoder-only transformer built from first principles in PyTorch, using attention heads, positional encoding, and all. Trained on Shakespeare's complete works as a character-level generative model, producing period-plausible prose.</p>
                     </div>
-                    <div class="bachelor-card-tags">
+                    <div class="article-tags">
                         <span class="bachelor-card-tag">Python</span>
                         <span class="bachelor-card-tag">PyTorch</span>
                         <span class="bachelor-card-tag">Transformers</span>
                         <span class="bachelor-card-tag">Generative</span>
                     </div>
-                    <!--<a href="https://github.com/susanamloureiro" class="read-more">
+                    <a href="https://github.com/susanamloureiro/mle-roadmap/blob/main/pytorch/week4/week4.md" class="read-more">
                         View Repository
                         <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </a>-->
+                    </a>
                 </div>
             </article>
 
