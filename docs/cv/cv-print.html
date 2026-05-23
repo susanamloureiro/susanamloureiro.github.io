@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Susana Loureiro | Curriculum Vitae</title>
+    <title>Susana Loureiro | Machine Learning Engineer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Printing fixes: ensure colors and backgrounds are preserved where possible. */
         html, body {
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
@@ -20,296 +18,315 @@
         @font-face {
             font-family: 'Quentin';
             src: url('../../fonts/Quentin.otf') format('opentype');
-            font-weight: normal;
-            font-style: normal;
         }
 
         :root {
-            --bg: #ffffff; /* white base for predictable printing */
-            --left-bg: #f3efe7; /* kept as variable but not used for big block */
+            --bg: #ffffff;
             --text: #1f1f1f;
             --text-soft: #555555;
-            --accent: #b07a3a; /* accent color */
+            --accent: #b07a3a;
             --accent-dark: #8b5e2f;
-            --border: #e6e0d6; /* divider color */
-
-            --font-serif-display: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
-            --font-serif-body: 'Libre Baskerville', 'Lora', Georgia, serif;
-            --font-sans: 'Nunito Sans', 'Montserrat', Helvetica, Arial, sans-serif;
+            --border: #e6e0d6;
+            --font-serif: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+            --font-body: 'Libre Baskerville', Georgia, serif;
+            --font-sans: 'Nunito Sans', Helvetica, Arial, sans-serif;
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
             font-family: var(--font-sans);
-            background-color: var(--bg);
+            background: var(--bg);
             color: var(--text);
-            line-height: 1.45;
-            margin: 0;
-            padding: 0;
-            font-size: 10pt;
+            font-size: 9pt;
+            line-height: 1.4;
         }
 
-        /* Page container (no large left background block) */
         .cv-container {
             width: 210mm;
-            min-height: 297mm;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 65mm 1fr;
-            background-color: var(--bg);
-            position: relative;
+            grid-template-columns: 60mm 1fr;
         }
 
-        /* Left column content (no colored block behind) */
-        .cv-left-column {
-            background-color: transparent;
-            padding: 20mm 12mm 15mm 12mm;
-            position: relative;
-        }
-
-        .cv-photo-placeholder {
-            width: 36mm;
-            height: 46mm;
-            overflow: hidden;        /* prevent overflow */
-            border: none; /*2px dashed var(--accent);*/
+        /* LEFT COLUMN */
+        .cv-left {
+            padding: 14mm 10mm 14mm 12mm;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 2mm; /* slightly more space below */
-            transform: translateY(-6mm); /* moves it up a bit */
+            flex-direction: column;
+            gap: 7mm;
         }
 
-        .cv-photo-placeholder img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;      /* crop and preserve aspect ratio */
+        .cv-photo {
+            width: 32mm;
+            height: 40mm;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+        .cv-photo img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            border-radius: 2px;
             display: block;
-            border-radius: 2px;     /* optional */
         }
 
+        .cv-contact { display: flex; flex-direction: column; gap: 3mm; font-size: 8pt; color: var(--text-soft); }
+        .cv-contact-item { display: flex; gap: 5px; align-items: flex-start; }
+        .cv-contact-item i { width: 12px; text-align: center; color: var(--accent); margin-top: 1px; flex-shrink: 0; }
 
-        .cv-contact { font-size: 9pt; color: var(--text-soft); }
-        .cv-contact-item { display:flex; gap:6px; align-items:center; margin-bottom:6mm; }
-        .cv-contact-item i { width:14px; text-align:center; color:var(--accent); }
-
-        /* Right column with a solid divider line on its left edge */
-        .cv-right-column {
-            padding: 20mm 18mm;
-            border-left: 1px solid var(--border); /* visible divider */
-            padding-left: 14mm; /* space between line and content */
+        .left-section-title {
+            font-family: var(--font-serif);
+            font-size: 11pt;
+            color: var(--accent-dark);
+            border-bottom: 0.5px solid var(--border);
+            padding-bottom: 2px;
+            margin-bottom: 4mm;
         }
 
-        .cv-header { margin-bottom: 12mm; }
-        .cv-name { font-family: 'Quentin', var(--font-serif-display); font-size: 28pt; line-height:1; color:var(--text); }
-        .cv-title { font-family: var(--font-serif-display); font-size:13pt; font-style:italic; color:var(--accent-dark); margin-bottom:6mm; }
+        .skill-group { margin-bottom: 4mm; }
+        .skill-group-title { font-size: 8.5pt; font-weight: 600; color: var(--accent-dark); margin-bottom: 2px; }
+        .skill-group p { font-size: 8pt; color: var(--text-soft); line-height: 1.5; }
 
-        .cv-section { margin-bottom: 10mm; }
-        .cv-section-title { font-family: var(--font-serif-display); font-size:12pt; color:var(--accent-dark); margin-bottom:6mm; }
-        .cv-description { font-family: var(--font-serif-body); font-size:10pt; color:var(--text); line-height:1.5; }
+        .lang-item { font-size: 8.5pt; margin-bottom: 2mm; }
 
-        /* Skills */
-        .cv-skill-category-title { font-family: var(--font-serif-display); font-size:10.5pt; color:var(--accent-dark); margin-bottom:4px; }
-        .cv-skills-list { list-style:none; padding:0; display:flex; flex-wrap:wrap; gap:6px; }
-        .cv-skills-list li { background:transparent; padding-left:0; font-size:10pt; }
-
-        /* Projects */
-        .cv-project-title { font-weight:600; font-size:10.5pt; margin-bottom:2px; }
-        .cv-project-description { font-size:10pt; line-height:1.4; margin-bottom:4px; }
-        .cv-project-bullets { margin-left:12px; }
-
-        /* Certifications */
-        .cv-certification-item { margin-bottom:6mm; }
-
-        /* Page number */
-        .page-number { position:absolute; bottom:10mm; right:15mm; font-family:var(--font-serif-display); font-size:9pt; color:#777; }
-
-        .print-button { position:fixed; top:20px; right:20px; padding:10px 16px; background:var(--accent); color:white; border:none; border-radius:4px; cursor:pointer; z-index:1000; }
-        .print-button:hover { background:var(--accent-dark); }
-
-        /* --- Prevent awkward page breaks in print --- */
-        .cv-section,
-        .cv-project-item,
-        .cv-education-item,
-        .cv-certification-item {
-            page-break-inside: avoid;
-            break-inside: avoid;
+        /* RIGHT COLUMN */
+        .cv-right {
+            padding: 14mm 14mm 14mm 12mm;
+            border-left: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 6mm;
         }
 
-        .cv-section-title {
-            page-break-after: avoid;
+        .cv-name {
+            font-family: 'Quentin', var(--font-serif);
+            font-size: 26pt;
+            line-height: 1;
+            color: var(--text);
+        }
+        .cv-title {
+            font-family: var(--font-serif);
+            font-size: 12pt;
+            font-style: italic;
+            color: var(--accent-dark);
+            margin-top: 1mm;
         }
 
-        .cv-project-item {
-            margin-bottom: 8mm;
-            padding-bottom: 2mm;
-            border-bottom: 0.5px solid #ddd;
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: 11pt;
+            color: var(--accent-dark);
+            border-bottom: 0.5px solid var(--border);
+            padding-bottom: 2px;
+            margin-bottom: 4mm;
         }
+
+        .summary {
+            font-family: var(--font-body);
+            font-size: 8.5pt;
+            color: var(--text);
+            line-height: 1.55;
+        }
+
+        .exp-role { font-weight: 600; font-size: 9.5pt; }
+        .exp-company { font-style: italic; color: var(--accent-dark); font-size: 9pt; }
+        .exp-meta { font-size: 8pt; color: var(--text-soft); margin-bottom: 2mm; }
+
+        .edu-degree { font-weight: 600; font-size: 9.5pt; }
+        .edu-school { font-style: italic; color: var(--accent-dark); font-size: 9pt; }
+        .edu-meta { font-size: 8pt; color: var(--text-soft); }
+        .edu-courses { font-size: 7.5pt; color: var(--text-soft); margin-top: 1mm; }
+
+        /* Certs as a compact 2-col grid */
+        .certs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3mm 6mm;
+        }
+        .cert-item { font-size: 8.5pt; }
+        .cert-name { font-weight: 500; }
+        .cert-meta { font-size: 7.5pt; color: var(--text-soft); }
+
+        /* Projects compact */
+        .project-item { margin-bottom: 4mm; }
+        .project-item:last-child { margin-bottom: 0; }
+        .project-title { font-weight: 600; font-size: 9pt; margin-bottom: 1mm; }
+        .project-bullets {
+            padding-left: 12px;
+            list-style: disc;
+            font-size: 8pt;
+            line-height: 1.45;
+        }
+        .project-bullets li { margin-bottom: 1px; }
+        .tech { font-style: italic; color: var(--text-soft); font-size: 7.5pt; }
+
+        ul.bullets {
+            padding-left: 12px;
+            list-style: disc;
+            font-size: 8.5pt;
+            line-height: 1.45;
+        }
+        ul.bullets li { margin-bottom: 2px; }
 
         @media print {
-            /* Add consistent top/bottom padding for pages */
-            body {
-                margin: 0;
-            }
-
-            .cv-container {
-                margin: 0 auto;
-                padding-top: 10mm;
-                padding-bottom: 10mm;
-            }
-
-            /* Avoid last line being cut off */
-            .cv-right-column {
-                padding-bottom: 15mm;
-            }
+            body { margin: 0; }
         }
-
     </style>
 </head>
 <body>
-<!---<button class="print-button" onclick="window.print()">Print CV</button>-->
 <div class="cv-container">
-    <div class="cv-left-column">
-        <div class="cv-photo-placeholder"><img src="fotos.jpg" alt="Susana Loureiro photo">
+
+    <!-- LEFT -->
+    <div class="cv-left">
+        <div class="cv-photo">
+            <img src="fotos.jpg" alt="Susana Loureiro">
         </div>
+
         <div class="cv-contact">
             <div class="cv-contact-item"><i class="fas fa-envelope"></i><span>susanamloureiro@outlook.com</span></div>
             <div class="cv-contact-item"><i class="fas fa-phone-alt"></i><span>+351 919 390 272</span></div>
             <div class="cv-contact-item"><i class="fas fa-map-marker-alt"></i><span>Porto, Portugal</span></div>
-            <div class="cv-contact-item"><i class="fab fa-linkedin-in"></i><span>linkedin.com/in/susanamloureiro/</span></div>
+            <div class="cv-contact-item"><i class="fab fa-linkedin-in"></i><span>linkedin.com/in/susanamloureiro</span></div>
             <div class="cv-contact-item"><i class="fab fa-github"></i><span>github.com/susanamloureiro</span></div>
+            <div class="cv-contact-item"><i class="fas fa-globe"></i><span>susanamloureiro.github.io</span></div>
         </div>
-        <section class="cv-section">
-            <h3 class="cv-section-title">Skills</h3>
 
-            <div class="cv-skill-category">
-                <h4 class="cv-skill-category-title">Programming Languages</h4>
-                <ul class="cv-skills-list">
-                    <li>Python · Java · C</li>
-                    <li>JavaScript · TypeScript · C#</li>
-                    <li>SQL (PostgreSQL, Oracle) · HTML/CSS</li>
-                </ul>
+        <div>
+            <div class="left-section-title">Skills</div>
+            <div class="skill-group">
+                <div class="skill-group-title">Languages</div>
+                <p>Python · SQL · JavaScript · TypeScript · Java · C · C# · HTML/CSS</p>
             </div>
-
-            <div class="cv-skill-category">
-                <h4 class="cv-skill-category-title">Frameworks & Tools</h4>
-                <ul class="cv-skills-list">
-                    <li>Pandas · Scikit-Learn · PyTorch</li>
-                    <li>Docker · Git · AWS · Linux · Hugging Face</li>
-                    <li>Supabase · Vercel · Firebase</li>
-                    <li>.NET · Node.js · Next.js · SpringBoot</li>
-
-
-                </ul>
+            <div class="skill-group">
+                <div class="skill-group-title">ML / AI</div>
+                <p>PyTorch · Scikit-Learn · Pandas · Hugging Face Transformers · PEFT · QLoRA · MLflow · YOLO · Computer Vision · NLP · Fine-tuning · FastAPI Inference APIs</p>
             </div>
-        </section>
+            <div class="skill-group">
+                <div class="skill-group-title">Cloud & DevOps</div>
+                <p>AWS · Docker · Linux · Git · GitHub Actions · CI/CD · ECS</p>
+            </div>
+            <div class="skill-group">
+                <div class="skill-group-title">Frameworks</div>
+                <p>FastAPI · Node.js · Next.js · Spring Boot · Angular · .NET</p>
+            </div>
+            <div class="skill-group">
+                <div class="skill-group-title">Databases</div>
+                <p>PostgreSQL · MongoDB · Firebase · Oracle</p>
+            </div>
+        </div>
 
-        <section class="cv-section">
-            <h3 class="cv-section-title">Languages</h3>
-            <div class="cv-language-item"><strong>Portuguese</strong> — Native</div>
-            <div class="cv-language-item"><strong>English</strong> — C1</div>
-        </section>
+        <div>
+            <div class="left-section-title">Languages</div>
+            <div class="lang-item"><strong>Portuguese</strong> — Native</div>
+            <div class="lang-item"><strong>English</strong> — C1 (IELTS Academic)</div>
+        </div>
     </div>
 
-    <div class="cv-right-column">
-        <header class="cv-header">
-            <h1 class="cv-name">Susana Loureiro</h1>
-            <!--<h2 class="cv-title">Software Engineer</h2>-->
-        </header>
+    <!-- RIGHT -->
+    <div class="cv-right">
+        <div>
+            <div class="cv-name">Susana Loureiro</div>
+            <div class="cv-title">Machine Learning Engineer</div>
+        </div>
 
-        <section class="cv-section">
-            <h3 class="cv-section-title">Professional Summary</h3>
-            <p class="cv-description">
-                Informatics Engineering student at ISEP (BSc, 2026) specializing in AI/ML and cloud architecture. AWS-certified in Machine Learning and Solutions Architecture with hands-on experience building intelligent recommendation systems and data-driven applications. Proficient in Python, ML frameworks, and cloud technologies.         </p>
-        </section>
+        <div>
+            <div class="section-title">Summary</div>
+            <p class="summary">Machine Learning Engineer building end-to-end AI systems across LLMs, recommendation systems, and real-time computer vision infrastructure. Experienced developing production-oriented ML pipelines including fine-tuned LLM deployment, deep learning training workflows, inference APIs, and real-time analytics systems. Currently building computer vision infrastructure at DevScope using PyTorch, YOLOv8, MongoDB, and cloud-native tooling. AWS Certified in Machine Learning, Solutions Architecture, and AI foundations.</p>
+        </div>
 
-        <section class="cv-section">
-            <h3 class="cv-section-title">Experience</h3>
-            <div class="cv-experience-item">
-                <div class="cv-experience-role">ML Engineer Intern</div>
-                <div class="cv-experience-company">DevScope</div>
-                <div class="cv-experience-meta">February 2026 — Present &nbsp;·&nbsp; Porto, Portugal (Hybrid)</div>
-                <ul class="cv-project-bullets" style="margin-top: 3mm; margin-bottom: 0; padding-left: 15px; list-style: disc;">
-                    <li>Developing a real-time computer vision system for automated people counting using YOLO-based object detection</li>
-                    <li>Building and training deep learning models with PyTorch to detect and track individuals across video streams</li>
-                    <li style="font-style: italic; color: var(--text-soft);">Technologies: Python, PyTorch, YOLO, Computer Vision</li>
-                </ul>
+        <div>
+            <div class="section-title">Experience</div>
+            <div class="exp-role">ML Engineer Intern</div>
+            <div class="exp-company">DevScope</div>
+            <div class="exp-meta">February 2026 — Present &nbsp;·&nbsp; Porto, Portugal (Hybrid)</div>
+            <ul class="bullets">
+                <li>Developing a real-time computer vision system for automated people counting using YOLOv8-based object detection and tracking</li>
+                <li>Building and training deep learning models in PyTorch to detect and track individuals across live video streams</li>
+                <li>Designing backend data flows persisting occupancy and tracking events into MongoDB for real-time and historical analytics</li>
+                <li>Building operational dashboards surfacing live occupancy metrics through Power BI</li>
+                <li class="tech">Technologies: Python, PyTorch, YOLOv8, MongoDB, Docker, Power BI, Computer Vision</li>
+            </ul>
+        </div>
+
+        <div>
+            <div class="section-title">Education</div>
+            <div class="edu-degree">BSc in Informatics Engineering</div>
+            <div class="edu-school">ISEP — Instituto Superior de Engenharia do Porto</div>
+            <div class="edu-meta">2022 — 2026 &nbsp;·&nbsp; Porto, Portugal</div>
+            <div class="edu-courses">Distributed Systems · Databases · Software Engineering · Algorithms & Data Structures · Artificial Intelligence · Cloud Computing</div>
+        </div>
+
+        <div>
+            <div class="section-title">Certifications</div>
+            <div class="certs-grid">
+                <div class="cert-item">
+                    <div class="cert-name">AWS Certified Solutions Architect — Associate</div>
+                    <div class="cert-meta">Amazon Web Services · August 2025</div>
+                </div>
+                <div class="cert-item">
+                    <div class="cert-name">AWS Certified Machine Learning Engineer — Associate</div>
+                    <div class="cert-meta">Amazon Web Services · June 2025</div>
+                </div>
+                <div class="cert-item">
+                    <div class="cert-name">AWS Certified AI Practitioner — Foundational</div>
+                    <div class="cert-meta">Amazon Web Services · April 2025</div>
+                </div>
+                <div class="cert-item">
+                    <div class="cert-name">IELTS Academic — C1 English Proficiency</div>
+                    <div class="cert-meta">British Council · February 2026</div>
+                </div>
             </div>
-        </section>
+        </div>
 
-        <section class="cv-section">
-            <h3 class="cv-section-title">Education</h3>
-            <div class="cv-education-item">
-                <div class="cv-degree">BSc in Informatics Engineering</div>
-                <div class="cv-institution">ISEP - Instituto Superior de Engenharia do Porto</div>
-                <div class="cv-date">2022 — 2026</div>
-            </div>
-        </section>
+        <div>
+            <div class="section-title">Projects</div>
 
-        <section class="cv-section">
-            <h3 class="cv-section-title">Certifications & Training</h3>
-            <div class="cv-certification-item"><div class="cv-certification-name">AWS Certified AI Practitioner — Foundational</div><div class="cv-certification-issuer">Amazon Web Services</div><div class="cv-date">April 2025</div></div>
-            <div class="cv-certification-item"><div class="cv-certification-name">AWS Certified Machine Learning Engineer — Associate</div><div class="cv-certification-issuer">Amazon Web Services</div><div class="cv-date">June 2025</div></div>
-            <div class="cv-certification-item"><div class="cv-certification-name">AWS Certified Solutions Architect — Associate</div><div class="cv-certification-issuer">Amazon Web Services</div><div class="cv-date">August 2025</div></div>
-        </section>
-
-        <section class="cv-section">
-            <h3 class="cv-section-title">Projects</h3>
-
-            <!-- Personal Project -->
-            <div class="cv-project-item" style="margin-bottom: 8mm;">
-                <div class="cv-project-title">her. – Style Recommendation System </div>
-                <ul class="cv-project-bullets" style="margin-top: 3mm; margin-bottom: 0; padding-left: 15px; list-style: disc;">
-                    <li>Architected end-to-end recommendation pipeline with multi-stage data collection: user style profiling, contextual preferences (mood, time, occasion), and post-recommendation feedback analysis</li>
-                        <li>Designed relational database schema (PostgreSQL) with 8+ tables capturing user interactions, style vectors, and feedback metrics to drive recommendation refinement</li>
-                    <li>Built automated daily ETL workflows aggregating feedback data to identify style patterns and optimize recommendation accuracy over time</li>
-                        <li>Integrated Hugging Face ML models for style classification via REST API (TypeScript/Node.js), establishing feedback loop between user responses and model outputs</li>
-                    <li style="font-style: italic; color: var(--text-soft);">Technologies: TypeScript, Node.js, PostgreSQL, Supabase, Hugging Face API, Data Pipeline Architecture, ETL</li>
-                </ul>
-            </div>
-
-            <div class="cv-project-item" style="margin-bottom: 8mm;">
-                <div class="cv-project-title">curate. – Conversational Outfit Recommender</div>
-                <ul class="cv-project-bullets" style="margin-top: 3mm; margin-bottom: 0; padding-left: 15px; list-style: disc;">
-                    <li>Trained a outfit compatibility model on the Polyvore dataset, framing garment pairing as a language modelling problem to generate contextually coherent outfit suggestions</li>
-                    <li>Built a conversational interface that takes a garment the user already owns as input and recommends complementary pieces, prioritising natural interaction over catalogue-style browsing</li>
-                    <li>Designed as a companion to her., extending the same conversational UX paradigm into the styling and outfit curation domain</li>
-                    <li style="font-style: italic; color: var(--text-soft);">Technologies: PyTorch, Hugging Face, Polyvore Dataset, Language Modelling</li>
-                </ul>
-            </div>
-
-            <!-- Academic Projects -->
-            <!--<div class="cv-project-item" style="margin-bottom: 8mm;">
-                <div class="cv-project-title">Port Management System</div>
-                <ul class="cv-project-bullets" style="margin-top: 3mm; margin-bottom: 0; padding-left: 15px; list-style: disc;">
-                    <li> Building logistics application managing 50+ vessel records with automated route optimization reducing manual planning time</li>
-                         <li>Architected .NET 8 Web API with Entity Framework Core supporting complex multi-table queries across 10+ database entities</li>
-                        <li>Implementing Angular dashboard with real-time data visualization for 5+ operational KPIs</li>
-                        <li style="font-style: italic; color: var(--text-soft);">Technologies: C#, .NET 8, PostgreSQL, Angular, TypeScript, Docker, Entity Framework Core</li>
-                </ul>
-            </div>
-            <div class="cv-project-item" style="margin-bottom: 8mm;">
-                <div class="cv-project-title">Drone Management System (Team Project)</div>
-                <ul class="cv-project-bullets" style="margin-top: 3mm; margin-bottom: 0; padding-left: 15px; list-style: disc;">
-                    <li>Architected Java system managing 200+ show proposals with automated workflow reducing proposal processing time by 40%</li>
-                        <li>Developed C simulation engine coordinating 10+ concurrent processes via inter-process communication (pipes, shared memory)</li>
-                        <li>Applied DDD/TDD methodologies achieving 85%+ test coverage across core business logic</li>
-                    <li style="font-style: italic; color: var(--text-soft);">Technologies: Java, C, DDD, TDD, System Programming, Data Modeling</li>
-                    <li>Github Repository: https://github.com/gabrielamoraisteixeira/isep-lapr4-project</li>
+            <div class="project-item">
+                <div class="project-title">curate. — LLM-powered Outfit Recommendation System</div>
+                <ul class="project-bullets">
+                    <li>Fine-tuned Mistral-7B using QLoRA on 21k curated outfit examples for garment compatibility and recommendation tasks</li>
+                    <li>Tracked experiments with MLflow; served inference through FastAPI containerised with Docker and deployed on AWS ECS</li>
+                    <li class="tech">Python · PyTorch · Hugging Face PEFT · Mistral-7B · QLoRA · MLflow · FastAPI · Docker · AWS ECS</li>
                 </ul>
             </div>
 
-            <div class="cv-project-item" style="margin-bottom: 8mm;">
-                <div class="cv-project-title">Green Space Management System (Team Project)</div>
-                <ul class="cv-project-bullets" style="margin-top: 3mm; margin-bottom: 0; padding-left: 15px; list-style: disc;">
-                    <li>Created JavaFX application managing 30+ green space locations with automated maintenance scheduling for 100+ weekly tasks</li>
-                    <li>Implemented resource allocation algorithm optimizing team assignments across multiple parks
-                    <li style="font-style: italic; color: var(--text-soft);">Technologies: Java, JavaFX, Desktop Application Development</li>
+            <div class="project-item">
+                <div class="project-title">stylist. — Image-based Compatibility Learning System</div>
+                <ul class="project-bullets">
+                    <li>Built a siamese neural network with triplet-loss optimisation and hard negative mining for outfit compatibility learning</li>
+                    <li>Developed preprocessing pipelines for large-scale fashion datasets with hierarchical category mapping</li>
+                    <li class="tech">Python · PyTorch · Metric Learning · Computer Vision</li>
                 </ul>
-            </div>-->
-        </section>
+            </div>
+
+            <div class="project-item">
+                <div class="project-title">her. — AI Personal Stylist Platform</div>
+                <ul class="project-bullets">
+                    <li>Built end-to-end recommendation pipeline with user style profiling, contextual preferences, and feedback analysis workflows</li>
+                    <li>Designed PostgreSQL schema across 8+ tables; automated ETL workflows aggregating user feedback data</li>
+                    <li class="tech">TypeScript · Node.js · PostgreSQL · Next.js · Supabase · REST APIs</li>
+                </ul>
+            </div>
+
+            <div class="project-item">
+                <div class="project-title">Transformer from Scratch — Decoder-only Music Generation Model</div>
+                <ul class="project-bullets">
+                    <li>Built decoder-only transformer from first principles in PyTorch including multi-head self-attention, positional encoding, residual connections, and layer normalisation</li>
+                    <li>Trained autoregressive sequence models on MIDI datasets with cosine LR annealing and perplexity-based early stopping</li>
+                    <li class="tech">Python · PyTorch · Transformers · NLP · MIDI · Sequence Modelling</li>
+                </ul>
+            </div>
+
+            <div class="project-item">
+                <div class="project-title">Port Management System — Full-Stack Logistics Platform</div>
+                <ul class="project-bullets">
+                    <li>Developed .NET 8 Web API backend with PostgreSQL and Angular 18 frontend; containerised with Docker</li>
+                    <li class="tech">C# · .NET 8 · PostgreSQL · Angular 18 · Docker · Entity Framework Core</li>
+                </ul>
+            </div>
+        </div>
     </div>
 
-    <div class="page-number">Curriculum Vitae</div>
 </div>
 </body>
 </html>
