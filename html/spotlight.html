@@ -11,7 +11,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
     <style>
-        /* Spotlight Interview Specific Styles */
         .magazine-header {
             margin-bottom: 3rem;
             padding-bottom: 1rem;
@@ -42,6 +41,7 @@
             font-style: italic;
             color: var(--light-text-soft);
         }
+
         .spotlight-layout {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -89,17 +89,61 @@
             color: var(--light-text-soft);
         }
 
+        .profile-sidebar {
+            background-color: var(--light-bg-alt);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .sidebar-heading {
+            font-family: var(--font-serif-display);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        /*.sidebar-heading:after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 0;
+            width: 40px;
+            height: 1px;
+            background-color: var(--light-accent);
+        }*/
+
+        .quick-facts {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .quick-facts li {
+            display: flex;
+            margin-bottom: 0.8rem;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+        }
+
+        .fact-label {
+            font-weight: 600;
+            width: 120px;
+            flex-shrink: 0;
+        }
+
+        /* Photo + Quick Facts layout */
         .profile-column {
             display: flex;
             flex-direction: column;
             gap: 2rem;
         }
 
+        /* Photo placeholder */
         .profile-image-container {
             position: relative;
             width: 100%;
             height: 0;
-            padding-bottom: 125%; /* 4:5 aspect ratio */
+            padding-bottom: 125%;
             overflow: hidden;
         }
 
@@ -128,57 +172,26 @@
             font-family: var(--font-serif-display);
             font-style: italic;
             color: var(--light-text-soft);
+            text-align: center;
+            padding: 0 1rem;
         }
 
         .profile-caption {
             font-family: var(--font-sans);
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-style: italic;
             color: var(--light-text-soft);
             text-align: center;
             margin-top: 0.5rem;
+            line-height: 1.5;
         }
 
-        .profile-sidebar {
-            background-color: var(--light-bg-alt);
-            padding: 2rem;
-            margin-top: 2rem;
-        }
-
-        .sidebar-heading {
-            font-family: var(--font-serif-display);
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            position: relative;
-        }
-
-        .sidebar-heading:after {
-            content: '';
-            position: absolute;
-            bottom: -0.5rem;
-            left: 0;
-            width: 40px;
-            height: 1px;
-            background-color: var(--light-accent);
-        }
-
-        .quick-facts {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .quick-facts li {
-            display: flex;
-            margin-bottom: 0.8rem;
-            font-family: var(--font-sans);
-            font-size: 0.9rem;
-        }
-
-        .fact-label {
-            font-weight: 600;
-            width: 120px;
-            flex-shrink: 0;
+        /* Main interview body with sidebar */
+        .interview-body {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+            grid-column: 1 / -1;
         }
 
         .interview-content {
@@ -221,7 +234,7 @@
             line-height: 1;
         }
 
-        /* Dark Theme Adjustments */
+        /* Dark Theme */
         body.dark-theme .profile-image-placeholder {
             background-color: var(--dark-bg-alt);
             border-color: var(--dark-divider);
@@ -255,124 +268,154 @@
             .spotlight-layout {
                 grid-template-columns: 1fr;
             }
+
+            .interview-body {
+                grid-template-columns: 1fr;
+            }
         }
+
+        .quick-facts-text {
+            border-left: 2px solid var(--light-accent);
+            padding-left: 1rem;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: var(--light-text-soft);
+        }
+
+        body.dark-theme .quick-facts-text {
+            border-left-color: var(--dark-accent);
+        }
+
+        /* dark theme */
+        body.dark-theme .quick-facts-text {
+            border-left-color: var(--dark-accent);
+            color: var(--dark-text);
+        }
+
     </style>
 </head>
 <body>
-    <div class="cursor"></div>
-    <div class="page-transition"></div>
+<div class="cursor"></div>
+<div class="page-transition"></div>
 
-    <!-- Theme Toggle -->
-    <div class="theme-toggle">
-        <div class="toggle-switch">
-            <div class="toggle-circle"></div>
-        </div>
+<!-- Theme Toggle -->
+<div class="theme-toggle">
+    <div class="toggle-switch">
+        <div class="toggle-circle"></div>
     </div>
+</div>
 
-    <!-- Main Content -->
-    <main class="editorial-layout">
-        <!-- Spotlight Interview Section -->
-        <section id="spotlight" class="section-spotlight active">
-            <div class="magazine-header">
-                <div class="issue-info">
-                    <span class="volume">Vol. I</span>
-                    <span class="separator">|</span>
-                    <span class="issue">Spotlight</span>
+<!-- Main Content -->
+<main class="editorial-layout">
+    <section id="spotlight" class="section-spotlight active">
+        <div class="magazine-header">
+            <div class="issue-info">
+                <span class="volume">Vol. I</span>
+                <span class="separator">|</span>
+                <span class="issue">Spotlight</span>
+            </div>
+            <div class="page-title">The Engineer's Portfolio</div>
+        </div>
+
+        <div class="spotlight-layout">
+            <div class="interview-header">
+                <h1 class="interview-title">The Engineer Behind the Code</h1>
+                <h2 class="interview-subtitle">On building systems she actually wants to use, finding the love of her life in AI, and why she can tell the difference between an ML engineer and someone who just calls an API</h2>
+                <div class="interview-meta">
+                    <div class="interviewer">Interview by The Portfolio Magazine</div>
+                    <div class="interview-date">July 2026</div>
                 </div>
-                <div class="page-title">The Engineer's Portfolio</div>
             </div>
 
-            <div class="spotlight-layout">
-                <div class="interview-header">
-                    <h1 class="interview-title">The Engineer Behind the Code</h1>
-                    <h2 class="interview-subtitle">On building systems she actually wants to use, finding the love of her life in AI, and why she can tell the difference between an ML engineer and someone who just calls an API</h2>
-                    <div class="interview-meta">
-                        <div class="interviewer">Interview by The Portfolio Magazine</div>
-                        <div class="interview-date">April 2026</div>
-                    </div>
+            <!-- Interview body: content left, photo + facts right -->
+            <div class="interview-body">
+                <div class="interview-content">
 
-                    <div class="profile-sidebar" style="margin-top: 2rem; margin-bottom: 2rem;">
-                        <h3 class="sidebar-heading">Quick Facts</h3>
-                        <ul class="quick-facts">
-                            <li>
-                                <span class="fact-label">Education</span>
-                                <span class="fact-value">BSc in Informatics Engineering, ISEP</span>
-                            </li>
-                            <li>
-                                <span class="fact-label">Specialization</span>
-                                <span class="fact-value">Machine Learning</span>
-                            </li>
-                            <li>
-                                <span class="fact-label">Location</span>
-                                <span class="fact-value">Porto, Portugal</span>
-                            </li>
-                            <li>
-                                <span class="fact-label">Languages</span>
-                                <span class="fact-value">Portuguese, English</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <p class="interview-introduction">
-                        Susana Loureiro is 21, graduating in June, and already has a portfolio that most engineers twice her age would struggle to match. Three AWS certifications (AI Foundational, ML Engineer, Solutions Architect Associate) sit alongside projects she built not because a brief told her to, but because she genuinely wanted them to exist. She is precise about what she is and what she isn't, and she is not particularly interested in pretending otherwise.
+                    <p class="interview-introduction" style="font-family: var(--font-sans); font-size: 1.1rem; line-height: 1.7; margin-bottom: 2rem;">
+                        Susana Loureiro doesn't build things to fill a portfolio. She builds them because they fix a real problem — usually one of hers. Precise about what she is and what she isn't, she is not particularly interested in pretending otherwise.
                     </p>
-                </div>
 
-                <div class="interview-content" style="grid-column: 1 / -1;">
-                    <div class="interview-question">You're graduating in June. How would you describe what kind of engineer you are?</div>
+                    <div class="interview-question">How would you describe the kind of engineer you are?</div>
                     <div class="interview-answer">
-                        The kind that wants to make something new and different. Something that actually solves a real problem, ideally one of mine. I need it to be functional, not just clever. I'm not building things to show off a technique. I want it to work and I want it to matter.
+                        The kind that doesn't do something just because. If I build something, it's because it matters — not because it looks good on a CV, not because it makes money. It has to fix a real problem or solve something I actually care about.
                     </div>
 
-                    <div class="interview-question">Your projects are very specific — fashion, people-counting, sentiment analysis. Where do the ideas come from?</div>
+                    <div class="interview-question">Your projects are very specific — they come from a real place. Where do the ideas come from?</div>
                     <div class="interview-answer">
-                        The people-counting one was an internship project, so that was a company need. But the fashion projects..those came from me. I always wished I had a personal stylist. Someone to just tell me what to wear when I'm not in the mood to figure it out, which is almost all the time. So I built one.
+                        From things I like or problems I have. The people-counting project was a company need, but the fashion projects came from me. I always wished I had a personal stylist — someone to just tell me what to wear when I'm not in the mood to figure it out, which is almost all the time. So I built one. Others come from wanting to experiment with things I'm drawn to. For example, I built a music generation project for exactly the same reason.
                     </div>
 
                     <div class="interview-quote">
                         I always wished I had a personal stylist. So I built one.
                     </div>
 
-                    <div class="interview-question">The AWS certifications came before the ML projects. Was that a deliberate strategy?</div>
+                    <div class="interview-question">At what point did you know ML and AI was yours?</div>
                     <div class="interview-answer">
-                        Not really. I didn't know what area of informatics I wanted to be in. Someone recommended AWS certifications, and I chose the AI ones because something about that direction appealed to me, even if I couldn't fully explain it at the time. I just followed the instinct.
+                        I'm not sure there was a point. I just always knew. I got into the area through AWS certifications — I chose the AI ones because something about that direction appealed to me, even if I couldn't fully explain it at the time. I followed the instinct and never questioned it.
                     </div>
 
-                    <div class="interview-question">At what point did it stop feeling like learning and start feeling like a vocation?
-                    </div>
+                    <div class="interview-question">You go deep — building transformers from scratch rather than just using pre-built models. Why?</div>
                     <div class="interview-answer">
-                        Halfway through studying for the AI Foundational. I always liked software engineering, there's a reason I chose this degree. But I never felt like it was the love of my life. Then I started going deep into AI and it was exactly that. I use that analogy deliberately. I like building systems. I love building intelligent ones. That distinction matters to me.
+                        Because I want to understand how things work under the hood. Calling an API doesn't feel like engineering to me. If I don't know what's happening underneath, I'm not building anything — I'm just using someone else's work.
                     </div>
 
                     <div class="interview-quote">
                         I like building systems. I love building intelligent ones.
                     </div>
 
-
-                    <div class="interview-question">You built a transformer from scratch in PyTorch rather than just using a pre-built model. Why go that deep?</div>
+                    <div class="interview-question">You talk about building intelligent systems, not just automated ones. What's the difference to you?</div>
                     <div class="interview-answer">
-                        Because that's the difference between an ML engineer and an AI engineer. An AI engineer uses models. An ML engineer builds them. If you don't understand what's happening underneath, you're not engineering, you're just calling an API. I want to actually know what I'm doing.
+                        I believe machines can be our little assistants in the same way dogs are a human's best friend — helping us in ways that are more technical, more precise, but just as useful. An automated system just executes. An intelligent system understands. That distinction is why I do this.
                     </div>
 
-
-                    <div class="interview-question">Where do you want to be in two or three years?
-                    </div>
+                    <div class="interview-question">Where do you want to be in a few years?</div>
                     <div class="interview-answer">
-                        Full ML engineer. And very possibly with enough experience by then to have my own company. My ultimate life goal, I believe, is to make her. an actual product rather than a spare project. That's the goal. I'm not in a rush, but I'm not not thinking about it either.                    </div>
+                        Full ML/AI engineer. And building towards making her. an actual product rather than a spare project. That's the long-term goal — being the CEO of something that started because I had a problem and decided to solve it. I'm not in a rush, but I'm not not thinking about it either.
+                    </div>
+
+                </div>
+
+                <!-- Right column: photo placeholder + quick facts -->
+                <div class="profile-column">
+                    <div class="profile-image-container">
+                        <!--<div class="profile-image-placeholder">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                            <p>Portrait coming soon</p>
+                        </div>-->
+                        <img
+                                src="/docs/cv/fotos.jpg"
+                                alt="Susana Loureiro, ML/AI Engineer"
+                                style="width: 100%; display: block;"
+                        />
+                    </div>
+                    <p class="profile-caption">Susana Loureiro, Porto. July 2026.</p>
+                    <!--<p class="profile-caption">Susana Loureiro at her desk in Porto, between systems and ideas. July 2026.</p>-->
+
+                    <div class="profile-sidebar">
+                        <h3 class="sidebar-heading">Quick Facts</h3>
+                        <div class="quick-facts-text">
+                            Machine Learning & AI Engineer based in Porto, Portugal. BSc in Informatics Engineering from ISEP. Fluent in Portuguese and English.
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
-            <!-- Page Navigation -->
-            <div class="page-navigation">
-                <a href="../index.html" class="prev-page">← Previous</a>
-                <a href="field-notes.html" class="next-page">Next →</a>
-            </div>
-        </section>
+        </div>
 
-        <!-- Page Numbers -->
-        <div class="page-number">01</div>
-    </main>
+        <!-- Page Navigation -->
+        <div class="page-navigation">
+            <a href="../index.html" class="prev-page">← Previous</a>
+            <a href="field-notes.html" class="next-page">Next →</a>
+        </div>
+    </section>
 
-    <script src="../js/script.js"></script>
+    <div class="page-number">01</div>
+</main>
+
+<script src="../js/script.js"></script>
 </body>
 </html>
