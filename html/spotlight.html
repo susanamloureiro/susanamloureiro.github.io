@@ -102,16 +102,6 @@
             position: relative;
         }
 
-        /*.sidebar-heading:after {
-            content: '';
-            position: absolute;
-            bottom: -0.5rem;
-            left: 0;
-            width: 40px;
-            height: 1px;
-            background-color: var(--light-accent);
-        }*/
-
         .quick-facts {
             list-style: none;
             padding: 0;
@@ -131,14 +121,12 @@
             flex-shrink: 0;
         }
 
-        /* Photo + Quick Facts layout */
         .profile-column {
             display: flex;
             flex-direction: column;
             gap: 2rem;
         }
 
-        /* Photo placeholder */
         .profile-image-container {
             position: relative;
             width: 100%;
@@ -186,7 +174,6 @@
             line-height: 1.5;
         }
 
-        /* Main interview body with sidebar */
         .interview-body {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -234,6 +221,17 @@
             line-height: 1;
         }
 
+        .interview-footnote {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            color: var(--light-text-soft);
+            border-left: 2px solid var(--light-accent);
+            padding-left: 1rem;
+            margin: -1rem 0 2rem;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
         /* Dark Theme */
         body.dark-theme .profile-image-placeholder {
             background-color: var(--dark-bg-alt);
@@ -264,6 +262,11 @@
             color: var(--dark-accent-dark);
         }
 
+        body.dark-theme .interview-footnote {
+            border-left-color: var(--dark-accent);
+            color: var(--dark-text-soft);
+        }
+
         @media (max-width: 768px) {
             .spotlight-layout {
                 grid-template-columns: 1fr;
@@ -285,14 +288,8 @@
 
         body.dark-theme .quick-facts-text {
             border-left-color: var(--dark-accent);
-        }
-
-        /* dark theme */
-        body.dark-theme .quick-facts-text {
-            border-left-color: var(--dark-accent);
             color: var(--dark-text);
         }
-
     </style>
 </head>
 <body>
@@ -320,11 +317,11 @@
 
         <div class="spotlight-layout">
             <div class="interview-header">
-                <h1 class="interview-title">The Engineer Behind the Code</h1>
-                <h2 class="interview-subtitle">On building systems she actually wants to use, finding the love of her life in AI, and why she can tell the difference between an ML engineer and someone who just calls an API</h2>
+                <h1 class="interview-title">She Builds What She Wishes Existed</h1>
+                <h2 class="interview-subtitle">On building intelligent systems from scratch, finishing a degree during one of the hardest years of her life, and why calling an API is not, in her view, engineering</h2>
                 <div class="interview-meta">
                     <div class="interviewer">Interview by The Portfolio Magazine</div>
-                    <div class="interview-date">July 2026</div>
+                    <div class="interview-date">Aug 2026</div>
                 </div>
             </div>
 
@@ -333,71 +330,77 @@
                 <div class="interview-content">
 
                     <p class="interview-introduction" style="font-family: var(--font-sans); font-size: 1.1rem; line-height: 1.7; margin-bottom: 2rem;">
-                        Susana Loureiro doesn't build things to fill a portfolio. She builds them because they fix a real problem — usually one of hers. Precise about what she is and what she isn't, she is not particularly interested in pretending otherwise.
+                        Susana Loureiro has a rule, more of a reflex, really: if she doesn't understand how something works under the hood, she doesn't feel like she's built anything at all. It's a stance that costs her time and earns her depth. At 22, she's already shipping projects that solve problems she actually has — a personal AI stylist, a compatibility model trained from scratch, an agentic assistant for a life that's about to get much busier. She is precise about the difference between building and borrowing. And she is not particularly interested in pretending it's the same thing.
                     </p>
 
-                    <div class="interview-question">How would you describe the kind of engineer you are?</div>
+                    <div class="interview-question">her. came from a very specific want — you wished you had a personal stylist. What does it actually feel like to use it now that it exists?</div>
                     <div class="interview-answer">
-                        The kind that doesn't do something just because. If I build something, it's because it matters — not because it looks good on a CV, not because it makes money. It has to fix a real problem or solve something I actually care about.
-                    </div>
-
-                    <div class="interview-question">Your projects are very specific — they come from a real place. Where do the ideas come from?</div>
-                    <div class="interview-answer">
-                        From things I like or problems I have. The people-counting project was a company need, but the fashion projects came from me. I always wished I had a personal stylist — someone to just tell me what to wear when I'm not in the mood to figure it out, which is almost all the time. So I built one. Others come from wanting to experiment with things I'm drawn to. For example, I built a music generation project for exactly the same reason.
+                        It's so awesome. I'm genuinely amazed every time, which is a strange thing to say about something you built yourself. But sometimes I can't believe that a machine can do something like that. Just... sometimes machines feel like a human's best friend. In the same way dogs are. They just help you in ways that feel almost personal.
                     </div>
 
                     <div class="interview-quote">
-                        I always wished I had a personal stylist. So I built one.
+                        Sometimes I can't believe that a machine can do something like that. They feel like a human's best friend — the same way dogs are.
                     </div>
 
-                    <div class="interview-question">At what point did you know ML and AI was yours?</div>
+                    <div class="interview-question">stylist. — the compatibility model underneath her. — you built from scratch. Siamese network, triplet loss, hard negative mining. Most people would've just called an API. What makes you unable to do that?</div>
                     <div class="interview-answer">
-                        I'm not sure there was a point. I just always knew. I got into the area through AWS certifications — I chose the AI ones because something about that direction appealed to me, even if I couldn't fully explain it at the time. I followed the instinct and never questioned it.
+                        Stubbornness, honestly. But also — I genuinely don't think any model out there right now performs well on fashion. Not really. The space hasn't been solved. I'm not saying mine has solved it either, but it's getting there. I'm making sure it gets there. Calling someone else's API and putting my name on the result doesn't feel like engineering to me. If I don't know what's happening underneath, I haven't built anything — I'm just using someone else's work.
                     </div>
 
-                    <div class="interview-question">You go deep — building transformers from scratch rather than just using pre-built models. Why?</div>
+                    <div class="interview-footnote">
+                        For context: a siamese network learns by comparing pairs of inputs — in this case, garments — and deciding whether they belong together. Triplet loss trains the model by showing it a compatible pair and an incompatible one simultaneously, pulling the compatible pair closer in the embedding space and pushing the incompatible one away. It's a technically exacting way to teach a model something as subjective as taste.
+                    </div>
+
+                    <div class="interview-question">You finished your degree at ISEP while building her., stylist., and completing an internship — all at the same time. How?</div>
                     <div class="interview-answer">
-                        Because I want to understand how things work under the hood. Calling an API doesn't feel like engineering to me. If I don't know what's happening underneath, I'm not building anything — I'm just using someone else's work.
+                        Honestly, I'm not sure I fully know. It was a complicated year. But I think the thing about me is that I used to be the kind of person who only did the coursework and nothing else. I quit the gym — like most people do, I think. If it wasn't on the syllabus, I wasn't going to follow through. So the fact that I managed all of this alongside the degree surprised even me. In a good way.
                     </div>
 
                     <div class="interview-quote">
-                        I like building systems. I love building intelligent ones.
+                        I used to quit everything that wasn't on the syllabus. The gym, side projects, everything. So finishing all of this surprised even me.
                     </div>
 
-                    <div class="interview-question">You talk about building intelligent systems, not just automated ones. What's the difference to you?</div>
+                    <div class="interview-question">You got three AWS certifications in AI and ML while doing all of that. Who were you trying to prove something to?</div>
                     <div class="interview-answer">
-                        I believe machines can be our little assistants in the same way dogs are a human's best friend — helping us in ways that are more technical, more precise, but just as useful. An automated system just executes. An intelligent system understands. That distinction is why I do this.
+                        Myself. That's it. I chose the AI certifications because that's the direction I wanted to go — I followed the instinct before I could fully explain it. And then finishing them while balancing everything else... that was the proof I needed that I could actually do this. Not for a CV. For me.
                     </div>
 
-                    <div class="interview-question">Where do you want to be in a few years?</div>
+                    <div class="interview-question">Who is her. for, ultimately? Who do you picture using it?</div>
                     <div class="interview-answer">
-                        Full ML/AI engineer. And building towards making her. an actual product rather than a spare project. That's the long-term goal — being the CEO of something that started because I had a problem and decided to solve it. I'm not in a rush, but I'm not not thinking about it either.
+                        Me, first. But also women in general. A teenage girl figuring out her style. A mom who wants to feel good every day and doesn't have time to think about it. The want is universal — I just happened to be the one who couldn't wait for someone else to build it.
+                    </div>
+
+                    <div class="interview-question">You have a new project — core. — which is a different kind of ambition. Tell me about it.</div>
+                    <div class="interview-answer">
+                        core. is my own personal assistant. Agentic AI — it has access to my week, my tasks, everything, and I can actually interact with it. It came from the fact that I'm about to be one of the busiest people I know: a master's degree on top of a full-time job. I tried a paperback planner. I tried Obsidian, all the second-brain apps. None of them felt mine. I'd use them for a day and then leave them collecting dust in the corner. A few weeks ago I had the chance to work with agentic AI and I thought — why not build the thing I actually want?
+                    </div>
+
+                    <div class="interview-quote">
+                        I tried every planner, every app. I'd use them for a day and leave them collecting dust. So I built the one that actually feels mine.
+                    </div>
+
+                    <div class="interview-question">There's a version of you that people might see from the outside — the certifications, the projects, the degree — and assume it came easily. Did it?</div>
+                    <div class="interview-answer">
+                        No. And I think that's important to say. I'm not a vibe coder who wraps an API call and calls it an ML project. The things I do take time and deliberateness. I care about understanding what's underneath. That's not always the fastest route. But it's the only one that feels honest to me. I want people to walk away understanding that my projects aren't just portfolio pieces. They exist because I either care about the problem or I need to understand something. I'm an engineer. I'm a builder. That's the whole thing.
                     </div>
 
                 </div>
 
-                <!-- Right column: photo placeholder + quick facts -->
+                <!-- Right column: photo + quick facts -->
                 <div class="profile-column">
                     <div class="profile-image-container">
-                        <!--<div class="profile-image-placeholder">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
-                            <p>Portrait coming soon</p>
-                        </div>-->
                         <img
-                                src="/docs/cv/fotos.jpg"
+                                src="/docs/cv/img/fotos.jpg"
                                 alt="Susana Loureiro, ML/AI Engineer"
                                 style="width: 100%; display: block;"
                         />
                     </div>
-                    <p class="profile-caption">Susana Loureiro, Porto. July 2026.</p>
-                    <!--<p class="profile-caption">Susana Loureiro at her desk in Porto, between systems and ideas. July 2026.</p>-->
+                    <p class="profile-caption">Susana Loureiro, Porto. Aug 2026.</p>
 
                     <div class="profile-sidebar">
                         <h3 class="sidebar-heading">Quick Facts</h3>
                         <div class="quick-facts-text">
-                            Machine Learning & AI Engineer based in Porto, Portugal. BSc in Informatics Engineering from ISEP. Fluent in Portuguese and English.
+                            Machine Learning & AI Engineer based in Porto, Portugal. BSc in Informatics Engineering from ISEP. AWS Certified in AI, ML, and Solutions Architecture. Fluent in Portuguese and English.
                         </div>
                     </div>
 

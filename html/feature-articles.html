@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,10 +7,15 @@
     <title>Feature Articles | Susana Loureiro</title>
     <link rel="icon" type="image/png" href="images/favicon.png">
     <link rel="stylesheet" href="../css/style.css">
+
+    ```
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+
     <style>
         /* ── Magazine Header ── */
         .magazine-header {
@@ -17,19 +23,23 @@
             padding-bottom: 1rem;
             border-bottom: 1px solid var(--light-divider);
         }
+
         .issue-info {
             display: flex;
             align-items: center;
             gap: 1rem;
             margin-bottom: 0.5rem;
         }
+
         .volume, .issue {
             font-family: var(--font-sans);
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: var(--letter-spacing-loose);
         }
+
         .separator { color: var(--light-accent); }
+
         .page-title {
             font-family: var(--font-serif-display);
             font-size: 1.2rem;
@@ -42,12 +52,12 @@
             font-family: var(--font-serif-body);
             font-size: 1.2rem;
             line-height: 1.6;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
             max-width: 800px;
         }
 
         /* ── Section label ── */
-        .section-label {
+        .feature-section-label {
             font-family: var(--font-sans);
             font-size: 0.75rem;
             text-transform: uppercase;
@@ -58,112 +68,65 @@
             align-items: center;
             gap: 1rem;
         }
-        .section-label::after {
+
+        .feature-section-label::after {
             content: '';
             flex: 1;
             height: 1px;
             background: var(--light-divider);
         }
-        body.dark-theme .section-label::after { background: var(--dark-divider); }
 
-        /* ── Series block (her. + curate.) ── */
+        body.dark-theme .feature-section-label::after {
+            background: var(--dark-divider);
+        }
+
+        /* ── her. series ── */
         .series-block {
-            margin-bottom: 4rem;
-            padding-bottom: 3rem;
-            border-bottom: 1px solid var(--light-divider);
+            margin-bottom: 5rem;
         }
-        body.dark-theme .series-block { border-bottom-color: var(--dark-divider); }
 
-        .series-header {
+        .series-eyebrow {
+            font-family: var(--font-sans);
+            font-size: 0.68rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--light-text-soft);
             display: flex;
-            align-items: baseline;
-            gap: 1rem;
-            margin-bottom: 0.4rem;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
         }
-        .series-name {
-            font-family: var(--font-serif-display);
-            font-size: 0.85rem;
-            font-style: italic;
-            color: var(--light-accent-dark);
-        }
-        .series-divider {
+
+        .series-eyebrow::before {
+            content: '';
+            display: block;
+            width: 24px;
             height: 1px;
-            width: 40px;
             background: var(--light-accent);
-            display: inline-block;
-            vertical-align: middle;
             opacity: 0.5;
         }
-        .series-tagline {
-            font-family: var(--font-sans);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: var(--letter-spacing-loose);
-            color: var(--light-text-soft);
-        }
 
-        /* Two-up layout for series */
-        .series-grid {
+        .her-series-grid {
             display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            gap: 3rem;
+            grid-template-columns: 1.4fr 1fr 1fr;
+            gap: 2.5rem;
             align-items: start;
         }
 
-        /* ── Featured Article ── */
-        .article-featured {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
+        .her-series-card {
+            display: flex;
+            flex-direction: column;
         }
 
-        .article-featured--hero {
-            grid-template-columns: 1.2fr 0.8fr;
-            align-items: start;
-        }
-        .article-image--hero {
-            aspect-ratio: 4/3;
-            height: 100%;
-        }
-        .article-category {
-            font-family: var(--font-sans);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: var(--letter-spacing-loose);
-            color: var(--light-accent);
-            margin-bottom: 0.4rem;
-            margin-top: 0.8rem;
-        }
-        body.dark-theme .article-category { color: var(--dark-accent); }
-
-        .article-title {
-            font-family: var(--font-serif-display);
-            font-size: 2.6rem;
-            line-height: 1.15;
-            margin-bottom: 0.6rem;
-        }
-        .article-subtitle {
-            font-family: var(--font-serif-body);
-            font-size: 1.1rem;
-            font-style: italic;
-            color: var(--light-text-soft);
-            margin-bottom: 1.2rem;
-        }
-        .article-excerpt {
-            font-family: var(--font-serif-body);
-            font-size: 1.05rem;
-            line-height: 1.65;
-            margin-bottom: 1.5rem;
-        }
-        .article-excerpt p + p { margin-top: 0.9rem; }
-
-        .article-image {
+        .her-series-card .article-image {
             width: 100%;
-            aspect-ratio: 4/3;
+            aspect-ratio: 4 / 3;
             overflow: hidden;
             position: relative;
+            margin-bottom: 1rem;
         }
-        .article-image img {
+
+        .her-series-card .article-image img {
             position: absolute;
             inset: 0;
             width: 100%;
@@ -171,23 +134,90 @@
             object-fit: cover;
             transition: transform 0.5s ease;
         }
-        .article-featured:hover .article-image img { transform: scale(1.04); }
 
+        .her-series-card:hover .article-image img {
+            transform: scale(1.04);
+        }
+
+        .her-series-main .article-title {
+            font-size: 2.7rem;
+            line-height: 1.05;
+        }
+
+        .her-series-companion .article-title {
+            font-size: 2rem;
+            line-height: 1.1;
+        }
+
+        .article-category {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: var(--letter-spacing-loose);
+            color: var(--light-accent);
+            margin-bottom: 0.4rem;
+        }
+
+        body.dark-theme .article-category {
+            color: var(--dark-accent);
+        }
+
+        .article-title {
+            font-family: var(--font-serif-display);
+            margin-bottom: 0.6rem;
+        }
+
+        .article-subtitle {
+            font-family: var(--font-serif-body);
+            font-style: italic;
+            color: var(--light-text-soft);
+            margin-bottom: 1rem;
+            line-height: 1.45;
+        }
+
+        .her-series-main .article-subtitle {
+            font-size: 1.05rem;
+        }
+
+        .her-series-companion .article-subtitle {
+            font-size: 0.95rem;
+        }
+
+        .article-excerpt {
+            font-family: var(--font-serif-body);
+            line-height: 1.65;
+            margin-bottom: 1.2rem;
+        }
+
+        .her-series-main .article-excerpt {
+            font-size: 1rem;
+        }
+
+        .her-series-companion .article-excerpt {
+            font-size: 0.92rem;
+        }
+
+        /* ── Tags ── */
         .article-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1.4rem;
+            gap: 0.45rem;
+            margin-bottom: 1.2rem;
         }
+
         .article-tag {
             font-family: var(--font-sans);
-            font-size: 0.78rem;
-            padding: 0.25rem 0.75rem;
+            font-size: 0.72rem;
+            padding: 0.22rem 0.65rem;
             background-color: var(--light-bg-alt);
             border-radius: 20px;
         }
-        body.dark-theme .article-tag { background-color: var(--dark-bg-alt); }
 
+        body.dark-theme .article-tag {
+            background-color: var(--dark-bg-alt);
+        }
+
+        /* ── Read more ── */
         .read-more {
             font-family: var(--font-serif-display);
             font-style: italic;
@@ -197,135 +227,75 @@
             gap: 0.5rem;
             transition: gap 0.3s ease;
         }
+
         .read-more:hover { gap: 0.85rem; }
-        body.dark-theme .read-more { color: var(--dark-accent-light); }
 
-        /* Make deep learning cards actually smaller */
-
-        .article-columns--compact {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 420px));
-            justify-content: center;
-            gap: 2rem;
-
-            /* THIS is key */
-            align-items: stretch;
+        body.dark-theme .read-more {
+            color: var(--dark-accent-light);
         }
 
-        /* Reduce image height */
-        .article-columns--compact .article-image {
-            aspect-ratio: 2.2 / 1; /* shorter images */
-        }
-
-        /* Reduce typography slightly */
-        .article-columns--compact .article-title {
-            font-size: 1.5rem;
-        }
-
-        .article-columns--compact .article-subtitle {
-            font-size: 0.95rem !important;
-        }
-
-        .article-columns--compact .article-excerpt {
-            font-size: 0.95rem;
-        }
-
-        /* Reduce spacing */
-        .article-columns--compact .article {
-            gap: 0.75rem;
-        }
-
-        /* Reduce title size more */
-        .article-columns--compact .article-title {
-            font-size: 1.45rem;
-        }
-
-        /* Reduce subtitle */
-        .article-columns--compact .article-subtitle {
-            font-size: 0.9rem !important;
-        }
-
-        /* Reduce body text slightly */
-        .article-columns--compact .article-excerpt {
-            font-size: 0.92rem;
-        }
-
-        /* Reduce tag size */
-        .article-columns--compact .article-tag {
-            font-size: 0.68rem;
-            padding: 0.2rem 0.55rem;
-        }
-
-        /* ── Companion article (curate.) ── */
-        .companion-article {
-            border-left: 1px solid var(--light-divider);
-            padding-left: 2.5rem;
-        }
-        body.dark-theme .companion-article { border-left-color: var(--dark-divider); }
-
+        /* ── Companion label ── */
         .companion-label {
             font-family: var(--font-sans);
-            font-size: 0.72rem;
+            font-size: 0.64rem;
             text-transform: uppercase;
-            letter-spacing: var(--letter-spacing-loose);
+            letter-spacing: 0.15em;
             color: var(--light-text-soft);
-            margin-bottom: 1.2rem;
+            margin-bottom: 0.45rem;
             opacity: 0.7;
         }
-        .companion-article .article-title {
-            font-size: 2rem;
-        }
-        .companion-article .article-image {
-            aspect-ratio: 3/2;
-            margin-bottom: 1.2rem;
-        }
-        /* placeholder image for curate. */
-        .curate-placeholder {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #f0ece6 0%, #e4ddd4 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--font-serif-display);
-            font-style: italic;
-            font-size: 2.5rem;
-            color: #c4b9a8;
-            letter-spacing: 0.05em;
-        }
-        body.dark-theme .curate-placeholder {
-            background: linear-gradient(135deg, #2a2620 0%, #1e1c18 100%);
-            color: #4a4438;
-        }
 
-        /* ── Hero featured article ── */
-        .article-featured--hero {
-            display: grid;
-            grid-template-columns: 1.3fr 0.7fr;
-            gap: 3rem;
-            align-items: start;
-        }
-        .article-image--hero { aspect-ratio: 4/3; }
-        .article-title--hero { font-size: 3.5rem !important; }
-        .article-featured-body { display: flex; flex-direction: column; }
-
-        /* ── Three-column grid ── */
-        .article-columns {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 2.5rem;
+        /* ── Systems ── */
+        .systems-section {
             margin-bottom: 4rem;
         }
 
-        .article {
+        .systems-grid {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.2rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+            align-items: start;
         }
-        .article .article-title { font-size: 1.9rem; }
-        .article .article-image {
-            aspect-ratio: 16/9;
+
+        .system-card {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .system-card .article-image {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .system-card .article-image img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .system-card:hover .article-image img {
+            transform: scale(1.04);
+        }
+
+        .system-card .article-title {
+            font-family: var(--font-serif-display);
+            font-size: 1.9rem;
+            line-height: 1.1;
             margin-bottom: 0.5rem;
+        }
+
+        .system-card .article-subtitle {
+            font-size: 0.95rem;
+        }
+
+        .system-card .article-excerpt {
+            font-size: 0.92rem;
         }
 
         /* ── Bachelor projects drawer ── */
@@ -344,7 +314,9 @@
             border-bottom: 1px solid var(--light-divider);
             transition: opacity 0.2s ease;
         }
+
         .bachelors-toggle:hover { opacity: 0.7; }
+
         body.dark-theme .bachelors-toggle {
             border-color: var(--dark-divider);
         }
@@ -356,17 +328,20 @@
             letter-spacing: var(--letter-spacing-loose);
             flex: 1;
         }
+
         .toggle-sub {
             font-family: var(--font-serif-display);
             font-style: italic;
             font-size: 0.9rem;
             color: var(--light-text-soft);
         }
+
         .toggle-icon {
             font-size: 1rem;
             transition: transform 0.35s ease;
             color: var(--light-text-soft);
         }
+
         .bachelors-toggle.open .toggle-icon {
             transform: rotate(180deg);
         }
@@ -376,12 +351,15 @@
             grid-template-rows: 0fr;
             transition: grid-template-rows 0.4s ease;
         }
+
         .bachelors-drawer.open {
             grid-template-rows: 1fr;
         }
+
         .bachelors-drawer-inner {
             overflow: hidden;
         }
+
         .bachelors-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -389,7 +367,6 @@
             padding: 2.5rem 0;
         }
 
-        /* Compact bachelor card */
         .bachelor-card {
             display: flex;
             flex-direction: column;
@@ -397,16 +374,22 @@
             padding-bottom: 1rem;
             border-bottom: 1px solid var(--light-divider);
         }
-        body.dark-theme .bachelor-card { border-color: var(--dark-divider); }
+
+        body.dark-theme .bachelor-card {
+            border-color: var(--dark-divider);
+        }
 
         .bachelor-card-image {
             width: 100%;
-            aspect-ratio: 16/9;
+            aspect-ratio: 16 / 9;
             overflow: hidden;
             position: relative;
             background: var(--light-bg-alt);
         }
-        body.dark-theme .bachelor-card-image { background: var(--dark-bg-alt); }
+
+        body.dark-theme .bachelor-card-image {
+            background: var(--dark-bg-alt);
+        }
 
         .bachelor-card-image img {
             position: absolute;
@@ -417,6 +400,7 @@
             filter: grayscale(20%);
             transition: filter 0.3s ease, transform 0.4s ease;
         }
+
         .bachelor-card:hover .bachelor-card-image img {
             filter: grayscale(0%);
             transform: scale(1.04);
@@ -429,22 +413,26 @@
             letter-spacing: var(--letter-spacing-loose);
             color: var(--light-text-soft);
         }
+
         .bachelor-card-title {
             font-family: var(--font-serif-display);
             font-size: 1.25rem;
             line-height: 1.25;
         }
+
         .bachelor-card-excerpt {
             font-family: var(--font-serif-body);
             font-size: 0.9rem;
             line-height: 1.55;
             color: var(--light-text-soft);
         }
+
         .bachelor-card-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 0.35rem;
         }
+
         .bachelor-card-tag {
             font-family: var(--font-sans);
             font-size: 0.7rem;
@@ -452,7 +440,10 @@
             background-color: var(--light-bg-alt);
             border-radius: 20px;
         }
-        body.dark-theme .bachelor-card-tag { background-color: var(--dark-bg-alt); }
+
+        body.dark-theme .bachelor-card-tag {
+            background-color: var(--dark-bg-alt);
+        }
 
         .bachelor-read-more {
             font-family: var(--font-serif-display);
@@ -465,34 +456,61 @@
             transition: gap 0.25s ease;
             margin-top: auto;
         }
-        .bachelor-read-more:hover { gap: 0.7rem; }
-        body.dark-theme .bachelor-read-more { color: var(--dark-accent-light); }
 
-        /* ── Dark theme adjustments ── */
-        body.dark-theme .magazine-header { border-bottom-color: var(--dark-divider); }
-        body.dark-theme .separator { color: var(--dark-accent); }
-        body.dark-theme .series-block { border-bottom-color: var(--dark-divider); }
+        .bachelor-read-more:hover { gap: 0.7rem; }
+
+        body.dark-theme .bachelor-read-more {
+            color: var(--dark-accent-light);
+        }
 
         /* ── Responsive ── */
-        @media (max-width: 1100px) {
-            .article-columns { grid-template-columns: 1fr 1fr; }
-        }
-        @media (max-width: 900px) {
-            .article-featured--hero { grid-template-columns: 1fr; }
-            .article-columns { grid-template-columns: 1fr; }
-            .bachelors-grid { grid-template-columns: 1fr 1fr; }
-        }
-        @media (max-width: 600px) {
-            .bachelors-grid { grid-template-columns: 1fr; }
+        @media (max-width: 1000px) {
+            .her-series-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .her-series-main {
+                grid-column: 1 / -1;
+            }
+
+            .systems-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
-        .article-columns .article{
-            display: grid;
-            grid-template-rows: subgrid;
-            grid-row: span 2;
+        @media (max-width: 800px) {
+            .her-series-grid,
+            .systems-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .her-series-main {
+                grid-column: auto;
+            }
+
+            .bachelors-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .bachelors-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .articles-intro {
+                font-size: 1.1rem;
+            }
+
+            .her-series-main .article-title {
+                font-size: 2.3rem;
+            }
         }
     </style>
+    ```
+
 </head>
+
 <body>
 <div class="cursor"></div>
 <div class="page-transition"></div>
@@ -506,6 +524,7 @@
 <main class="editorial-layout">
     <section id="feature-articles" class="section-feature-articles active">
 
+        ```
         <div class="magazine-header">
             <div class="issue-info">
                 <span class="volume">Vol. I</span>
@@ -516,47 +535,54 @@
         </div>
 
         <div class="articles-intro">
-            <p>A curated collection of projects and case studies that demonstrate my approach to machine learning engineering, artificial intelligence, and system design. Each article explores the challenges, solutions, and insights gained throughout the development process.</p>
+            <p>
+                A curated collection of projects and case studies that demonstrate my approach
+                to machine learning engineering, artificial intelligence, and system design.
+                Each article explores the challenges, solutions, and insights gained throughout
+                the development process.
+            </p>
         </div>
 
-        <!-- ─── Personal Projects ─── -->
-        <!--<div class="section-label">Personal Projects</div>-->
+        <!-- ─── The her. series ─── -->
 
-        <!-- her. — full spotlight -->
+        <div class="feature-section-label">The her. series</div>
+
         <div class="series-block">
-            <article class="article-featured article-featured--hero">
-                <div class="article-featured-body">
-                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.4rem; margin-top: 0.8rem;">
-                        <div class="article-category" style="margin: 0;">Machine Learning</div>
 
-                        <!-- REMOVE THIS LATER ON -->
-                        <span style="
-                            font-family: var(--font-sans);
-                            font-size: 0.72rem;
-                            text-transform: uppercase;
-                            letter-spacing: var(--letter-spacing-loose);
-                            color: var(--light-bg-alt);
-                            background-color: var(--light-accent);
-                            padding: 0.2rem 0.6rem;
-                            border-radius: 20px;
-                            display: inline-flex;
-                            align-items: center;
-                            gap: 0.35rem;
-                        ">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                        </svg>
-                        In development
-                        </span>
+            <div class="series-eyebrow">
+                A family of products built around learned outfit compatibility
+            </div>
 
+            <div class="her-series-grid">
+
+                <!-- her. -->
+
+                <article class="her-series-card her-series-main">
+                    <div class="article-image">
+                        <img src="../images/projects/her_.png" alt="her. AI Personal Stylist">
                     </div>
-                    <h2 class="article-title article-title--hero">her.</h2>
-                    <div class="article-subtitle">An intelligent fashion assistant powered by a custom outfit compatibility model</div>
+
+                    <div class="article-category">Machine Learning · Full-Stack</div>
+                    <h2 class="article-title">her.</h2>
+
+                    <div class="article-subtitle">
+                        An intelligent fashion assistant powered by a custom outfit compatibility model
+                    </div>
+
                     <div class="article-excerpt">
-                        <p>her. is a machine learning project that serves as a personal AI stylist, leveraging my custom-trained compatibility model, stylist., to analyse fashion preferences and provide personalised outfit recommendations. The application combines computer vision and natural language processing to understand user style and suggest clothing combinations.</p>
-                        <p>Built with modern web technologies and AI frameworks, this project explores the intersection of fashion, technology, and personal expression through intelligent recommendations driven by learned outfit compatibility.</p>
+                        <p>
+                            her. is a machine learning project that serves as a personal AI stylist,
+                            leveraging my custom-trained compatibility model, stylist., to analyse
+                            fashion preferences and provide personalised outfit recommendations.
+                        </p>
+
+                        <p style="margin-top:0.9rem;">
+                            The application combines computer vision and natural language processing
+                            to understand user style and suggest clothing combinations, exploring the
+                            intersection of fashion, technology, and personal expression.
+                        </p>
                     </div>
+
                     <div class="article-tags">
                         <span class="article-tag">Python</span>
                         <span class="article-tag">C#</span>
@@ -564,97 +590,217 @@
                         <span class="article-tag">PostgreSQL</span>
                         <span class="article-tag">AWS</span>
                     </div>
-                    <!--<a href="https://her-dot.vercel.app" class="read-more">
-                        View Project
-                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </a>-->
-                </div>
-                <div class="article-image article-image--hero">
-                    <img src="../images/projects/her_.png" alt="her. AI Personal Stylist">
-                </div>
-            </article>
-        </div>
+                </article>
 
-        <div class="article-columns">
-            <!-- stylist. -->
-            <article class="article">
-                <div class="article-image">
-                    <img src="../images/projects/stylist_.png" alt="stylist.">
-                </div>
-                <div>
+
+                <!-- stylist. -->
+
+                <article class="her-series-card her-series-companion">
+                    <div class="article-image">
+                        <img src="../images/projects/stylist_.png" alt="stylist.">
+                    </div>
+
+                    <div class="companion-label">Companion to her.</div>
                     <div class="article-category">Computer Vision · Metric Learning</div>
                     <h2 class="article-title">stylist.</h2>
-                    <div class="article-subtitle" style="font-family:var(--font-serif-body);font-style:italic;color:var(--light-text-soft);font-size:1rem;margin-bottom:0.8rem;">The compatibility model at the core of her.</div>
-                    <div class="article-excerpt">
-                        <p>A siamese network trained on human-curated Polyvore outfits to learn outfit compatibility as a metric learning problem. Items are encoded into a shared embedding space where compatible pairs are geometrically close — trained end-to-end with triplet loss and hard negative mining.</p>
+
+                    <div class="article-subtitle">
+                        The compatibility model at the core of her.
                     </div>
+
+                    <div class="article-excerpt">
+                        <p>
+                            A siamese network trained on human-curated Polyvore outfits to learn
+                            outfit compatibility as a metric learning problem. Items are encoded
+                            into a shared embedding space where compatible pairs sit geometrically close.
+                        </p>
+
+                        <p style="margin-top:0.8rem;">
+                            Trained end-to-end with triplet loss and hard negative mining.
+                        </p>
+                    </div>
+
                     <div class="article-tags">
                         <span class="article-tag">Python</span>
                         <span class="article-tag">PyTorch</span>
                         <span class="article-tag">Metric Learning</span>
-                        <span class="article-tag">Polyvore Dataset</span>
+                        <span class="article-tag">Polyvore</span>
                     </div>
-                    <a href="https://huggingface.co/spaces/susanamloureiro/stylist" class="read-more">
+
+                    <a href="https://huggingface.co/spaces/susanamloureiro/stylist"
+                       class="read-more"
+                       target="_blank"
+                       rel="noopener">
                         View Demo
-                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                            <path d="M1 8H15" stroke="currentColor" stroke-width="1.5"
+                                  stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5"
+                                  stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </a>
-                </div>
-            </article>
+                </article>
 
 
+                <!-- curate. -->
 
-            <!-- curate. -->
-            <article class="article">
-                <div class="article-image">
-                    <img src="../images/projects/curate_.png" alt="curate.">
-                </div>
-                <div>
+                <article class="her-series-card her-series-companion">
+                    <div class="article-image">
+                        <img src="../images/projects/curate_.png" alt="curate.">
+                    </div>
+
+                    <div class="companion-label">Companion to her.</div>
                     <div class="article-category">NLP · Recommendation</div>
                     <h2 class="article-title">curate.</h2>
-                    <div class="article-subtitle" style="font-family:var(--font-serif-body);font-style:italic;color:var(--light-text-soft);font-size:1rem;margin-bottom:0.8rem;">A conversational outfit recommender trained on Polyvore data</div>
-                    <div class="article-excerpt">
-                        <p>Given a garment you already own, curate. suggests what to pair it with; trained on the Polyvore dataset, treating outfit compatibility as a language modelling problem. A natural companion to her., built as a conversational interface rather than a catalogue.</p>
+
+                    <div class="article-subtitle">
+                        A conversational outfit recommender trained on Polyvore data
                     </div>
+
+                    <div class="article-excerpt">
+                        <p>
+                            Given a garment you already own, curate. suggests what to pair it with,
+                            treating outfit compatibility as a language modelling problem.
+                        </p>
+
+                        <p style="margin-top:0.8rem;">
+                            A natural companion to her., built as a conversational interface rather
+                            than a catalogue.
+                        </p>
+                    </div>
+
                     <div class="article-tags">
                         <span class="article-tag">Python</span>
                         <span class="article-tag">NLP</span>
-                        <span class="article-tag">Polyvore Dataset</span>
                         <span class="article-tag">Transformers</span>
+                        <span class="article-tag">Polyvore</span>
                     </div>
-                    <a href="https://github.com/susanamloureiro/curate." class="read-more">
-                        View Repository
-                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </a>
-                </div>
-            </article>
 
-            <!-- headsup -->
-            <article class="article">
-                <div class="article-image">
-                    <img src="../images/projects/headsup.png" alt="Real-Time People Counting System">
-                </div>
-                <div>
-                    <div class="article-category">Computer Vision · MLOps</div>
-                    <h2 class="article-title">headsup</h2>
-                    <div class="article-subtitle" style="font-family:var(--font-serif-body);font-style:italic;color:var(--light-text-soft);font-size:1rem;margin-bottom:0.8rem;">Computer vision model adapted to the workplace</div>
-                    <div class="article-excerpt">
-                        <p>An end-to-end solo-built system using YOLOv8n to count people moving through an office environment in real time: tracking entries. Surfaced through a Power BI dashboard backed by MongoDB.</p>
+                    <a href="https://github.com/susanamloureiro/curate."
+                       class="read-more"
+                       target="_blank"
+                       rel="noopener">
+                        View Repository
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                            <path d="M1 8H15" stroke="currentColor" stroke-width="1.5"
+                                  stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5"
+                                  stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                </article>
+
+            </div>
+        </div>
+
+
+        <!-- ─── Systems ─── -->
+
+        <div class="feature-section-label">Systems</div>
+
+        <div class="systems-section">
+
+            <div class="systems-grid">
+
+                <!-- core. -->
+
+                <article class="system-card">
+                    <div class="article-image">
+                        <img src="../images/projects/core_.jpg" alt="core.">
                     </div>
+
+                    <div class="article-category">
+                        Full-Stack · AI Agent · Systems
+                    </div>
+
+                    <h2 class="article-title">core.</h2>
+
+                    <div class="article-subtitle">
+                        A personal second brain with an embedded AI agent
+                    </div>
+
+                    <div class="article-excerpt">
+                        <p>
+                            core. combines an Angular planner with a C# REST API, PostgreSQL,
+                            and a Python LangChain agent with long-term vector memory.
+                            The agent can understand your planning context and create entries
+                            directly in the system.
+                        </p>
+
+                        <p style="margin-top:0.8rem;">
+                            The result is a personal AI workspace that can read, create, and
+                            reason about your week through a conversational interface.
+                        </p>
+                    </div>
+
+                    <div class="article-tags">
+                        <span class="article-tag">Python</span>
+                        <span class="article-tag">C#</span>
+                        <span class="article-tag">Angular</span>
+                        <span class="article-tag">PostgreSQL</span>
+                        <span class="article-tag">LangChain</span>
+                        <span class="article-tag">Docker</span>
+                    </div>
+                    <a href=""
+                       class="read-more"
+                       target="_blank"
+                       rel="noopener">
+                        View Architecture
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                            <path d="M1 8H15" stroke="currentColor" stroke-width="1.5"
+                                  stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5"
+                                  stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                </article>
+
+
+                <!-- headsup -->
+
+                <article class="system-card">
+                    <div class="article-image">
+                        <img src="../images/projects/headsup.png" alt="headsup">
+                    </div>
+
+                    <div class="article-category">
+                        Computer Vision · MLOps
+                    </div>
+
+                    <h2 class="article-title">headsup</h2>
+
+                    <div class="article-subtitle">
+                        Computer vision model adapted to the workplace
+                    </div>
+
+                    <div class="article-excerpt">
+                        <p>
+                            An end-to-end solo-built system using YOLOv8n to count people moving
+                            through a city environment in real time.
+                        </p>
+
+                        <p style="margin-top:0.8rem;">
+                            The resulting data is surfaced through a Power BI dashboard backed
+                            by MongoDB.
+                        </p>
+                    </div>
+
                     <div class="article-tags">
                         <span class="article-tag">Python</span>
                         <span class="article-tag">YOLOv8n</span>
                         <span class="article-tag">MongoDB</span>
                         <span class="article-tag">Power BI</span>
                     </div>
-                </div>
-            </article>
+                </article>
 
+                <!-- Future systems projects can be added here -->
 
-
+            </div>
         </div>
 
-        <!-- ─── Deep Learning Experiments ─── -->
-        <!-- ─── Deep Learning Drawer ─── -->
+
+        <!-- ─── Smaller Projects / Deep Learning ─── -->
+
         <div class="bachelors-section">
             <div class="bachelors-toggle" id="deepLearningToggle">
                 <div>
@@ -669,57 +815,100 @@
                     <div class="bachelors-grid">
 
                         <!-- LSTM -->
+
                         <div class="bachelor-card">
                             <div class="bachelor-card-image">
                                 <img src="../images/projects/lstm.png" alt="LSTM Sentiment Analyser">
                             </div>
+
                             <div class="bachelor-card-cat">NLP · Deep Learning</div>
                             <h2 class="bachelor-card-title">LSTM Sentiment Analyser</h2>
+
                             <div class="bachelor-card-excerpt">
-                                A 2-layer LSTM trained on 25,000 IMDB reviews for binary sentiment classification, achieving 80% accuracy. Built end-to-end: custom tokenisation pipeline, embedding layer, and a FastAPI serving layer. Live on Hugging Face Spaces.
+                                A 2-layer LSTM trained on 25,000 IMDB reviews for binary sentiment
+                                classification, achieving 80% accuracy. Built end-to-end with custom
+                                tokenisation, an embedding layer, and a FastAPI serving layer.
+                                Live on Hugging Face Spaces.
                             </div>
+
                             <div class="bachelor-card-tags">
                                 <span class="bachelor-card-tag">Python</span>
                                 <span class="bachelor-card-tag">PyTorch</span>
                                 <span class="bachelor-card-tag">LSTM</span>
                                 <span class="bachelor-card-tag">FastAPI</span>
                             </div>
-                            <a href="https://huggingface.co/spaces/susanamloureiro/lstm-sentiment-analyser" class="bachelor-read-more" target="_blank">
-                                Live Demo <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+                            <a href="https://huggingface.co/spaces/susanamloureiro/lstm-sentiment-analyser"
+                               class="bachelor-read-more"
+                               target="_blank"
+                               rel="noopener">
+                                Live Demo
+                                <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                                    <path d="M1 8H15" stroke="currentColor" stroke-width="1.5"
+                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5"
+                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                             </a>
                         </div>
 
-                        <!-- Transformer from Scratch -->
+
+                        <!-- Transformer -->
+
                         <div class="bachelor-card">
                             <div class="bachelor-card-image">
                                 <img src="../images/projects/transformer.png" alt="Transformer from Scratch">
                             </div>
+
                             <div class="bachelor-card-cat">NLP · Deep Learning</div>
                             <h2 class="bachelor-card-title">Transformer from Scratch</h2>
+
                             <div class="bachelor-card-excerpt">
-                                A decoder-only transformer built from first principles in PyTorch, using attention heads, positional encoding, and all. Trained on Shakespeare's complete works as a character-level generative model, producing period-plausible prose.
+                                A decoder-only transformer built from first principles in PyTorch,
+                                using attention heads, positional encoding, and all. Trained on
+                                Shakespeare's complete works as a character-level generative model,
+                                producing period-plausible prose.
                             </div>
+
                             <div class="bachelor-card-tags">
                                 <span class="bachelor-card-tag">Python</span>
                                 <span class="bachelor-card-tag">PyTorch</span>
                                 <span class="bachelor-card-tag">Transformers</span>
                                 <span class="bachelor-card-tag">Generative</span>
                             </div>
-                            <a href="https://github.com/susanamloureiro/mle-roadmap/blob/main/pytorch/week4/week4.md" class="bachelor-read-more" target="_blank">
-                                View Repository <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+                            <a href="https://github.com/susanamloureiro/mle-roadmap/blob/main/pytorch/week4/week4.md"
+                               class="bachelor-read-more"
+                               target="_blank"
+                               rel="noopener">
+                                View Repository
+                                <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                                    <path d="M1 8H15" stroke="currentColor" stroke-width="1.5"
+                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5"
+                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                             </a>
                         </div>
 
+
                         <!-- MIDI Music Generation -->
+
                         <div class="bachelor-card">
                             <div class="bachelor-card-image">
                                 <img src="../images/projects/transformer-audio.png" alt="MIDI Music Generation Transformer">
                             </div>
+
                             <div class="bachelor-card-cat">Audio · Deep Learning</div>
                             <h2 class="bachelor-card-title">MIDI Music Generation Transformer</h2>
+
                             <div class="bachelor-card-excerpt">
-                                A decoder-only transformer built from scratch in PyTorch to generate original music. Music is tokenised into a 388-token event vocabulary and the model is trained on 5,000 MIDI files to autoregressively predict the next musical event.
+                                A decoder-only transformer built from scratch in PyTorch to generate
+                                original music. Music is tokenised into a 388-token event vocabulary
+                                and the model is trained on 5,000 MIDI files to autoregressively predict
+                                the next musical event.
                             </div>
+
                             <div class="bachelor-card-tags">
                                 <span class="bachelor-card-tag">Python</span>
                                 <span class="bachelor-card-tag">PyTorch</span>
@@ -727,8 +916,18 @@
                                 <span class="bachelor-card-tag">MIDI</span>
                                 <span class="bachelor-card-tag">Generative</span>
                             </div>
-                            <a href="https://www.kaggle.com/code/susanamloureiro/transformer-audio" class="bachelor-read-more" target="_blank">
-                                View Kaggle Notebook <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+                            <a href="https://www.kaggle.com/code/susanamloureiro/transformer-audio"
+                               class="bachelor-read-more"
+                               target="_blank"
+                               rel="noopener">
+                                View Kaggle Notebook
+                                <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                                    <path d="M1 8H15" stroke="currentColor" stroke-width="1.5"
+                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5"
+                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                             </a>
                         </div>
 
@@ -737,7 +936,9 @@
             </div>
         </div>
 
-        <!-- ─── Bachelor Projects Drawer ─── -->
+
+        <!-- ─── Bachelor's Projects ─── -->
+
         <div class="bachelors-section">
             <div class="bachelors-toggle" id="bachelorsToggle">
                 <div>
@@ -752,8 +953,47 @@
                     <div class="bachelors-grid">
 
 
+                        <!-- Data Analysis & Machine Learning — Practical Projects -->
+
+                        <div class="bachelor-card">
+                            <div class="bachelor-card-image">
+                                <img src="../images/projects/energy-grid-capacity.jpg" alt="Data Analysis and Machine Learning Projects">
+                            </div>
+
+                            <div class="bachelor-card-cat">Data Analysis · Machine Learning</div>
+
+                            <h2 class="bachelor-card-title">Energy & Grid Capacity Analysis</h2>
+
+                            <div class="bachelor-card-excerpt">
+                                Data analysis and machine learning project analysing the impact of LED public lighting
+                                on distribution transformer capacity and the feasibility of allocating released power
+                                to electric vehicle charging. Extended with predictive modelling of network capacity
+                                and PTD occupancy using statistical analysis, regression, and machine learning.
+                            </div>
+
+                            <div class="bachelor-card-tags">
+                                <span class="bachelor-card-tag">Python</span>
+                                <span class="bachelor-card-tag">Pandas</span>
+                                <span class="bachelor-card-tag">Scikit-Learn</span>
+                                <span class="bachelor-card-tag">Regression</span>
+                                <span class="bachelor-card-tag">Machine Learning</span>
+                            </div>
+                            <a href="https://github.com/susanamloureiro/LEI-ANADI-2025-26-3DL-G7"
+                               class="bachelor-read-more"
+                               target="_blank"
+                               rel="noopener">
+                                View Repository
+                                <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                                    <path d="M1 8H15" stroke="currentColor" stroke-width="1.5"
+                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5"
+                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </a>
+                        </div>
 
                         <!-- Port Management System -->
+
                         <div class="bachelor-card">
                             <div class="bachelor-card-image">
                                 <img src="../images/projects/port_management_system.png" alt="Port Management System">
@@ -761,9 +1001,14 @@
 
                             <div class="bachelor-card-cat">Full-Stack Development</div>
                             <h2 class="bachelor-card-title">Port Management System</h2>
+
                             <div class="bachelor-card-excerpt">
-                                A full-stack port management application with a .NET 8 Web API backend, Entity Framework Core, PostgreSQL, and a modern Angular 18 frontend. Containerised with Docker for multi-container orchestration across development and production environments.
+                                A full-stack port management application with a .NET 8 Web API backend,
+                                Entity Framework Core, PostgreSQL, and a modern Angular 18 frontend.
+                                Containerised with Docker for multi-container orchestration across
+                                development and production environments.
                             </div>
+
                             <div class="bachelor-card-tags">
                                 <span class="bachelor-card-tag">C#</span>
                                 <span class="bachelor-card-tag">.NET 8</span>
@@ -771,50 +1016,93 @@
                                 <span class="bachelor-card-tag">Docker</span>
                                 <span class="bachelor-card-tag">PostgreSQL</span>
                             </div>
-                            <a href="https://github.com/Departamento-de-Engenharia-Informatica/LEI-SEM5-PI-2025-26-3DL-E-01" class="read-more">
-                                View Repository
-                                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                            </a>
 
+                            <a href="https://github.com/Departamento-de-Engenharia-Informatica/LEI-SEM5-PI-2025-26-3DL-E-01"
+                               class="bachelor-read-more"
+                               target="_blank"
+                               rel="noopener">
+                                View Repository
+                                <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                                    <path d="M1 8H15" stroke="currentColor" stroke-width="1.5"
+                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5"
+                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </a>
                         </div>
 
+
                         <!-- Drone Management -->
+
                         <div class="bachelor-card">
                             <div class="bachelor-card-image">
                                 <img src="../images/projects/drone-management-system.png" alt="Drone Management System">
                             </div>
+
                             <div class="bachelor-card-cat">System Architecture</div>
                             <div class="bachelor-card-title">Drone Management System</div>
-                            <div class="bachelor-card-excerpt">Java backoffice for drone multimedia shows with DDD, TDD, and a C simulation engine using processes, pipes, and shared memory.</div>
+
+                            <div class="bachelor-card-excerpt">
+                                Java backoffice for drone multimedia shows with DDD, TDD,
+                                and a C simulation engine using processes, pipes, and shared memory.
+                            </div>
+
                             <div class="bachelor-card-tags">
                                 <span class="bachelor-card-tag">Java</span>
                                 <span class="bachelor-card-tag">C</span>
                                 <span class="bachelor-card-tag">DDD</span>
                                 <span class="bachelor-card-tag">TDD</span>
                             </div>
-                            <a href="https://github.com/gabrielamoraisteixeira/isep-lapr4-project" class="bachelor-read-more" target="_blank">
-                                View Repository <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+                            <a href="https://github.com/gabrielamoraisteixeira/isep-lapr4-project"
+                               class="bachelor-read-more"
+                               target="_blank"
+                               rel="noopener">
+                                View Repository
+                                <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                                    <path d="M1 8H15" stroke="currentColor" stroke-width="1.5"
+                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5"
+                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                             </a>
                         </div>
 
+
                         <!-- Green Space -->
+
                         <div class="bachelor-card">
                             <div class="bachelor-card-image">
                                 <img src="../images/projects/green-space-management.webp" alt="Green Space Management">
                             </div>
+
                             <div class="bachelor-card-cat">Desktop Application</div>
                             <div class="bachelor-card-title">Green Space</div>
-                            <div class="bachelor-card-excerpt">JavaFX desktop system for park managers — inventory, maintenance scheduling, and resource allocation across multiple green spaces.</div>
+
+                            <div class="bachelor-card-excerpt">
+                                JavaFX desktop system for park managers — inventory,
+                                maintenance scheduling, and resource allocation across
+                                multiple green spaces.
+                            </div>
+
                             <div class="bachelor-card-tags">
                                 <span class="bachelor-card-tag">Java</span>
                                 <span class="bachelor-card-tag">JavaFX</span>
                             </div>
-                            <a href="https://github.com/francisc-o-liveira/lei-24-s2-1dp-g163" class="bachelor-read-more" target="_blank">
-                                View Repository <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M1 8H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+                            <a href="https://github.com/francisc-o-liveira/lei-24-s2-1dp-g163"
+                               class="bachelor-read-more"
+                               target="_blank"
+                               rel="noopener">
+                                View Repository
+                                <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                                    <path d="M1 8H15" stroke="currentColor" stroke-width="1.5"
+                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8 1L15 8L8 15" stroke="currentColor" stroke-width="1.5"
+                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                             </a>
                         </div>
-
-
 
                     </div>
                 </div>
@@ -823,30 +1111,35 @@
 
     </section>
 
-    <!-- Page Navigation -->
     <div class="page-navigation">
         <a href="field-notes.html" class="prev-page">← Previous</a>
         <a href="letters.html" class="next-page">Next →</a>
     </div>
 
     <div class="page-number">03</div>
+
+
 </main>
 
 <script src="../js/script.js"></script>
-<script>
-    const toggle = document.getElementById('bachelorsToggle');
-    const drawer = document.getElementById('bachelorsDrawer');
-    toggle.addEventListener('click', () => {
-        const open = drawer.classList.toggle('open');
-        toggle.classList.toggle('open', open);
-    });
 
+<script>
     const dlToggle = document.getElementById('deepLearningToggle');
     const dlDrawer = document.getElementById('deepLearningDrawer');
+
     dlToggle.addEventListener('click', () => {
         const open = dlDrawer.classList.toggle('open');
         dlToggle.classList.toggle('open', open);
     });
+
+    const bachelorsToggle = document.getElementById('bachelorsToggle');
+    const bachelorsDrawer = document.getElementById('bachelorsDrawer');
+
+    bachelorsToggle.addEventListener('click', () => {
+        const open = bachelorsDrawer.classList.toggle('open');
+        bachelorsToggle.classList.toggle('open', open);
+    });
 </script>
+
 </body>
 </html>
