@@ -1,44 +1,71 @@
-# Susana Loureiro Portfolio
+# Susana Loureiro — Portfolio
 
-An editorial magazine-inspired portfolio website showcasing my journey as a Software & AI/ML Engineer. This site presents my work, skills, and professional story through a beautifully designed, interactive magazine format.
+My personal portfolio, built from scratch with vanilla HTML, CSS, and JavaScript.
 
-## 🎨 Design Philosophy
+I’m a Software & Machine Learning Engineer based in Porto, currently finishing my BSc in Informatics Engineering at ISEP and starting an MSc in Artificial Intelligence Engineering in 2026.
 
-This portfolio embraces an editorial aesthetic inspired by high-end magazines, combining:
-- **Typography**: Elegant serif fonts (Cormorant Garamond, EB Garamond) for headlines and handwritten elements
-- **Layout**: Magazine-style grid systems with thoughtful white space
-- **Interactivity**: Smooth page transitions and subtle animations
-- **Themes**: Light and dark modes with sophisticated color palettes
-- **Navigation**: Intuitive vertical navigation with progress indicators
+The portfolio is designed as a small editorial magazine rather than a traditional developer portfolio. It collects my projects, technical work, education, and notes in a format that feels closer to a publication than a CV.
 
-## 📖 Magazine Structure
+## Structure
 
-The portfolio is organized like a magazine with the following sections:
+The site is organised into five pages:
 
-1. **Cover** - Landing page with name and title
-2. **Spotlight** (Page 1) - Personal introduction and interview-style about section
-3. **Field Notes** (Page 2) - Education, certifications, and technical skills
-4. **Feature Articles** (Page 3) - Project showcases 
-5. **Letters** (Page 4) - Contact information and professional links
+- **Cover** — introduction and entry point
+- **Spotlight** — who I am, what I work on, and the interview section
+- **Field Notes** — education, certifications, skills, and technical background
+- **Feature Articles** — projects, organised into the `her.` series, systems, smaller deep learning work, and academic projects
+- **Letters** — contact information and links
 
-## 🛠️ Technical Stack
+## Projects
 
-- **Frontend**: Vanilla HTML, CSS, JavaScript
-- **Styling**: Custom CSS with CSS Grid and Flexbox
-- **Typography**: Google Fonts + custom fonts
-- **Icons**: Custom SVG icons
-- **Deployment**: GitHub Pages
-- **Design**: Magazine editorial layout principles
+The portfolio currently includes work across:
 
-## 🎯 Key Features
+- Machine learning and recommendation systems
+- Computer vision
+- Natural language processing
+- LLMs and AI agents
+- Full-stack application development
+- Systems and backend engineering
+- Data analysis and classical machine learning
 
-- **Responsive Design**: Optimized for all device sizes
-- **Performance**: Lightweight vanilla implementation
-- **Accessibility**: Semantic HTML and proper ARIA labels
-- **SEO**: Optimized meta tags and structure
-- **Dark/Light Themes**: Toggle between sophisticated color schemes
-- **Smooth Animations**: Page transitions and interactive elements
+Some of the larger projects include:
 
-## 📝 License
+- **her.** — an AI personal stylist built around a custom outfit compatibility model
+- **stylist.** — a siamese metric-learning model for outfit compatibility
+- **curate.** — a conversational outfit recommender
+- **core.** — a personal second brain with an embedded AI agent and long-term memory
+- **headsup** — a real-time computer vision system for workplace people counting
 
-This project is open source and available under the MIT License.
+## Tech
+
+The portfolio itself is deliberately lightweight:
+
+- HTML
+- CSS
+- JavaScript
+- CSS Grid / Flexbox
+- GitHub Pages
+
+The projects featured throughout the site use a much broader stack, including Python, PyTorch, C#, Angular, PostgreSQL, Docker, AWS, LangChain, Hugging Face, and more.
+
+## Design
+
+The visual language is intentionally editorial:
+
+- Cormorant Garamond and related serif typography
+- restrained colour palette
+- generous whitespace
+- fine borders and subtle dividers
+- magazine-inspired layouts
+- light and dark themes
+- small interactions and page transitions
+
+The goal is not to make the site look like a standard software portfolio.
+
+It is meant to feel like a record of the work.
+
+## Development
+
+This is a personal project and is continuously evolving alongside the work it documents.
+
+New projects, experiments, and academic work are added as they are completed.
