@@ -7,736 +7,570 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
-
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --cream: #F5F0E8;
-      --cream-dark: #EDE7DC;
-      --border: #c8bfb0;
-      --text: #1e1a17;
-      --muted: #7a7068;
-      --accent: #7a7068;
-      --agent: #5a7a9e;
-      --font-serif: 'Cormorant Garamond', serif;
-      --font-sans: 'Montserrat', sans-serif;
+      --cream: #F5F0E8; --cream-dark: #EDE7DC; --border: #c8bfb0;
+      --text: #1e1a17; --muted: #7a7068; --agent: #5a7a9e;
+      --font-serif: 'Cormorant Garamond', serif; --font-sans: 'Montserrat', sans-serif;
     }
-
-    html, body {
-      height: 100%;
-      background: transparent;
-      font-family: var(--font-serif);
-      color: var(--text);
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ── Overlay / Modal ── */
-    .overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(30, 26, 23, 0.45);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(3px);
-    }
-
-    .overlay.active { display: flex; }
-
-    .modal {
-      background: var(--cream);
-      border: 0.5px solid var(--border);
-      width: min(92vw, 860px);
-      max-height: 90vh;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .modal-header {
-      padding: 28px 36px 20px;
-      border-bottom: 0.5px solid var(--border);
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      flex-shrink: 0;
-    }
-
-    .modal-title {
-      font-size: 22px;
-      font-weight: 300;
-      letter-spacing: 0.04em;
-    }
-
-    .modal-title span {
-      font-style: italic;
-      color: var(--muted);
-      font-size: 14px;
-      margin-left: 12px;
-      letter-spacing: 0.06em;
-    }
-
-    .modal-close {
-      font-family: var(--font-sans);
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      color: var(--muted);
-      background: none;
-      border: none;
-      cursor: pointer;
-      text-transform: uppercase;
-      transition: color 0.15s;
-      padding: 4px;
-    }
+    html, body { height: 100%; background: var(--cream); font-family: var(--font-serif); color: var(--text); -webkit-font-smoothing: antialiased; }
+    .shell { display: flex; flex-direction: column; height: 100vh; }
+    .modal-header { padding: 18px 32px 14px; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+    .modal-title { font-size: 19px; font-weight: 300; letter-spacing: 0.04em; }
+    .modal-title span { font-style: italic; color: var(--muted); font-size: 13px; margin-left: 10px; letter-spacing: 0.06em; }
+    .modal-close { font-family: var(--font-sans); font-size: 10px; letter-spacing: 0.12em; color: var(--muted); background: none; border: none; cursor: pointer; text-transform: uppercase; transition: color 0.15s; }
     .modal-close:hover { color: var(--text); }
-
-    /* ── Tabs ── */
-    .tabs {
-      display: flex;
-      gap: 0;
-      padding: 0 36px;
-      border-bottom: 0.5px solid var(--border);
-      flex-shrink: 0;
-    }
-
-    .tab {
-      font-family: var(--font-sans);
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--muted);
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 14px 0;
-      margin-right: 28px;
-      border-bottom: 1px solid transparent;
-      transition: color 0.15s, border-color 0.15s;
-    }
-
-    .tab.active {
-      color: var(--text);
-      border-bottom-color: var(--text);
-    }
-
-    .tab:hover { color: var(--text); }
-
-    /* ── Deploy toggle ── */
-    .deploy-toggle {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 14px 36px;
-      border-bottom: 0.5px solid var(--border);
-      flex-shrink: 0;
-    }
-
-    .deploy-toggle-label {
-      font-family: var(--font-sans);
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .toggle-pill {
-      display: flex;
-      border: 0.5px solid var(--border);
-      overflow: hidden;
-    }
-
-    .toggle-pill button {
-      font-family: var(--font-sans);
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 6px 14px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--muted);
-      transition: background 0.15s, color 0.15s;
-    }
-
-    .toggle-pill button.active {
-      background: var(--text);
-      color: var(--cream);
-    }
-
-    /* ── Diagram area ── */
-    .diagram-area {
-      overflow-y: auto;
-      flex: 1;
-      padding: 32px 36px 36px;
-    }
-
+    .deploy-toggle { display: flex; align-items: center; gap: 10px; padding: 10px 32px; border-bottom: 0.5px solid var(--border); flex-shrink: 0; }
+    .deploy-toggle-label { font-family: var(--font-sans); font-size: 9px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--muted); }
+    .toggle-pill { display: flex; border: 0.5px solid var(--border); }
+    .toggle-pill button { font-family: var(--font-sans); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 13px; background: none; border: none; cursor: pointer; color: var(--muted); transition: background 0.15s, color 0.15s; }
+    .toggle-pill button.active { background: var(--text); color: var(--cream); }
+    .diagram-area { overflow-y: auto; flex: 1; padding: 20px 32px 24px; position: relative; }
     .diagram-panel { display: none; }
     .diagram-panel.active { display: block; }
+    .diag-svg { width: 100%; height: auto; display: block; }
 
-    /* ── Tooltip ── */
-    .tooltip {
-      position: fixed;
-      background: var(--text);
-      color: var(--cream);
-      font-family: var(--font-serif);
-      font-size: 13px;
-      font-weight: 400;
-      line-height: 1.5;
-      padding: 10px 14px;
-      max-width: 240px;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.15s;
-      z-index: 9999;
-      letter-spacing: 0.01em;
-    }
+    /* Current deployment */
+    .server-box { fill: rgba(200,191,176,0.08); stroke: var(--border); stroke-width: 0.75; stroke-dasharray: 5 3; }
+    .server-label { font-family: var(--font-sans); font-size: 7.5px; fill: var(--muted); letter-spacing: 0.13em; text-transform: uppercase; }
+    .node-box { fill: var(--cream-dark); stroke: var(--border); stroke-width: 0.5; cursor: pointer; transition: fill 0.15s; }
+    .node-box:hover { fill: #e0d9cf; }
+    .node-box.agent-col { stroke: var(--agent); }
+    .node-box.agent-col:hover { fill: #dde5ee; }
+    .node-label { font-family: var(--font-serif); font-size: 12.5px; font-weight: 400; fill: #1e1a17; text-anchor: middle; dominant-baseline: middle; pointer-events: none; }
+    .node-sub { font-family: var(--font-sans); font-size: 7px; fill: #7a7068; text-anchor: middle; dominant-baseline: middle; pointer-events: none; letter-spacing: 0.08em; text-transform: uppercase; }
 
+    .arrow { stroke: #c8bfb0; stroke-width: 0.75; fill: none; }
+    .arrow.agent { stroke: var(--agent); }
+    .arrow-label { font-family: var(--font-sans); font-size: 7px; fill: #9a8f82; text-anchor: middle; letter-spacing: 0.06em; }
+
+    /* User */
+    .user-stroke { stroke: #9a8f82; stroke-width: 0.75; fill: none; }
+    .user-label { font-family: var(--font-sans); font-size: 8px; fill: #7a7068; text-anchor: middle; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* AWS */
+    .group-box { fill: rgba(200,191,176,0.08); stroke: var(--border); stroke-width: 0.75; stroke-dasharray: 5 3; }
+    .group-label { font-family: var(--font-sans); font-size: 7.5px; fill: #9a8f82; letter-spacing: 0.13em; text-transform: uppercase; }
+    .flow-node { fill: var(--cream-dark); stroke: var(--border); stroke-width: 0.5; cursor: pointer; transition: fill 0.15s; }
+    .flow-node:hover { fill: #e0d9cf; }
+    .flow-node.hl { stroke: var(--agent); }
+    .flow-node.hl:hover { fill: #dde5ee; }
+    .flow-label { font-family: var(--font-serif); font-size: 12.5px; font-weight: 400; fill: #1e1a17; text-anchor: middle; dominant-baseline: middle; pointer-events: none; }
+    .flow-sub { font-family: var(--font-sans); font-size: 7px; fill: #7a7068; text-anchor: middle; dominant-baseline: middle; pointer-events: none; letter-spacing: 0.07em; text-transform: uppercase; }
+
+    .agent-overlay { display: none; position: absolute; inset: 0; background: var(--cream); z-index: 10; padding: 20px 32px 24px; overflow-y: auto; }
+    .agent-overlay.active { display: block; }
+    .agent-back { font-family: var(--font-sans); font-size: 9px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--muted); background: none; border: none; cursor: pointer; transition: color 0.15s; padding: 0; margin-bottom: 18px; display: inline-block; }
+    .agent-back:hover { color: var(--text); }
+    .diag-note { font-family: var(--font-serif); font-size: 11.5px; font-style: italic; color: var(--muted); margin-top: 12px; letter-spacing: 0.02em; }
+    .see-agent-btn { font-family: var(--font-sans); font-size: 8.5px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--agent); background: none; border: 0.5px solid var(--agent); cursor: pointer; padding: 5px 12px; transition: background 0.15s, color 0.15s; margin-top: 14px; display: inline-block; }
+    .see-agent-btn:hover { background: var(--agent); color: var(--cream); }
+    .tooltip { position: fixed; background: var(--text); color: var(--cream); font-family: var(--font-serif); font-size: 12.5px; font-weight: 400; line-height: 1.5; padding: 9px 13px; max-width: 230px; pointer-events: none; opacity: 0; transition: opacity 0.15s; z-index: 9999; }
     .tooltip.visible { opacity: 1; }
-
-    .tooltip-label {
-      font-family: var(--font-sans);
-      font-size: 9px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--border);
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    /* ── SVG diagram styles ── */
-    .diag-svg {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    /* nodes */
-    .node-box {
-      fill: var(--cream-dark);
-      stroke: var(--border);
-      stroke-width: 0.5;
-      cursor: pointer;
-      transition: fill 0.15s;
-    }
-    .node-box:hover { fill: #e4ddd3; }
-
-    .node-box.agent-color { stroke: var(--agent); }
-    .node-box.agent-color:hover { fill: #dde5ee; }
-
-    .node-label {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 13px;
-      font-weight: 400;
-      fill: #1e1a17;
-      text-anchor: middle;
-      dominant-baseline: middle;
-      pointer-events: none;
-    }
-
-    .node-sub {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 8px;
-      fill: #7a7068;
-      text-anchor: middle;
-      dominant-baseline: middle;
-      pointer-events: none;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    /* arrows */
-    .arrow {
-      stroke: var(--border);
-      stroke-width: 0.75;
-      fill: none;
-      marker-end: url(#arrowhead);
-    }
-
-    .arrow-label {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 8px;
-      fill: #9a8f82;
-      text-anchor: middle;
-      letter-spacing: 0.06em;
-    }
-
-    /* VPC / group boxes */
-    .group-box {
-      fill: none;
-      stroke: var(--border);
-      stroke-width: 0.5;
-      stroke-dasharray: 4 3;
-    }
-
-    .group-label {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 8px;
-      fill: #9a8f82;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    /* diagram 2 — agent flow vertical */
-    .flow-node {
-      fill: var(--cream-dark);
-      stroke: var(--border);
-      stroke-width: 0.5;
-      cursor: pointer;
-    }
-    .flow-node:hover { fill: #e4ddd3; }
-    .flow-node.highlight { stroke: var(--agent); }
-    .flow-node.highlight:hover { fill: #dde5ee; }
-
-    .flow-label {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 13px;
-      font-weight: 400;
-      fill: #1e1a17;
-      text-anchor: middle;
-      dominant-baseline: middle;
-      pointer-events: none;
-    }
-
-    .flow-sub {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 8px;
-      fill: #7a7068;
-      text-anchor: middle;
-      dominant-baseline: middle;
-      pointer-events: none;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-    }
-
-    .flow-arrow {
-      stroke: #c8bfb0;
-      stroke-width: 0.75;
-      fill: none;
-      marker-end: url(#arrowhead2);
-    }
-
-    .side-node {
-      fill: var(--cream-dark);
-      stroke: var(--border);
-      stroke-width: 0.5;
-      cursor: pointer;
-    }
-    .side-node:hover { fill: #e4ddd3; }
-
-    /* diagram note */
-    .diag-note {
-      font-family: var(--font-serif);
-      font-size: 12px;
-      font-style: italic;
-      color: var(--muted);
-      margin-top: 18px;
-      letter-spacing: 0.02em;
-    }
-
-    /* trigger button — for portfolio integration */
-    .arch-trigger {
-      font-family: var(--font-serif);
-      font-style: italic;
-      color: #5a6e5a;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: gap 0.3s ease;
-      padding: 0;
-    }
-    .arch-trigger:hover { gap: 0.85rem; }
-
-    /* demo page wrapper */
-    .demo-page {
-      min-height: 100vh;
-      background: var(--cream);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .demo-hint {
-      font-family: var(--font-sans);
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
+    .tooltip-label { font-family: var(--font-sans); font-size: 8.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--border); display: block; margin-bottom: 4px; }
   </style>
 </head>
+
 <body>
-<div style="display:flex; flex-direction:column; height:100vh; background:var(--cream);">
+<div class="shell">
 
   <div class="modal-header">
     <div class="modal-title">core. <span>system architecture</span></div>
+    <button class="modal-close" id="closeBtn">close</button>
   </div>
 
-  <div class="tabs">
-    <button class="tab active" onclick="switchTab(0)">system architecture</button>
-    <button class="tab" onclick="switchTab(1)">agent flow</button>
+  <div class="deploy-toggle">
+    <span class="deploy-toggle-label">infrastructure</span>
+    <div class="toggle-pill">
+      <button class="active" onclick="switchDeploy('current',this)">current</button>
+      <button onclick="switchDeploy('aws',this)">aws</button>
+    </div>
   </div>
 
-  <div class="deploy-toggle" id="deployToggle">
-      <span class="deploy-toggle-label">infrastructure</span>
-      <div class="toggle-pill">
-        <button class="active" onclick="switchDeploy('current')">current</button>
-        <button onclick="switchDeploy('aws')">aws</button>
-      </div>
-    </div>
+  <div class="diagram-area" id="diagramArea">
 
-    <div class="diagram-area">
+    <!-- ── CURRENT ── -->
+    <div class="diagram-panel active" id="deploy-current">
 
-      <!-- ── Tab 0: System Architecture ── -->
-      <div class="diagram-panel active" id="panel-0">
+      <svg class="diag-svg" viewBox="0 0 860 420" xmlns="http://www.w3.org/2000/svg">
 
-        <!-- CURRENT DEPLOY -->
-        <div id="deploy-current">
-          <svg class="diag-svg" viewBox="0 0 780 340" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L6,3 z" fill="#c8bfb0"/>
-              </marker>
-            </defs>
+        <defs>
+          <marker id="ah-current" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L6,3 z" fill="#c8bfb0"/>
+          </marker>
 
-            <!-- User -->
-            <rect class="node-box" x="20" y="140" width="100" height="52" rx="0"
-                  data-tip="user" data-desc="Susana. Only user. Interacts via the Angular frontend and via Discord DMs with the agent."/>
-            <text class="node-label" x="70" y="161">user</text>
-            <text class="node-sub" x="70" y="178">browser + discord</text>
+          <marker id="ah-current-agent" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L6,3 z" fill="#5a7a9e"/>
+          </marker>
 
-            <!-- Arrow user → frontend -->
-            <line class="arrow" x1="120" y1="166" x2="168" y2="166"/>
+          <symbol id="discord-sym-current" viewBox="0 0 24 24">
+            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.032.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z" fill="#5865F2"/>
+          </symbol>
+        </defs>
 
-            <!-- Angular frontend -->
-            <rect class="node-box" x="170" y="130" width="120" height="72" rx="0"
-                  data-tip="angular frontend" data-desc="Angular 17, standalone components. Renders the weekly planner, handles JWT auth, calls the C# API via HttpClient. Deployed on Vercel — static build, zero server."/>
-            <text class="node-label" x="230" y="157">angular</text>
-            <text class="node-label" x="230" y="173">frontend</text>
-            <text class="node-sub" x="230" y="191">vercel</text>
 
-            <!-- Arrow frontend → backend -->
-            <line class="arrow" x1="290" y1="166" x2="348" y2="166"/>
-            <text class="arrow-label" x="319" y="158">REST</text>
+        <!-- USER -->
 
-            <!-- C# backend -->
-            <rect class="node-box" x="350" y="120" width="120" height="92" rx="0"
-                  data-tip="c# backend" data-desc="ASP.NET Web API. Controller → Service → Repository. Raw SQL via Npgsql. JWT auth. The single source of truth — all writes go through here. Deployed on Render (Dockerised)."/>
-            <text class="node-label" x="410" y="152">c# backend</text>
-            <text class="node-label" x="410" y="168">api</text>
-            <text class="node-sub" x="410" y="196">render · docker</text>
+        <g data-tip="user" data-desc="The user has two entry points into the system: the web frontend and Discord." style="cursor:pointer">
 
-            <!-- Arrow backend → supabase -->
-            <line class="arrow" x1="470" y1="166" x2="538" y2="166"/>
-            <text class="arrow-label" x="504" y="158">npgsql</text>
+          <circle cx="55" cy="157" r="11" class="user-stroke"/>
+          <line x1="55" y1="168" x2="55" y2="197" class="user-stroke"/>
+          <line x1="37" y1="182" x2="73" y2="182" class="user-stroke"/>
+          <line x1="55" y1="197" x2="39" y2="217" class="user-stroke"/>
+          <line x1="55" y1="197" x2="71" y2="217" class="user-stroke"/>
 
-            <!-- Supabase -->
-            <rect class="node-box" x="540" y="130" width="110" height="72" rx="0"
-                  data-tip="supabase / postgresql" data-desc="PostgreSQL on Supabase. Tables: users, weeks, tasks, events, meetings, notes, agent_memory. pgvector extension on agent_memory for long-term semantic memory."/>
-            <text class="node-label" x="595" y="157">postgresql</text>
-            <text class="node-label" x="595" y="173">+ pgvector</text>
-            <text class="node-sub" x="595" y="191">supabase</text>
+          <text class="user-label" x="55" y="233">user</text>
 
-            <!-- Arrow agent → backend (below) -->
-            <!-- Agent -->
-            <rect class="node-box agent-color" x="350" y="270" width="120" height="52" rx="0"
-                  data-tip="python agent" data-desc="LangChain + GPT-4o. Runs in Discord (DM only). Hits the C# API via httpx — no DELETE, PATCH requires explicit confirmation. APScheduler for proactive morning briefings. Deployed on Render (always-on service)."/>
-            <text class="node-label" x="410" y="291">python agent</text>
-            <text class="node-sub" x="410" y="308">render · discord</text>
+        </g>
 
-            <!-- Arrow agent → backend -->
-            <line class="arrow" x1="410" y1="270" x2="410" y2="214"/>
-            <text class="arrow-label" x="428" y="244">httpx</text>
 
-            <!-- Arrow agent → supabase (memory) -->
-            <line class="arrow" x1="470" y1="296" x2="538" y2="230"/>
-            <text class="arrow-label" x="520" y="268">pgvector</text>
+        <!-- USER → FRONTEND -->
 
-            <!-- Discord -->
-            <rect class="node-box" x="170" y="270" width="110" height="52" rx="0"
-                  data-tip="discord" data-desc="Discord DMs. The agent's interface. Owner-only. Input guardrails run before anything reaches the LangChain agent. !briefing and !deadline as manual scheduler triggers."/>
-            <text class="node-label" x="225" y="291">discord</text>
-            <text class="node-sub" x="225" y="308">dm only</text>
+        <line class="arrow" marker-end="url(#ah-current)" x1="77" y1="157" x2="165" y2="112"/>
 
-            <!-- Arrow user → discord -->
-            <line class="arrow" x1="70" y1="192" x2="70" y2="296" />
-            <line class="arrow" x1="70" y1="296" x2="168" y2="296"/>
+        <text class="arrow-label" x="119" y="129">browser</text>
 
-            <!-- Arrow discord → agent -->
-            <line class="arrow" x1="280" y1="296" x2="348" y2="296"/>
-          </svg>
-        </div>
 
-        <!-- AWS ALTERNATIVE -->
-        <div id="deploy-aws" style="display:none">
-          <svg class="diag-svg" viewBox="0 0 780 380" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <marker id="arrowhead-aws" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L6,3 z" fill="#c8bfb0"/>
-              </marker>
-            </defs>
+        <!-- USER → DISCORD -->
 
-            <!-- VPC group box -->
-            <rect class="group-box" x="300" y="30" width="380" height="310" rx="0"/>
-            <text class="group-label" x="312" y="46">vpc</text>
+        <line class="arrow" marker-end="url(#ah-current)" x1="70" y1="219" x2="165" y2="309"/>
 
-            <!-- Public subnet label -->
-            <rect class="group-box" x="316" y="54" width="160" height="84" rx="0"/>
-            <text class="group-label" x="326" y="68">public subnet</text>
+        <text class="arrow-label" x="112" y="269">talks via</text>
 
-            <!-- Private subnet label -->
-            <rect class="group-box" x="316" y="158" width="348" height="168" rx="0"/>
-            <text class="group-label" x="326" y="172">private subnet</text>
 
-            <!-- User -->
-            <rect class="node-box" x="20" y="155" width="100" height="52" rx="0"
-                  data-tip="user" data-desc="Susana. Accesses via browser (S3/CloudFront) and Discord."/>
-            <text class="node-label" x="70" y="176">user</text>
-            <text class="node-sub" x="70" y="193">browser + discord</text>
+        <!-- SERVER 1 -->
 
-            <!-- S3 + CloudFront (public subnet) -->
-            <rect class="node-box" x="326" y="74" width="140" height="56" rx="0"
-                  data-tip="s3 + cloudfront" data-desc="Angular build deployed to S3, served globally via CloudFront CDN. Replaces Vercel. Better caching control, stays within the AWS ecosystem."/>
-            <text class="node-label" x="396" y="95">s3 + cloudfront</text>
-            <text class="node-label" x="396" y="111">frontend</text>
+        <rect class="server-box" x="165" y="55" width="185" height="120" rx="2"/>
 
-            <!-- Arrow user → cloudfront -->
-            <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#arrowhead-aws)" x1="120" y1="170" x2="324" y2="108"/>
+        <text class="server-label" x="178" y="70">server 1 · frontend</text>
 
-            <!-- C# backend EC2 (private) -->
-            <rect class="node-box" x="326" y="182" width="140" height="64" rx="0"
-                  data-tip="ec2 — c# backend" data-desc="t3.micro running the Dockerised ASP.NET API. Inside the private subnet — not publicly reachable. Only accepts traffic from within the VPC. No cold starts (vs Render free tier)."/>
-            <text class="node-label" x="396" y="205">c# backend</text>
-            <text class="node-label" x="396" y="221">api</text>
-            <text class="node-sub" x="396" y="238">ec2 t3.micro</text>
+        <g data-tip="angular frontend" data-desc="Angular 17 standalone application. Renders the weekly planner, handles JWT auth and communicates with the backend via HTTP." style="cursor:pointer">
 
-            <!-- Arrow frontend → backend -->
-            <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#arrowhead-aws)" x1="396" y1="130" x2="396" y2="180"/>
-            <text class="arrow-label" x="414" y="158">REST</text>
+          <rect class="node-box" x="185" y="87" width="145" height="68" rx="2"/>
 
-            <!-- Agent EC2 (private) -->
-            <rect class="node-box agent-color" x="326" y="272" width="140" height="44" rx="0"
-                  data-tip="ec2 — python agent" data-desc="t3.micro running the Dockerised Python agent. Private subnet, always on. Calls the C# API within the VPC over private networking — no public exposure."/>
-            <text class="node-label" x="396" y="290">python agent</text>
-            <text class="node-sub" x="396" y="307">ec2 t3.micro</text>
+          <text class="node-label" x="257" y="120">frontend</text>
+          <text class="node-sub" x="257" y="143">angular</text>
 
-            <!-- Arrow agent → backend -->
-            <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#arrowhead-aws)" x1="396" y1="272" x2="396" y2="248"/>
-            <text class="arrow-label" x="414" y="262">httpx · private</text>
+        </g>
 
-            <!-- RDS -->
-            <rect class="node-box" x="500" y="192" width="130" height="72" rx="0"
-                  data-tip="rds postgresql" data-desc="RDS PostgreSQL with the pgvector extension. Private subnet — no public endpoint. Both EC2 instances connect to it within the VPC. Replaces Supabase. More control, automated backups, no third-party dependency."/>
-            <text class="node-label" x="565" y="218">rds postgresql</text>
-            <text class="node-label" x="565" y="234">+ pgvector</text>
-            <text class="node-sub" x="565" y="252">private subnet</text>
 
-            <!-- Arrow backend → RDS -->
-            <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#arrowhead-aws)" x1="466" y1="218" x2="498" y2="228"/>
+        <!-- SERVER 2 -->
 
-            <!-- Arrow agent → RDS -->
-            <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#arrowhead-aws)" x1="466" y1="294" x2="498" y2="252"/>
+        <rect class="server-box" x="400" y="55" width="205" height="120" rx="2"/>
 
-            <!-- Discord -->
-            <rect class="node-box" x="140" y="270" width="110" height="52" rx="0"
-                  data-tip="discord" data-desc="Discord DMs. Same as current setup — unchanged. The agent inside the VPC reaches Discord outbound."/>
-            <text class="node-label" x="195" y="291">discord</text>
-            <text class="node-sub" x="195" y="308">dm only</text>
+        <text class="server-label" x="413" y="70">server 2 · backend</text>
 
-            <!-- Arrow user → discord -->
-            <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#arrowhead-aws)" x1="70" y1="207" x2="70" y2="296"/>
-            <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#arrowhead-aws)" x1="70" y1="296" x2="138" y2="296"/>
+        <g data-tip="c# backend" data-desc="ASP.NET backend. Handles application logic, JWT authentication and persistence access. The REST API is consumed by the frontend and agent." style="cursor:pointer">
 
-            <!-- Arrow discord → agent -->
-            <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#arrowhead-aws)" x1="250" y1="296" x2="324" y2="294"/>
-          </svg>
-        </div>
+          <rect class="node-box" x="425" y="87" width="155" height="68" rx="2"/>
 
-        <p class="diag-note">hover over any component to see the reasoning behind it.</p>
-      </div>
+          <text class="node-label" x="502" y="120">backend</text>
+          <text class="node-sub" x="502" y="143">c# · asp.net</text>
 
-      <!-- ── Tab 1: Agent Flow ── -->
-      <div class="diagram-panel" id="panel-1">
-        <svg class="diag-svg" viewBox="0 0 780 480" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <marker id="arrowhead2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-              <path d="M0,0 L0,6 L6,3 z" fill="#c8bfb0"/>
-            </marker>
-          </defs>
+        </g>
 
-          <!-- Central spine x=390, nodes spaced 64px -->
 
-          <!-- You -->
-          <rect class="flow-node" x="290" y="16" width="200" height="44" rx="0"
-                data-tip="you (discord)" data-desc="Susana sends a message in Discord DMs. The bot only responds to the configured DISCORD_USER_ID — no one else can reach it."/>
-          <text class="flow-label" x="390" y="34">you</text>
-          <text class="flow-sub" x="390" y="50">discord dm</text>
-          <line class="flow-arrow" x1="390" y1="60" x2="390" y2="82"/>
+        <!-- SERVER 4 -->
 
-          <!-- Bot layer -->
-          <rect class="flow-node" x="290" y="84" width="200" height="44" rx="0"
-                data-tip="bot layer" data-desc="discord.py client. Entry point. Receives messages, routes to the guardrails pipeline. Triggers !briefing (morning summary) and !deadline (tonight's deadline check) as manual scheduler shortcuts."/>
-          <text class="flow-label" x="390" y="102">bot layer</text>
-          <text class="flow-sub" x="390" y="118">discord.py</text>
-          <line class="flow-arrow" x1="390" y1="128" x2="390" y2="150"/>
+        <rect class="server-box" x="655" y="55" width="175" height="120" rx="2"/>
 
-          <!-- Guardrails -->
-          <rect class="flow-node highlight" x="290" y="152" width="200" height="44" rx="0"
-                data-tip="guardrails" data-desc="Input guard: blocks empty messages, anything over 4000 chars, and injection patterns. Output guard (LangChain callback): blocks forbidden tools, requires explicit confirmation before update_task fires. The agent never bypasses this layer."/>
-          <text class="flow-label" x="390" y="170">guardrails</text>
-          <text class="flow-sub" x="390" y="186">input + output</text>
-          <line class="flow-arrow" x1="390" y1="196" x2="390" y2="218"/>
+        <text class="server-label" x="668" y="70">server 4 · database</text>
 
-          <!-- Agent layer -->
-          <rect class="flow-node highlight" x="290" y="220" width="200" height="56" rx="0"
-                data-tip="agent layer" data-desc="LangChain AgentExecutor with ChatOpenAI (GPT-4o). Builds the prompt fresh each request — injects current datetime, username, and recalled long-term memories. Reasoning loop decides which tools to call and in what order."/>
-          <text class="flow-label" x="390" y="242">agent</text>
-          <text class="flow-sub" x="390" y="258">langchain · gpt-4o</text>
-          <line class="flow-arrow" x1="390" y1="276" x2="390" y2="298"/>
+        <g data-tip="postgresql + pgvector" data-desc="PostgreSQL database. Stores planner data and long-term agent memory through pgvector." style="cursor:pointer">
 
-          <!-- Memory + Tools split -->
-          <!-- Left branch: memory -->
-          <line class="flow-arrow" x1="340" y1="298" x2="220" y2="318"/>
-          <rect class="flow-node highlight" x="120" y="320" width="190" height="56" rx="0"
-                data-tip="memory" data-desc="Short-term: in-memory dict per user, last 20 messages (MAX_HISTORY). Long-term: pgvector on Supabase via asyncpg + all-MiniLM-L6-v2 embeddings. Recall fires 6 parallel semantic queries — message, preferences, academic context, projects, people, schedule — deduplicated before injection into the prompt."/>
-          <text class="flow-label" x="215" y="342">memory</text>
-          <text class="flow-sub" x="215" y="358">short-term + pgvector</text>
+          <ellipse cx="742" cy="94" rx="57" ry="9" fill="#EDE7DC" stroke="#C8BFB0" stroke-width="0.5"/>
+          <rect x="685" y="94" width="114" height="47" fill="#EDE7DC"/>
+          <line x1="685" y1="94" x2="685" y2="141" stroke="#C8BFB0" stroke-width="0.5"/>
+          <line x1="799" y1="94" x2="799" y2="141" stroke="#C8BFB0" stroke-width="0.5"/>
+          <ellipse cx="742" cy="141" rx="57" ry="9" fill="#EDE7DC" stroke="#C8BFB0" stroke-width="0.5"/>
 
-          <!-- Right branch: tools -->
-          <line class="flow-arrow" x1="440" y1="298" x2="560" y2="318"/>
-          <rect class="flow-node" x="470" y="320" width="190" height="56" rx="0"
-                data-tip="planner tools" data-desc="get_week, create_task, create_event, create_meeting, create_note, update_task. All call the C# API via httpx. No delete tool — ever. update_task is gated by the output guardrail and requires explicit user confirmation in the same conversation."/>
-          <text class="flow-label" x="565" y="342">planner tools</text>
-          <text class="flow-sub" x="565" y="358">get · create · update</text>
+          <text class="node-label" x="742" y="113" style="font-size:11.5px">postgresql</text>
+          <text class="node-sub" x="742" y="130" style="font-size:6.5px">+ pgvector · supabase</text>
 
-          <!-- Both converge to API client -->
-          <line class="flow-arrow" x1="215" y1="376" x2="340" y2="408"/>
-          <line class="flow-arrow" x1="565" y1="376" x2="440" y2="408"/>
+        </g>
 
-          <!-- API client -->
-          <rect class="flow-node" x="290" y="410" width="200" height="52" rx="0"
-                data-tip="api client" data-desc="httpx async client. Authenticated via JWT (logs in on startup via AgentAuth). Deliberately limited surface: GET all, POST all, PATCH with guardrail gate, DELETE never exposed. Talks to the C# backend only."/>
-          <text class="flow-label" x="390" y="430">api client</text>
-          <text class="flow-sub" x="390" y="447">httpx · jwt</text>
 
-          <!-- APScheduler — side node -->
-          <rect class="side-node" x="608" y="152" width="148" height="56" rx="0"
-                data-tip="apscheduler" data-desc="Runs alongside the agent. Two jobs: morning_briefing (weekdays 08:00, calls get_week and formats a daily summary) and deadline_check (daily 23:00, surfaces anything due soon). !briefing and !deadline in Discord trigger these manually."/>
-          <text class="flow-label" x="682" y="172">scheduler</text>
-          <text class="flow-sub" x="682" y="188">apscheduler</text>
-          <!-- dashed line to bot -->
-          <line stroke="#c8bfb0" stroke-width="0.75" stroke-dasharray="4 3" marker-end="url(#arrowhead2)" x1="608" y1="180" x2="492" y2="130"/>
-          <text class="arrow-label" x="564" y="148">proactive</text>
-        </svg>
+        <!-- FRONTEND → BACKEND -->
 
-        <p class="diag-note">hover over any component to see the reasoning behind it.</p>
-      </div>
+        <line class="arrow" marker-end="url(#ah-current)" x1="350" y1="121" x2="425" y2="121"/>
+        <text class="arrow-label" x="388" y="111">http/rest</text>
+
+
+        <!-- BACKEND → DATABASE -->
+
+        <line class="arrow" marker-end="url(#ah-current)" x1="605" y1="121" x2="685" y2="121"/>
+        <text class="arrow-label" x="645" y="111">writes to</text>
+
+
+        <!-- DISCORD -->
+
+        <g data-tip="Chat" data-desc="The external interface to interact with the agent. Currently configured with Discord." style="cursor:pointer">
+
+          <rect class="node-box" x="165" y="280" width="150" height="70" rx="2"/>
+
+          <!--<use href="#discord-sym-current" x="182" y="296" width="20" height="20"/>-->
+
+          <text class="node-label" x="238" y="310">chat interface</text>
+          <text class="node-sub" x="240" y="328">dm only</text>
+
+        </g>
+
+
+        <!-- SERVER 3 -->
+
+        <rect class="server-box" x="380" y="235" width="225" height="115" rx="2"/>
+
+        <text class="server-label" x="393" y="250">server 3 · agent</text>
+
+        <g data-tip="python agent" data-desc="Python agent using LangChain. Handles chat messages, memory, planner tools and scheduled jobs. Currently functioning with the GPT-4o" style="cursor:pointer">
+
+          <rect class="node-box agent-col" x="405" y="267" width="175" height="55" rx="2"/>
+
+          <text class="node-label" x="492" y="287">python agent</text>
+          <text class="node-sub" x="492" y="306">langchain</text>
+
+        </g>
+
+        <!--<text class="node-sub" x="492" y="338">apscheduler · always on</text>-->
+
+
+        <!-- DISCORD → AGENT -->
+
+        <line class="arrow" marker-end="url(#ah-current)" x1="315" y1="315" x2="405" y2="295"/>
+        <text class="arrow-label" x="360" y="294">sends requests to</text>
+
+
+        <!-- AGENT → BACKEND -->
+
+        <line class="arrow agent" marker-end="url(#ah-current-agent)" x1="492" y1="267" x2="502" y2="155"/>
+        <text class="arrow-label" x="525" y="214">http/rest</text>
+
+
+        <!-- AGENT → DATABASE -->
+
+        <line class="arrow agent" marker-end="url(#ah-current-agent)" x1="580" y1="295" x2="685" y2="142"/>
+        <text class="arrow-label" x="633" y="237">writes to</text>
+
+
+      </svg>
+
+      <button class="see-agent-btn" onclick="showAgentFlow()">↓ see agent flow</button>
+      <p class="diag-note">hover over any component to see the reasoning behind it.</p>
 
     </div>
+
+
+    <!-- ── AWS ── -->
+
+    <div class="diagram-panel" id="deploy-aws">
+
+      <svg class="diag-svg" viewBox="0 0 740 300" xmlns="http://www.w3.org/2000/svg">
+
+        <defs>
+
+          <marker id="ah-a" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L6,3 z" fill="#232F3E"/>
+          </marker>
+
+          <symbol id="discord-sym2" viewBox="0 0 24 24">
+            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.032.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z" fill="#5865F2"/>
+          </symbol>
+
+        </defs>
+
+
+        <rect class="group-box" x="196" y="10" width="530" height="278" rx="2"/>
+        <text class="group-label" x="208" y="25">vpc</text>
+
+        <rect class="group-box" x="210" y="30" width="172" height="90" rx="1"/>
+        <text class="group-label" x="220" y="44">public subnet</text>
+
+        <rect class="group-box" x="210" y="134" width="502" height="142" rx="1"/>
+        <text class="group-label" x="220" y="148">private subnet</text>
+
+
+        <g data-tip="user" data-desc="The user accesses the frontend via browser (CloudFront) and the agent via Discord." style="cursor:pointer">
+          <circle cx="46" cy="90" r="11" fill="none" stroke="#9a8f82" stroke-width="0.75"/>
+          <line x1="46" y1="101" x2="46" y2="130" stroke="#9a8f82" stroke-width="0.75"/>
+          <line x1="28" y1="114" x2="64" y2="114" stroke="#9a8f82" stroke-width="0.75"/>
+          <line x1="46" y1="130" x2="30" y2="149" stroke="#9a8f82" stroke-width="0.75"/>
+          <line x1="46" y1="130" x2="62" y2="149" stroke="#9a8f82" stroke-width="0.75"/>
+          <text class="node-sub" x="46" y="160" style="font-size:8px">user</text>
+        </g>
+
+
+        <g data-tip="s3 + cloudfront" data-desc="Angular static build in S3, served via CloudFront CDN. Better caching, stays within AWS. An alternative to this: use EC2 t3.micro." style="cursor:pointer">
+          <rect x="218" y="46" width="156" height="66" rx="2" fill="#FAFAFA" stroke="#8C4FFF" stroke-width="1.2"/>
+          <image href="https://datadef.io/icons/cloud-providers/aws/aws-simple-storage-service.svg" x="226" y="54" width="22" height="22"/>
+          <image href="https://datadef.io/icons/cloud-providers/aws/aws-cloudfront.svg" x="254" y="54" width="22" height="22"/>
+          <text class="node-label" x="330" y="62" text-anchor="end" font-size="11.5">s3 + cloudfront</text>
+          <text class="node-sub" x="296" y="86" text-anchor="middle">frontend · public subnet</text>
+          <text class="node-sub" x="296" y="98" text-anchor="middle">aws storage + cdn</text>
+        </g>
+
+        <line stroke="#232F3E" stroke-width="0.75" marker-end="url(#ah-a)" x1="68" y1="108" x2="216" y2="80"/>
+
+
+        <g data-tip="ec2 — c# backend" data-desc="t3.micro running the Dockerised ASP.NET API. Private subnet — not publicly reachable. Only accepts traffic from within the VPC." style="cursor:pointer">
+          <rect x="218" y="150" width="156" height="72" rx="2" fill="#FFF8F0" stroke="#ED7100" stroke-width="1.2"/>
+          <image href="https://datadef.io/icons/cloud-providers/aws/aws-ec2.svg" x="226" y="158" width="26" height="26"/>
+          <text class="node-label" x="310" y="165" text-anchor="middle" font-size="11.5">c# backend api</text>
+          <text class="node-sub" x="296" y="183" text-anchor="middle">ec2 t3.micro</text>
+          <text class="node-sub" x="296" y="194" text-anchor="middle">private subnet</text>
+          <text class="node-sub" x="296" y="205" text-anchor="middle">no cold starts</text>
+        </g>
+
+        <line stroke="#232F3E" stroke-width="0.75" marker-end="url(#ah-a)" x1="296" y1="112" x2="296" y2="148"/>
+        <text class="arrow-label" x="312" y="133" fill="#232F3E">REST</text>
+
+
+        <g data-tip="ec2 — python agent" data-desc="t3.micro running the Dockerised Python agent. Private subnet, always on — no cold starts. Calls the C# API over private VPC networking. Reaches Discord outbound." style="cursor:pointer">
+          <rect x="218" y="238" width="156" height="26" rx="2" fill="#FFF8F0" stroke="#ED7100" stroke-width="1.2"/>
+          <image href="https://datadef.io/icons/cloud-providers/aws/aws-ec2.svg" x="226" y="242" width="16" height="16"/>
+          <text class="node-label" x="310" y="252" text-anchor="middle" font-size="11">python agent</text>
+        </g>
+
+        <text class="node-sub" x="296" y="272" text-anchor="middle">ec2 t3.micro · private subnet</text>
+
+        <line stroke="#232F3E" stroke-width="0.75" marker-end="url(#ah-a)" x1="296" y1="238" x2="296" y2="224"/>
+        <text class="arrow-label" x="315" y="234" fill="#232F3E">httpx · vpc</text>
+
+
+        <g data-tip="rds postgresql + pgvector" data-desc="RDS PostgreSQL with the pgvector extension. Private subnet — no public endpoint. Both EC2 instances connect within the VPC." style="cursor:pointer">
+          <rect x="430" y="148" width="284" height="120" rx="2" fill="#F8F4FF" stroke="#8C4FFF" stroke-width="1.2"/>
+          <image href="https://datadef.io/icons/cloud-providers/aws/aws-rds.svg" x="440" y="158" width="28" height="28"/>
+          <text class="node-label" x="560" y="168" text-anchor="middle" font-size="11.5">rds postgresql + pgvector</text>
+          <text class="node-sub" x="560" y="186" text-anchor="middle">private subnet · no public endpoint</text>
+          <text class="node-sub" x="560" y="198" text-anchor="middle">automated backups · replaces supabase</text>
+          <ellipse cx="560" cy="220" rx="46" ry="8" fill="none" stroke="#8C4FFF" stroke-width="0.75"/>
+          <rect x="514" y="220" width="92" height="36" fill="none"/>
+          <line x1="514" y1="220" x2="514" y2="256" stroke="#8C4FFF" stroke-width="0.75"/>
+          <line x1="606" y1="220" x2="606" y2="256" stroke="#8C4FFF" stroke-width="0.75"/>
+          <ellipse cx="560" cy="256" rx="46" ry="8" fill="none" stroke="#8C4FFF" stroke-width="0.75"/>
+        </g>
+
+        <line stroke="#232F3E" stroke-width="0.75" marker-end="url(#ah-a)" x1="374" y1="186" x2="428" y2="200"/>
+        <line stroke="#232F3E" stroke-width="0.75" marker-end="url(#ah-a)" x1="374" y1="251" x2="428" y2="240"/>
+        <text class="arrow-label" x="406" y="252" fill="#232F3E">pgvector</text>
+
+
+        <g data-tip="chat interface" data-desc="Messages to the agent. Unchanged from current setup. The agent in the private subnet reaches Discord outbound through the VPC internet gateway." style="cursor:pointer">
+          <rect x="60" y="210" width="110" height="52" fill="#EDE7DC" stroke="#c8bfb0" stroke-width="0.5"/>
+          <!--<use href="#discord-sym2" x="70" y="220" width="20" height="20"/>-->
+          <text class="node-label" x="117" y="230">chat interface</text>
+          <text class="node-sub" x="115" y="250">dm only</text>
+        </g>
+
+        <line stroke="#9a8f82" stroke-width="0.75" x1="46" y1="152" x2="46" y2="236"/>
+        <line stroke="#9a8f82" stroke-width="0.75" marker-end="url(#ah-a)" x1="46" y1="236" x2="58" y2="236"/>
+        <line stroke="#232F3E" stroke-width="0.75" marker-end="url(#ah-a)" x1="170" y1="246" x2="216" y2="251"/>
+
+      </svg>
+
+      <button class="see-agent-btn" onclick="showAgentFlow()">↓ see agent flow</button>
+      <p class="diag-note">hover over any component to see the reasoning behind it.</p>
+
+    </div>
+
+
+    <!-- ── AGENT FLOW OVERLAY ── -->
+
+    <div class="agent-overlay" id="agentOverlay">
+
+      <button class="agent-back" onclick="hideAgentFlow()">← back to system architecture</button>
+
+      <svg class="diag-svg" viewBox="0 0 740 340" xmlns="http://www.w3.org/2000/svg">
+
+        <defs>
+
+          <marker id="ah2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L6,3 z" fill="#c8bfb0"/>
+          </marker>
+
+          <symbol id="discord-sym3" viewBox="0 0 24 24">
+            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.032.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z" fill="#5865F2"/>
+          </symbol>
+
+        </defs>
+
+
+        <!-- User -->
+
+        <g data-tip="you (messages)" data-desc="You send a message through the chat interface." style="cursor:pointer">
+
+          <circle cx="370" cy="16" r="10" fill="none" stroke="#9a8f82" stroke-width="0.75"/>
+          <line x1="370" y1="26" x2="370" y2="48" stroke="#9a8f82" stroke-width="0.75"/>
+          <line x1="354" y1="36" x2="386" y2="36" stroke="#9a8f82" stroke-width="0.75"/>
+          <line x1="370" y1="48" x2="356" y2="62" stroke="#9a8f82" stroke-width="0.75"/>
+          <line x1="370" y1="48" x2="384" y2="62" stroke="#9a8f82" stroke-width="0.75"/>
+          <!--<use href="#discord-sym3" x="382" y="8" width="18" height="18"/>-->
+          <text class="flow-sub" x="370" y="72">user</text>
+
+        </g>
+
+
+        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="370" y1="75" x2="370" y2="90"/>
+
+
+        <!-- Bot -->
+
+        <rect class="flow-node" x="290" y="92" width="160" height="38"
+              data-tip="bot layer"
+              data-desc="Currently configured for Discord, but can be replaced for any other chat interface (i.e: Whatsapp). Entry point. Receives messages and routes to guardrails."/>
+
+        <text class="flow-label" x="370" y="107">bot layer</text>
+        <text class="flow-sub" x="370" y="122">for chat</text>
+
+        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="370" y1="130" x2="370" y2="145"/>
+
+
+        <!-- Guardrails -->
+
+        <rect class="flow-node hl" x="290" y="147" width="160" height="38"
+              data-tip="guardrails"
+              data-desc="Input guard blocks empty, oversized and injection-style requests. Output guard controls which agent actions are allowed."/>
+
+        <text class="flow-label" x="370" y="162">guardrails</text>
+        <text class="flow-sub" x="370" y="177">input + output</text>
+
+        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="370" y1="185" x2="370" y2="200"/>
+
+
+        <!-- Agent -->
+
+        <rect class="flow-node hl" x="290" y="202" width="160" height="46"
+              data-tip="agent layer"
+              data-desc="LangChain AgentExecutor + ChatOpenAI. Builds prompt context, recalls memory and decides the tool sequence. Currently uses GPT-4o, but this is modifiable for any other provider."/>
+
+        <text class="flow-label" x="370" y="221">agent</text>
+        <text class="flow-sub" x="370" y="237">langchain</text>
+
+
+        <!-- Memory -->
+
+        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="330" y1="248" x2="196" y2="274"/>
+
+        <g data-tip="memory" data-desc="Short-term conversation state plus long-term semantic memory stored through pgvector." style="cursor:pointer">
+
+          <ellipse cx="148" cy="282" rx="65" ry="9" fill="#EDE7DC" stroke="#5a7a9e" stroke-width="0.75"/>
+          <rect x="83" y="282" width="130" height="32" fill="#EDE7DC"/>
+          <line x1="83" y1="282" x2="83" y2="314" stroke="#5a7a9e" stroke-width="0.75"/>
+          <line x1="213" y1="282" x2="213" y2="314" stroke="#5a7a9e" stroke-width="0.75"/>
+          <ellipse cx="148" cy="314" rx="65" ry="9" fill="#EDE7DC" stroke="#5a7a9e" stroke-width="0.75"/>
+
+          <text class="flow-label" x="148" y="296">memory</text>
+          <text class="flow-sub" x="148" y="310">short-term + pgvector</text>
+
+        </g>
+
+
+        <!-- Planner tools -->
+
+        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="410" y1="248" x2="534" y2="274"/>
+
+        <rect class="flow-node" x="464" y="276" width="160" height="46"
+              data-tip="planner tools"
+              data-desc="get_week, create_task, create_event, create_meeting, create_note and update_task. These tools communicate with the C# backend."/>
+
+        <text class="flow-label" x="544" y="295">planner tools</text>
+        <text class="flow-sub" x="544" y="310">get · create · update</text>
+
+
+        <!-- Scheduler -->
+
+        <rect class="flow-node" x="582" y="147" width="138" height="46"
+              data-tip="apscheduler"
+              data-desc="Two jobs: morning_briefing and deadline_check. Manual Discord commands can trigger them as well."/>
+
+        <text class="flow-label" x="651" y="164">scheduler</text>
+        <text class="flow-sub" x="651" y="180">apscheduler</text>
+
+        <line stroke="#c8bfb0" stroke-width="0.75" stroke-dasharray="4 3" marker-end="url(#ah2)" x1="582" y1="166" x2="452" y2="118"/>
+
+        <text class="arrow-label" x="528" y="136">proactive</text>
+
+      </svg>
+
+      <p class="diag-note">hover over any component to see the reasoning behind it.</p>
+
+    </div>
+
   </div>
 </div>
 
-<!-- Tooltip -->
+
 <div class="tooltip" id="tooltip">
-  <span class="tooltip-label" id="tooltip-label"></span>
-  <span id="tooltip-desc"></span>
+  <span class="tooltip-label" id="tlabel"></span>
+  <span id="tdesc"></span>
 </div>
+
 
 <script>
-  // ── Modal ──
-  function openModal() {
-    document.getElementById('overlay').classList.add('active');
-    document.body.style.overflow = 'hidden';
+
+  function switchDeploy(mode, btn) {
+    document.querySelectorAll('.toggle-pill button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('deploy-current').classList.toggle('active', mode === 'current');
+    document.getElementById('deploy-aws').classList.toggle('active', mode === 'aws');
   }
 
-  function closeModal() {
-    parent.closeArch();
+  function showAgentFlow() {
+    document.getElementById('agentOverlay').classList.add('active');
   }
 
-  function handleOverlayClick(e) {
-    if (e.target === document.getElementById('overlay')) closeModal();
+  function hideAgentFlow() {
+    document.getElementById('agentOverlay').classList.remove('active');
   }
 
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeModal();
+  document.getElementById('closeBtn').addEventListener('click', () => {
+    if (window.parent && window.parent.closeArch) window.parent.closeArch();
   });
 
-  // ── Tabs ──
-  let currentTab = 0;
 
-  function switchTab(idx) {
-    currentTab = idx;
-    document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === idx));
-    document.querySelectorAll('.diagram-panel').forEach((p, i) => p.classList.toggle('active', i === idx));
-    document.getElementById('deployToggle').style.display = idx === 0 ? 'flex' : 'none';
-  }
+  const tt = document.getElementById('tooltip');
+  const tl = document.getElementById('tlabel');
+  const td = document.getElementById('tdesc');
+  let ttT = null;
 
-  // ── Deploy toggle ──
-  let currentDeploy = 'current';
-
-  function switchDeploy(mode) {
-    currentDeploy = mode;
-    document.querySelectorAll('.toggle-pill button').forEach(b => b.classList.remove('active'));
-    event.target.classList.add('active');
-    document.getElementById('deploy-current').style.display = mode === 'current' ? 'block' : 'none';
-    document.getElementById('deploy-aws').style.display = mode === 'aws' ? 'block' : 'none';
-  }
-
-  // ── Tooltip ──
-  const tooltip = document.getElementById('tooltip');
-  const tooltipLabel = document.getElementById('tooltip-label');
-  const tooltipDesc = document.getElementById('tooltip-desc');
-
-  let tooltipTarget = null;
-
-  function showTooltip(el, e) {
-    const label = el.getAttribute('data-tip');
-    const desc = el.getAttribute('data-desc');
-    if (!label) return;
-    tooltipLabel.textContent = label;
-    tooltipDesc.textContent = desc;
-    tooltip.classList.add('visible');
-    moveTooltip(e);
-  }
-
-  function moveTooltip(e) {
-    const pad = 14;
-    let x = e.clientX + pad;
-    let y = e.clientY + pad;
-    const tw = tooltip.offsetWidth;
-    const th = tooltip.offsetHeight;
-    if (x + tw > window.innerWidth - 12) x = e.clientX - tw - pad;
-    if (y + th > window.innerHeight - 12) y = e.clientY - th - pad;
-    tooltip.style.left = x + 'px';
-    tooltip.style.top = y + 'px';
-  }
-
-  function hideTooltip() {
-    tooltip.classList.remove('visible');
-  }
-
-  // attach tooltip listeners to all SVG elements with data-tip
   document.addEventListener('mouseover', e => {
     const el = e.target.closest('[data-tip]');
-    if (el) { tooltipTarget = el; showTooltip(el, e); }
+    if (el) {
+      ttT = el;
+      tl.textContent = el.getAttribute('data-tip');
+      td.textContent = el.getAttribute('data-desc');
+      tt.classList.add('visible');
+      move(e);
+    }
   });
 
   document.addEventListener('mousemove', e => {
-    if (tooltipTarget) moveTooltip(e);
+    if (ttT) move(e);
   });
 
   document.addEventListener('mouseout', e => {
-    const el = e.target.closest('[data-tip]');
-    if (el) { tooltipTarget = null; hideTooltip(); }
+    if (e.target.closest('[data-tip]')) {
+      ttT = null;
+      tt.classList.remove('visible');
+    }
   });
+
+  function move(e) {
+    const pad = 14;
+    const tw = tt.offsetWidth;
+    const th = tt.offsetHeight;
+
+    let x = e.clientX + pad;
+    let y = e.clientY + pad;
+
+    if (x + tw > window.innerWidth - 12) x = e.clientX - tw - pad;
+    if (y + th > window.innerHeight - 12) y = e.clientY - th - pad;
+
+    tt.style.left = x + 'px';
+    tt.style.top = y + 'px';
+  }
+
 </script>
+
 </body>
 </html>
