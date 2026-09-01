@@ -14,6 +14,12 @@
       --text: #1e1a17; --muted: #7a7068; --agent: #5a7a9e;
       --font-serif: 'Cormorant Garamond', serif; --font-sans: 'Montserrat', sans-serif;
     }
+    .aws-diagram-frame {
+      width: 100%;
+      height: 520px;
+      border: none;
+      display: block;
+    }
     html, body { height: 100%; background: var(--cream); font-family: var(--font-serif); color: var(--text); -webkit-font-smoothing: antialiased; }
     .shell { display: flex; flex-direction: column; height: 100vh; }
     .modal-header { padding: 18px 32px 14px; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
@@ -279,117 +285,14 @@
     </div>
 
 
-    <!-- ── AWS ── -->
-
     <div class="diagram-panel" id="deploy-aws">
-
-      <svg class="diag-svg" viewBox="0 0 740 300" xmlns="http://www.w3.org/2000/svg">
-
-        <defs>
-
-          <marker id="ah-a" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-            <path d="M0,0 L0,6 L6,3 z" fill="#232F3E"/>
-          </marker>
-
-          <symbol id="discord-sym2" viewBox="0 0 24 24">
-            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.032.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z" fill="#5865F2"/>
-          </symbol>
-
-        </defs>
-
-
-        <rect class="group-box" x="196" y="10" width="530" height="278" rx="2"/>
-        <text class="group-label" x="208" y="25">vpc</text>
-
-        <rect class="group-box" x="210" y="30" width="172" height="90" rx="1"/>
-        <text class="group-label" x="220" y="44">public subnet</text>
-
-        <rect class="group-box" x="210" y="134" width="502" height="142" rx="1"/>
-        <text class="group-label" x="220" y="148">private subnet</text>
-
-
-        <g data-tip="user" data-desc="The user accesses the frontend via browser (CloudFront) and the agent via Discord." style="cursor:pointer">
-          <circle cx="46" cy="90" r="11" fill="none" stroke="#9a8f82" stroke-width="0.75"/>
-          <line x1="46" y1="101" x2="46" y2="130" stroke="#9a8f82" stroke-width="0.75"/>
-          <line x1="28" y1="114" x2="64" y2="114" stroke="#9a8f82" stroke-width="0.75"/>
-          <line x1="46" y1="130" x2="30" y2="149" stroke="#9a8f82" stroke-width="0.75"/>
-          <line x1="46" y1="130" x2="62" y2="149" stroke="#9a8f82" stroke-width="0.75"/>
-          <text class="node-sub" x="46" y="160" style="font-size:8px">user</text>
-        </g>
-
-
-        <g data-tip="s3 + cloudfront" data-desc="Angular static build in S3, served via CloudFront CDN. Better caching, stays within AWS. An alternative to this: use EC2 t3.micro." style="cursor:pointer">
-          <rect x="218" y="46" width="156" height="66" rx="2" fill="#FAFAFA" stroke="#8C4FFF" stroke-width="1.2"/>
-          <image href="https://datadef.io/icons/cloud-providers/aws/aws-simple-storage-service.svg" x="226" y="54" width="22" height="22"/>
-          <image href="https://datadef.io/icons/cloud-providers/aws/aws-cloudfront.svg" x="254" y="54" width="22" height="22"/>
-          <text class="node-label" x="330" y="62" text-anchor="end" font-size="11.5">s3 + cloudfront</text>
-          <text class="node-sub" x="296" y="86" text-anchor="middle">frontend · public subnet</text>
-          <text class="node-sub" x="296" y="98" text-anchor="middle">aws storage + cdn</text>
-        </g>
-
-        <line stroke="#232F3E" stroke-width="0.75" marker-end="url(#ah-a)" x1="68" y1="108" x2="216" y2="80"/>
-
-
-        <g data-tip="ec2 — c# backend" data-desc="t3.micro running the Dockerised ASP.NET API. Private subnet — not publicly reachable. Only accepts traffic from within the VPC." style="cursor:pointer">
-          <rect x="218" y="150" width="156" height="72" rx="2" fill="#FFF8F0" stroke="#ED7100" stroke-width="1.2"/>
-          <image href="https://datadef.io/icons/cloud-providers/aws/aws-ec2.svg" x="226" y="158" width="26" height="26"/>
-          <text class="node-label" x="310" y="165" text-anchor="middle" font-size="11.5">c# backend api</text>
-          <text class="node-sub" x="296" y="183" text-anchor="middle">ec2 t3.micro</text>
-          <text class="node-sub" x="296" y="194" text-anchor="middle">private subnet</text>
-          <text class="node-sub" x="296" y="205" text-anchor="middle">no cold starts</text>
-        </g>
-
-        <line stroke="#232F3E" stroke-width="0.75" marker-end="url(#ah-a)" x1="296" y1="112" x2="296" y2="148"/>
-        <text class="arrow-label" x="312" y="133" fill="#232F3E">REST</text>
-
-
-        <g data-tip="ec2 — python agent" data-desc="t3.micro running the Dockerised Python agent. Private subnet, always on — no cold starts. Calls the C# API over private VPC networking. Reaches Discord outbound." style="cursor:pointer">
-          <rect x="218" y="238" width="156" height="26" rx="2" fill="#FFF8F0" stroke="#ED7100" stroke-width="1.2"/>
-          <image href="https://datadef.io/icons/cloud-providers/aws/aws-ec2.svg" x="226" y="242" width="16" height="16"/>
-          <text class="node-label" x="310" y="252" text-anchor="middle" font-size="11">python agent</text>
-        </g>
-
-        <text class="node-sub" x="296" y="272" text-anchor="middle">ec2 t3.micro · private subnet</text>
-
-        <line stroke="#232F3E" stroke-width="0.75" marker-end="url(#ah-a)" x1="296" y1="238" x2="296" y2="224"/>
-        <text class="arrow-label" x="315" y="234" fill="#232F3E">httpx · vpc</text>
-
-
-        <g data-tip="rds postgresql + pgvector" data-desc="RDS PostgreSQL with the pgvector extension. Private subnet — no public endpoint. Both EC2 instances connect within the VPC." style="cursor:pointer">
-          <rect x="430" y="148" width="284" height="120" rx="2" fill="#F8F4FF" stroke="#8C4FFF" stroke-width="1.2"/>
-          <image href="https://datadef.io/icons/cloud-providers/aws/aws-rds.svg" x="440" y="158" width="28" height="28"/>
-          <text class="node-label" x="560" y="168" text-anchor="middle" font-size="11.5">rds postgresql + pgvector</text>
-          <text class="node-sub" x="560" y="186" text-anchor="middle">private subnet · no public endpoint</text>
-          <text class="node-sub" x="560" y="198" text-anchor="middle">automated backups · replaces supabase</text>
-          <ellipse cx="560" cy="220" rx="46" ry="8" fill="none" stroke="#8C4FFF" stroke-width="0.75"/>
-          <rect x="514" y="220" width="92" height="36" fill="none"/>
-          <line x1="514" y1="220" x2="514" y2="256" stroke="#8C4FFF" stroke-width="0.75"/>
-          <line x1="606" y1="220" x2="606" y2="256" stroke="#8C4FFF" stroke-width="0.75"/>
-          <ellipse cx="560" cy="256" rx="46" ry="8" fill="none" stroke="#8C4FFF" stroke-width="0.75"/>
-        </g>
-
-        <line stroke="#232F3E" stroke-width="0.75" marker-end="url(#ah-a)" x1="374" y1="186" x2="428" y2="200"/>
-        <line stroke="#232F3E" stroke-width="0.75" marker-end="url(#ah-a)" x1="374" y1="251" x2="428" y2="240"/>
-        <text class="arrow-label" x="406" y="252" fill="#232F3E">pgvector</text>
-
-
-        <g data-tip="chat interface" data-desc="Messages to the agent. Unchanged from current setup. The agent in the private subnet reaches Discord outbound through the VPC internet gateway." style="cursor:pointer">
-          <rect x="60" y="210" width="110" height="52" fill="#EDE7DC" stroke="#c8bfb0" stroke-width="0.5"/>
-          <!--<use href="#discord-sym2" x="70" y="220" width="20" height="20"/>-->
-          <text class="node-label" x="117" y="230">chat interface</text>
-          <text class="node-sub" x="115" y="250">dm only</text>
-        </g>
-
-        <line stroke="#9a8f82" stroke-width="0.75" x1="46" y1="152" x2="46" y2="236"/>
-        <line stroke="#9a8f82" stroke-width="0.75" marker-end="url(#ah-a)" x1="46" y1="236" x2="58" y2="236"/>
-        <line stroke="#232F3E" stroke-width="0.75" marker-end="url(#ah-a)" x1="170" y1="246" x2="216" y2="251"/>
-
-      </svg>
-
-      <button class="see-agent-btn" onclick="showAgentFlow()">↓ see agent flow</button>
-      <p class="diag-note">hover over any component to see the reasoning behind it.</p>
-
+      <iframe
+              src="core-aws-diagram.html"
+              class="aws-diagram-frame"
+              title="AWS deployment architecture">
+      </iframe>
     </div>
+
 
 
     <!-- ── AGENT FLOW OVERLAY ── -->

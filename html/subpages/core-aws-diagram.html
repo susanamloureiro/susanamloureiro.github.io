@@ -1,0 +1,2653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+
+    <style>
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --cream: #F5F0E8;
+            --cream-dark: #EDE7DC;
+            --border: #c8bfb0;
+            --text: #1e1a17;
+            --muted: #7a7068;
+            --agent: #5a7a9e;
+
+            --aws-orange: #ED7100;
+            --aws-purple: #8C4FFF;
+            --aws-dark: #232F3E;
+
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Montserrat', sans-serif;
+        }
+
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+            background: var(--cream);
+            color: var(--text);
+            font-family: var(--font-serif);
+            -webkit-font-smoothing: antialiased;
+        }
+
+
+        body {
+            padding: 18px 24px 24px;
+        }
+
+
+        /* =========================================================
+           HEADER
+           ========================================================= */
+
+        .aws-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+
+        .aws-title {
+            font-family: var(--font-serif);
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 0.04em;
+        }
+
+
+        .aws-title span {
+            margin-left: 8px;
+            color: var(--muted);
+            font-family: var(--font-sans);
+            font-size: 8px;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+        }
+
+
+        /* =========================================================
+           AWS DEPLOYMENT TOGGLE
+           ========================================================= */
+
+        .aws-mode {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+
+        .aws-mode-label {
+            font-family: var(--font-sans);
+            font-size: 8px;
+            color: var(--muted);
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+        }
+
+
+        .aws-toggle {
+            display: flex;
+            border: 0.5px solid var(--border);
+        }
+
+
+        .aws-toggle button {
+            border: none;
+            background: none;
+            color: var(--muted);
+
+            font-family: var(--font-sans);
+            font-size: 8px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+
+            padding: 5px 12px;
+
+            cursor: pointer;
+
+            transition:
+                    background 0.15s,
+                    color 0.15s;
+        }
+
+
+        .aws-toggle button + button {
+            border-left: 0.5px solid var(--border);
+        }
+
+
+        .aws-toggle button.active {
+            background: var(--text);
+            color: var(--cream);
+        }
+
+
+        /* =========================================================
+           DIAGRAM
+           ========================================================= */
+
+        .aws-view {
+            display: none;
+        }
+
+
+        .aws-view.active {
+            display: block;
+        }
+
+
+        .diag-svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+
+        /* =========================================================
+           AWS GROUPS
+           ========================================================= */
+
+        .vpc-box {
+            fill: rgba(200, 191, 176, 0.055);
+            stroke: #8d857c;
+            stroke-width: 0.8;
+            stroke-dasharray: 5 3;
+        }
+
+
+        .subnet-box {
+            fill: rgba(200, 191, 176, 0.025);
+            stroke: #aaa096;
+            stroke-width: 0.65;
+            stroke-dasharray: 4 3;
+        }
+
+
+        .group-label {
+            font-family: var(--font-sans);
+            font-size: 7px;
+            fill: #7a7068;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+
+        .group-label.aws {
+            fill: var(--aws-dark);
+        }
+
+
+        /* =========================================================
+           SERVICE NODES
+           ========================================================= */
+
+        .service {
+            cursor: pointer;
+        }
+
+
+        .service-box {
+            fill: #FAF8F4;
+            stroke: #aaa096;
+            stroke-width: 0.8;
+            transition:
+                    fill 0.15s,
+                    stroke 0.15s;
+        }
+
+
+        .service:hover .service-box {
+            fill: #f0ebe3;
+        }
+
+
+        .service.aws-orange .service-box {
+            stroke: var(--aws-orange);
+        }
+
+
+        .service.aws-purple .service-box {
+            stroke: var(--aws-purple);
+        }
+
+
+        .service.agent .service-box {
+            stroke: var(--agent);
+        }
+
+
+        .service-title {
+            font-family: var(--font-serif);
+            font-size: 12px;
+            font-weight: 400;
+            fill: var(--text);
+
+            text-anchor: middle;
+            dominant-baseline: middle;
+
+            pointer-events: none;
+        }
+
+
+        .service-sub {
+            font-family: var(--font-sans);
+            font-size: 6.7px;
+            fill: var(--muted);
+
+            text-anchor: middle;
+            dominant-baseline: middle;
+
+            letter-spacing: 0.065em;
+            text-transform: uppercase;
+
+            pointer-events: none;
+        }
+
+
+        .service-icon {
+            pointer-events: none;
+        }
+
+
+        /* =========================================================
+           NETWORK ARROWS
+           ========================================================= */
+
+        .arrow {
+            stroke: var(--aws-dark);
+            stroke-width: 0.75;
+            fill: none;
+        }
+
+
+        .arrow.soft {
+            stroke: #9a8f82;
+        }
+
+
+        .arrow.agent {
+            stroke: var(--agent);
+        }
+
+
+        .arrow.dashed {
+            stroke-dasharray: 4 3;
+        }
+
+
+        .arrow-label {
+            font-family: var(--font-sans);
+            font-size: 6.7px;
+
+            fill: #7a7068;
+
+            text-anchor: middle;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+
+        /* =========================================================
+           USER
+           ========================================================= */
+
+        .user-stroke {
+            stroke: #9a8f82;
+            stroke-width: 0.75;
+            fill: none;
+        }
+
+
+        .user-label {
+            font-family: var(--font-sans);
+            font-size: 7px;
+            fill: #7a7068;
+
+            text-anchor: middle;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+
+        /* =========================================================
+           CHAT
+           ========================================================= */
+
+        .chat-box {
+            fill: #EDE7DC;
+            stroke: #c8bfb0;
+            stroke-width: 0.65;
+        }
+
+
+        /* =========================================================
+           NOTES / BUTTON
+           ========================================================= */
+
+        .aws-footer {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+
+        .see-agent-btn {
+            font-family: var(--font-sans);
+            font-size: 8px;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+
+            color: var(--agent);
+            background: none;
+
+            border: 0.5px solid var(--agent);
+
+            cursor: pointer;
+
+            padding: 5px 11px;
+
+            transition:
+                    background 0.15s,
+                    color 0.15s;
+        }
+
+
+        .see-agent-btn:hover {
+            background: var(--agent);
+            color: var(--cream);
+        }
+
+
+        .diag-note {
+            font-family: var(--font-serif);
+            font-size: 11px;
+            font-style: italic;
+            color: var(--muted);
+            letter-spacing: 0.02em;
+        }
+
+
+        /* =========================================================
+           TOOLTIP
+           ========================================================= */
+
+        .tooltip {
+            position: fixed;
+
+            background: var(--text);
+            color: var(--cream);
+
+            font-family: var(--font-serif);
+            font-size: 12px;
+            line-height: 1.5;
+
+            padding: 9px 13px;
+
+            max-width: 240px;
+
+            pointer-events: none;
+
+            opacity: 0;
+
+            transition: opacity 0.15s;
+
+            z-index: 9999;
+        }
+
+
+        .tooltip.visible {
+            opacity: 1;
+        }
+
+
+        .tooltip-label {
+            display: block;
+
+            margin-bottom: 4px;
+
+            font-family: var(--font-sans);
+            font-size: 8px;
+
+            color: var(--border);
+
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+
+        /* =========================================================
+           AGENT FLOW OVERLAY
+           ========================================================= */
+
+        .agent-overlay {
+            display: none;
+
+            position: fixed;
+            inset: 0;
+
+            background: var(--cream);
+
+            z-index: 1000;
+
+            padding: 22px 30px 26px;
+
+            overflow-y: auto;
+        }
+
+
+        .agent-overlay.active {
+            display: block;
+        }
+
+
+        .agent-back {
+            border: none;
+            background: none;
+
+            font-family: var(--font-sans);
+            font-size: 8px;
+
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+
+            color: var(--muted);
+
+            cursor: pointer;
+
+            padding: 0;
+            margin-bottom: 16px;
+        }
+
+
+        .agent-back:hover {
+            color: var(--text);
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+
+
+
+<!-- ============================================================
+     PRIMARY / ALTERNATIVE TOGGLE
+     ============================================================ -->
+
+<div class="aws-mode">
+
+  <span class="aws-mode-label">
+    frontend deployment
+  </span>
+
+    <div class="aws-toggle">
+
+        <button
+                class="active"
+                onclick="switchAwsMode('primary', this)">
+            s3 + cloudfront
+        </button>
+
+        <button
+                onclick="switchAwsMode('alternative', this)">
+            ec2 alternative
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ============================================================
+     PRIMARY AWS DEPLOYMENT
+     ============================================================ -->
+
+<div
+        class="aws-view active"
+        id="aws-primary">
+
+    <svg
+            class="diag-svg"
+            viewBox="0 0 980 430"
+            xmlns="http://www.w3.org/2000/svg">
+
+        <defs>
+
+            <marker
+                    id="arrow-primary"
+                    markerWidth="6"
+                    markerHeight="6"
+                    refX="5"
+                    refY="3"
+                    orient="auto">
+
+                <path
+                        d="M0,0 L0,6 L6,3 z"
+                        fill="#232F3E"/>
+
+            </marker>
+
+
+            <marker
+                    id="arrow-primary-agent"
+                    markerWidth="6"
+                    markerHeight="6"
+                    refX="5"
+                    refY="3"
+                    orient="auto">
+
+                <path
+                        d="M0,0 L0,6 L6,3 z"
+                        fill="#5a7a9e"/>
+
+            </marker>
+
+        </defs>
+
+
+        <!-- ======================================================
+             USER
+             ====================================================== -->
+
+        <g
+                data-tip="user"
+                data-desc="The user interacts with the system through two external interfaces: the web frontend and the chat interface. The user does not directly access the backend API."
+                style="cursor:pointer">
+
+            <circle
+                    cx="48"
+                    cy="145"
+                    r="11"
+                    class="user-stroke"/>
+
+            <line
+                    x1="48"
+                    y1="156"
+                    x2="48"
+                    y2="185"
+                    class="user-stroke"/>
+
+            <line
+                    x1="30"
+                    y1="170"
+                    x2="66"
+                    y2="170"
+                    class="user-stroke"/>
+
+            <line
+                    x1="48"
+                    y1="185"
+                    x2="32"
+                    y2="205"
+                    class="user-stroke"/>
+
+            <line
+                    x1="48"
+                    y1="185"
+                    x2="64"
+                    y2="205"
+                    class="user-stroke"/>
+
+            <text
+                    class="user-label"
+                    x="48"
+                    y="220">
+                user
+            </text>
+
+        </g>
+
+
+        <!-- ======================================================
+             CHAT — OUTSIDE VPC
+             ====================================================== -->
+
+        <g
+                data-tip="chat interface"
+                data-desc="External chat interface used to communicate with the Python agent. Discord is outside the AWS VPC. The agent communicates with it through outbound connectivity."
+                style="cursor:pointer">
+
+            <rect
+                    class="chat-box"
+                    x="95"
+                    y="270"
+                    width="130"
+                    height="58"
+                    rx="2"/>
+
+            <text
+                    class="service-title"
+                    x="160"
+                    y="291">
+                chat interface
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="160"
+                    y="309">
+                dm only
+            </text>
+
+        </g>
+
+
+        <!-- USER → CHAT -->
+
+        <line
+                class="arrow soft"
+                marker-end="url(#arrow-primary)"
+                x1="48"
+                y1="219"
+                x2="95"
+                y2="294"/>
+
+
+        <!-- ======================================================
+             VPC
+             ====================================================== -->
+
+        <rect
+                class="vpc-box"
+                x="255"
+                y="22"
+                width="695"
+                height="365"
+                rx="2"/>
+
+        <text
+                class="group-label aws"
+                x="269"
+                y="37">
+            aws vpc
+        </text>
+
+
+        <!-- ======================================================
+             PUBLIC SUBNET
+             ====================================================== -->
+
+        <rect
+                class="subnet-box"
+                x="275"
+                y="48"
+                width="650"
+                height="105"
+                rx="1"/>
+
+        <text
+                class="group-label"
+                x="287"
+                y="62">
+            public subnet
+        </text>
+
+
+        <!-- ======================================================
+             PRIVATE SUBNET
+             ====================================================== -->
+
+        <rect
+                class="subnet-box"
+                x="275"
+                y="177"
+                width="650"
+                height="192"
+                rx="1"/>
+
+        <text
+                class="group-label"
+                x="287"
+                y="191">
+            private subnet
+        </text>
+
+
+        <!-- ======================================================
+             S3 + CLOUDFRONT
+             OUTSIDE VPC
+             ====================================================== -->
+
+        <g
+                data-tip="s3 + cloudfront"
+                data-desc="The Angular static build is stored in S3 and delivered through CloudFront. Neither service belongs inside the VPC. This is the primary frontend deployment."
+                class="service aws-purple">
+
+            <rect
+                    class="service-box"
+                    x="95"
+                    y="75"
+                    width="130"
+                    height="62"
+                    rx="2"/>
+
+
+            <image
+                    class="service-icon"
+                    href="https://datadef.io/icons/cloud-providers/aws/aws-simple-storage-service.svg"
+                    x="105"
+                    y="85"
+                    width="20"
+                    height="20"/>
+
+
+            <image
+                    class="service-icon"
+                    href="https://datadef.io/icons/cloud-providers/aws/aws-cloudfront.svg"
+                    x="130"
+                    y="85"
+                    width="20"
+                    height="20"/>
+
+
+            <text
+                    class="service-title"
+                    x="190"
+                    y="93"
+                    text-anchor="middle">
+                s3 + cloudfront
+            </text>
+
+
+            <text
+                    class="service-sub"
+                    x="160"
+                    y="118">
+                angular · static frontend
+            </text>
+
+        </g>
+
+
+        <!-- USER → FRONTEND -->
+
+        <line
+                class="arrow soft"
+                marker-end="url(#arrow-primary)"
+                x1="66"
+                y1="145"
+                x2="95"
+                y2="106"/>
+
+        <text
+                class="arrow-label"
+                x="76"
+                y="125">
+            browser
+        </text>
+
+
+        <!-- FRONTEND → ALB -->
+
+        <line
+                class="arrow"
+                marker-end="url(#arrow-primary)"
+                x1="225"
+                y1="106"
+                x2="345"
+                y2="106"/>
+
+        <text
+                class="arrow-label"
+                x="285"
+                y="97">
+            https
+        </text>
+
+
+        <!-- ======================================================
+             ALB
+             ====================================================== -->
+
+        <g
+                data-tip="application load balancer"
+                data-desc="Public Application Load Balancer. The frontend communicates with the backend through the ALB, but the user has no direct path to the backend. The ALB is the controlled public entry point for API traffic."
+                class="service aws-orange">
+
+            <rect
+                    class="service-box"
+                    x="345"
+                    y="78"
+                    width="145"
+                    height="56"
+                    rx="2"/>
+
+            <image
+                    class="service-icon"
+                    href="https://datadef.io/icons/cloud-providers/aws/aws-elastic-load-balancing.svg"
+                    x="357"
+                    y="91"
+                    width="22"
+                    height="22"/>
+
+            <text
+                    class="service-title"
+                    x="420"
+                    y="97">
+                application
+            </text>
+
+            <text
+                    class="service-title"
+                    x="420"
+                    y="111">
+                load balancer
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="417"
+                    y="125">
+                public subnet
+            </text>
+
+        </g>
+
+
+        <!-- ALB → BACKEND -->
+
+        <line
+                class="arrow"
+                marker-end="url(#arrow-primary)"
+                x1="490"
+                y1="106"
+                x2="560"
+                y2="106"/>
+
+        <text
+                class="arrow-label"
+                x="525"
+                y="97">
+            http
+        </text>
+
+
+        <!-- ======================================================
+             BACKEND
+             ====================================================== -->
+
+        <g
+                data-tip="c# backend api"
+                data-desc="Dockerised ASP.NET API running on EC2 in the private subnet. It handles application logic, authentication and planner persistence. It is not directly exposed to the user."
+                class="service aws-orange">
+
+            <rect
+                    class="service-box"
+                    x="560"
+                    y="76"
+                    width="155"
+                    height="60"
+                    rx="2"/>
+
+            <image
+                    class="service-icon"
+                    href="https://datadef.io/icons/cloud-providers/aws/aws-ec2.svg"
+                    x="571"
+                    y="88"
+                    width="23"
+                    height="23"/>
+
+            <text
+                    class="service-title"
+                    x="645"
+                    y="95">
+                c# backend api
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="638"
+                    y="115">
+                ec2 t3.micro
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="638"
+                    y="126">
+                private subnet
+            </text>
+
+        </g>
+
+
+        <!-- ======================================================
+             AGENT
+             ====================================================== -->
+
+        <g
+                data-tip="python agent"
+                data-desc="Dockerised Python agent running on EC2 in the private subnet. It handles chat, memory, tools and scheduled jobs. It communicates with the backend for planner operations and with Qdrant for semantic memory."
+                class="service aws-orange agent">
+
+            <rect
+                    class="service-box"
+                    x="560"
+                    y="214"
+                    width="155"
+                    height="62"
+                    rx="2"/>
+
+            <image
+                    class="service-icon"
+                    href="https://datadef.io/icons/cloud-providers/aws/aws-ec2.svg"
+                    x="571"
+                    y="226"
+                    width="23"
+                    height="23"/>
+
+            <text
+                    class="service-title"
+                    x="645"
+                    y="233">
+                python agent
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="638"
+                    y="253">
+                ec2 t3.micro
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="638"
+                    y="264">
+                private subnet
+            </text>
+
+        </g>
+
+
+        <!-- CHAT → AGENT -->
+
+        <line
+                class="arrow"
+                marker-end="url(#arrow-primary)"
+                x1="225"
+                y1="299"
+                x2="560"
+                y2="245"/>
+
+        <text
+                class="arrow-label"
+                x="394"
+                y="268">
+            chat messages
+        </text>
+
+
+        <!-- ======================================================
+             RDS
+             ====================================================== -->
+
+        <g
+                data-tip="rds postgresql"
+                data-desc="Amazon RDS PostgreSQL stores planner/application data. It is private and is accessed by the C# backend. The Python agent does not access RDS directly."
+                class="service aws-purple">
+
+            <rect
+                    class="service-box"
+                    x="760"
+                    y="76"
+                    width="150"
+                    height="60"
+                    rx="2"/>
+
+            <image
+                    class="service-icon"
+                    href="https://datadef.io/icons/cloud-providers/aws/aws-rds.svg"
+                    x="772"
+                    y="89"
+                    width="23"
+                    height="23"/>
+
+            <text
+                    class="service-title"
+                    x="835"
+                    y="96">
+                rds postgresql
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="835"
+                    y="116">
+                planner data
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="835"
+                    y="127">
+                private
+            </text>
+
+        </g>
+
+
+        <!-- BACKEND → RDS -->
+
+        <line
+                class="arrow"
+                marker-end="url(#arrow-primary)"
+                x1="715"
+                y1="106"
+                x2="760"
+                y2="106"/>
+
+        <text
+                class="arrow-label"
+                x="737"
+                y="97">
+            postgres
+        </text>
+
+
+        <!-- ======================================================
+             QDRANT
+             ====================================================== -->
+
+        <g
+                data-tip="qdrant vector database"
+                data-desc="Qdrant stores the agent's long-term semantic memory. It is independent from the application database and is accessed only by the Python agent. The C# backend does not know about Qdrant."
+                class="service agent">
+
+            <rect
+                    class="service-box"
+                    x="760"
+                    y="214"
+                    width="150"
+                    height="62"
+                    rx="2"/>
+
+
+            <!-- QDRANT ICON -->
+
+            <image
+                    class="service-icon"
+                    href="https://qdrant.tech/img/brand-resources-logos/qdrant-brandmark-black.svg"
+                    x="772"
+                    y="225"
+                    width="26"
+                    height="26"/>
+
+
+            <text
+                    class="service-title"
+                    x="835"
+                    y="233">
+                qdrant
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="835"
+                    y="253">
+                vector memory
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="835"
+                    y="264">
+                agent only
+            </text>
+
+        </g>
+
+
+        <!-- AGENT → QDRANT -->
+
+        <line
+                class="arrow agent"
+                marker-end="url(#arrow-primary-agent)"
+                x1="715"
+                y1="245"
+                x2="760"
+                y2="245"/>
+
+        <text
+                class="arrow-label"
+                x="738"
+                y="235">
+            vector search
+        </text>
+
+
+        <!-- ======================================================
+             AGENT → BACKEND
+             ====================================================== -->
+
+        <line
+                class="arrow agent"
+                marker-end="url(#arrow-primary-agent)"
+                x1="638"
+                y1="214"
+                x2="638"
+                y2="136"/>
+
+        <text
+                class="arrow-label"
+                x="668"
+                y="176">
+            http/rest
+        </text>
+
+
+        <!-- ======================================================
+             OUTBOUND INTERNET
+             ====================================================== -->
+
+        <g
+                data-tip="nat gateway"
+                data-desc="Amazon VPC NAT Gateway provides outbound internet access for resources in the private subnet without allowing unsolicited inbound connections."
+                style="cursor:pointer">
+
+            <rect
+                    class="service-box"
+                    x="335"
+                    y="285"
+                    width="145"
+                    height="42"
+                    rx="2"/>
+
+            <image
+                    class="service-icon"
+                    href="https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/aws-res-amazon-vpc-nat-gateway/default.svg"
+                    x="347"
+                    y="294"
+                    width="24"
+                    height="24"/>
+
+            <text
+                    class="service-title"
+                    x="417"
+                    y="300">
+                nat gateway
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="417"
+                    y="316">
+                public subnet
+            </text>
+
+        </g>
+
+
+        <!-- AGENT → OUTBOUND -->
+
+        <line
+                class="arrow dashed agent"
+                marker-end="url(#arrow-primary-agent)"
+                x1="560"
+                y1="260"
+                x2="480"
+                y2="300"/>
+
+        <text
+                class="arrow-label"
+                x="520"
+                y="288">
+            outbound
+        </text>
+
+
+        <!-- OUTBOUND → CHAT -->
+
+        <line
+                class="arrow dashed soft"
+                marker-end="url(#arrow-primary)"
+                x1="335"
+                y1="306"
+                x2="225"
+                y2="306"/>
+
+        <text
+                class="arrow-label"
+                x="280"
+                y="296">
+            discord
+        </text>
+
+
+    </svg>
+
+</div>
+
+
+<!-- ============================================================
+     ALTERNATIVE — EC2 FRONTEND
+     ============================================================ -->
+
+<div
+        class="aws-view"
+        id="aws-alternative">
+
+    <svg
+            class="diag-svg"
+            viewBox="0 0 980 430"
+            xmlns="http://www.w3.org/2000/svg">
+
+        <defs>
+
+            <marker
+                    id="arrow-alt"
+                    markerWidth="6"
+                    markerHeight="6"
+                    refX="5"
+                    refY="3"
+                    orient="auto">
+
+                <path
+                        d="M0,0 L0,6 L6,3 z"
+                        fill="#232F3E"/>
+
+            </marker>
+
+
+            <marker
+                    id="arrow-alt-agent"
+                    markerWidth="6"
+                    markerHeight="6"
+                    refX="5"
+                    refY="3"
+                    orient="auto">
+
+                <path
+                        d="M0,0 L0,6 L6,3 z"
+                        fill="#5a7a9e"/>
+
+            </marker>
+
+        </defs>
+
+
+        <!-- ======================================================
+             USER
+             ====================================================== -->
+
+        <g
+                data-tip="user"
+                data-desc="The user interacts with the system through the frontend and chat interface. The backend remains hidden behind the load balancer."
+                style="cursor:pointer">
+
+            <circle
+                    cx="48"
+                    cy="145"
+                    r="11"
+                    class="user-stroke"/>
+
+            <line
+                    x1="48"
+                    y1="156"
+                    x2="48"
+                    y2="185"
+                    class="user-stroke"/>
+
+            <line
+                    x1="30"
+                    y1="170"
+                    x2="66"
+                    y2="170"
+                    class="user-stroke"/>
+
+            <line
+                    x1="48"
+                    y1="185"
+                    x2="32"
+                    y2="205"
+                    class="user-stroke"/>
+
+            <line
+                    x1="48"
+                    y1="185"
+                    x2="64"
+                    y2="205"
+                    class="user-stroke"/>
+
+            <text
+                    class="user-label"
+                    x="48"
+                    y="220">
+                user
+            </text>
+
+        </g>
+
+
+        <!-- ======================================================
+             CHAT
+             ====================================================== -->
+
+        <g
+                data-tip="chat interface"
+                data-desc="External chat interface for communicating with the agent. It remains outside the VPC."
+                style="cursor:pointer">
+
+            <rect
+                    class="chat-box"
+                    x="95"
+                    y="270"
+                    width="130"
+                    height="58"
+                    rx="2"/>
+
+            <text
+                    class="service-title"
+                    x="160"
+                    y="291">
+                chat interface
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="160"
+                    y="309">
+                dm only
+            </text>
+
+        </g>
+
+
+        <!-- USER → CHAT -->
+
+        <line
+                class="arrow soft"
+                marker-end="url(#arrow-alt)"
+                x1="48"
+                y1="219"
+                x2="95"
+                y2="294"/>
+
+
+        <!-- ======================================================
+             VPC
+             ====================================================== -->
+
+        <rect
+                class="vpc-box"
+                x="255"
+                y="22"
+                width="695"
+                height="365"
+                rx="2"/>
+
+        <text
+                class="group-label aws"
+                x="269"
+                y="37">
+            aws vpc
+        </text>
+
+
+        <!-- PUBLIC SUBNET -->
+
+        <rect
+                class="subnet-box"
+                x="275"
+                y="48"
+                width="650"
+                height="105"
+                rx="1"/>
+
+        <text
+                class="group-label"
+                x="287"
+                y="62">
+            public subnet
+        </text>
+
+
+        <!-- PRIVATE SUBNET -->
+
+        <rect
+                class="subnet-box"
+                x="275"
+                y="177"
+                width="650"
+                height="192"
+                rx="1"/>
+
+        <text
+                class="group-label"
+                x="287"
+                y="191">
+            private subnet
+        </text>
+
+
+        <!-- ======================================================
+             EC2 FRONTEND
+             ====================================================== -->
+
+        <g
+                data-tip="ec2 frontend — alternative"
+                data-desc="Alternative frontend deployment. Instead of S3 + CloudFront, the Angular application can be served from an EC2 instance. This keeps the frontend inside the AWS VPC and is simpler conceptually, but gives up some of the benefits of static hosting and CDN delivery."
+                class="service aws-orange">
+
+            <rect
+                    class="service-box"
+                    x="95"
+                    y="75"
+                    width="130"
+                    height="62"
+                    rx="2"/>
+
+            <image
+                    class="service-icon"
+                    href="https://datadef.io/icons/cloud-providers/aws/aws-ec2.svg"
+                    x="106"
+                    y="87"
+                    width="23"
+                    height="23"/>
+
+            <text
+                    class="service-title"
+                    x="177"
+                    y="94">
+                frontend
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="160"
+                    y="116">
+                ec2 · angular
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="160"
+                    y="127">
+                alternative
+            </text>
+
+        </g>
+
+
+        <!-- USER → FRONTEND -->
+
+        <line
+                class="arrow soft"
+                marker-end="url(#arrow-alt)"
+                x1="66"
+                y1="145"
+                x2="95"
+                y2="106"/>
+
+        <text
+                class="arrow-label"
+                x="76"
+                y="125">
+            browser
+        </text>
+
+
+        <!-- FRONTEND → ALB -->
+
+        <line
+                class="arrow"
+                marker-end="url(#arrow-alt)"
+                x1="225"
+                y1="106"
+                x2="345"
+                y2="106"/>
+
+        <text
+                class="arrow-label"
+                x="285"
+                y="97">
+            https
+        </text>
+
+
+        <!-- ======================================================
+             ALB
+             ====================================================== -->
+
+        <g
+                data-tip="application load balancer"
+                data-desc="Public Application Load Balancer. The frontend uses the ALB to reach the private backend. The user does not directly access the backend."
+                class="service aws-orange">
+
+            <rect
+                    class="service-box"
+                    x="345"
+                    y="78"
+                    width="145"
+                    height="56"
+                    rx="2"/>
+
+            <image
+                    class="service-icon"
+                    href="https://datadef.io/icons/cloud-providers/aws/aws-elastic-load-balancing.svg"
+                    x="357"
+                    y="91"
+                    width="22"
+                    height="22"/>
+
+            <text
+                    class="service-title"
+                    x="420"
+                    y="97">
+                application
+            </text>
+
+            <text
+                    class="service-title"
+                    x="420"
+                    y="111">
+                load balancer
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="417"
+                    y="125">
+                public subnet
+            </text>
+
+        </g>
+
+
+        <!-- ALB → BACKEND -->
+
+        <line
+                class="arrow"
+                marker-end="url(#arrow-alt)"
+                x1="490"
+                y1="106"
+                x2="560"
+                y2="106"/>
+
+        <text
+                class="arrow-label"
+                x="525"
+                y="97">
+            http
+        </text>
+
+
+        <!-- ======================================================
+             BACKEND
+             ====================================================== -->
+
+        <g
+                data-tip="c# backend api"
+                data-desc="ASP.NET API running privately on EC2. The backend is reachable through the ALB, not directly by the user."
+                class="service aws-orange">
+
+            <rect
+                    class="service-box"
+                    x="560"
+                    y="76"
+                    width="155"
+                    height="60"
+                    rx="2"/>
+
+            <image
+                    class="service-icon"
+                    href="https://datadef.io/icons/cloud-providers/aws/aws-ec2.svg"
+                    x="571"
+                    y="88"
+                    width="23"
+                    height="23"/>
+
+            <text
+                    class="service-title"
+                    x="645"
+                    y="95">
+                c# backend api
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="638"
+                    y="115">
+                ec2 t3.micro
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="638"
+                    y="126">
+                private subnet
+            </text>
+
+        </g>
+
+
+        <!-- ======================================================
+             RDS
+             ====================================================== -->
+
+        <g
+                data-tip="rds postgresql"
+                data-desc="Private RDS PostgreSQL instance storing planner data. Only the backend accesses this database."
+                class="service aws-purple">
+
+            <rect
+                    class="service-box"
+                    x="760"
+                    y="76"
+                    width="150"
+                    height="60"
+                    rx="2"/>
+
+            <image
+                    class="service-icon"
+                    href="https://datadef.io/icons/cloud-providers/aws/aws-rds.svg"
+                    x="772"
+                    y="89"
+                    width="23"
+                    height="23"/>
+
+            <text
+                    class="service-title"
+                    x="835"
+                    y="96">
+                rds postgresql
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="835"
+                    y="116">
+                planner data
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="835"
+                    y="127">
+                private
+            </text>
+
+        </g>
+
+
+        <!-- BACKEND → RDS -->
+
+        <line
+                class="arrow"
+                marker-end="url(#arrow-alt)"
+                x1="715"
+                y1="106"
+                x2="760"
+                y2="106"/>
+
+        <text
+                class="arrow-label"
+                x="737"
+                y="97">
+            postgres
+        </text>
+
+
+        <!-- ======================================================
+             AGENT
+             ====================================================== -->
+
+        <g
+                data-tip="python agent"
+                data-desc="Python agent running privately on EC2. It owns the agent memory layer and communicates with Qdrant directly."
+                class="service agent">
+
+            <rect
+                    class="service-box"
+                    x="560"
+                    y="214"
+                    width="155"
+                    height="62"
+                    rx="2"/>
+
+            <image
+                    class="service-icon"
+                    href="https://datadef.io/icons/cloud-providers/aws/aws-ec2.svg"
+                    x="571"
+                    y="226"
+                    width="23"
+                    height="23"/>
+
+            <text
+                    class="service-title"
+                    x="645"
+                    y="233">
+                python agent
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="638"
+                    y="253">
+                ec2 t3.micro
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="638"
+                    y="264">
+                private subnet
+            </text>
+
+        </g>
+
+
+        <!-- ======================================================
+             QDRANT
+             ====================================================== -->
+
+        <g
+                data-tip="qdrant vector database"
+                data-desc="Agent-owned semantic memory. Qdrant is completely separate from RDS. The backend does not access or depend on Qdrant."
+                class="service agent">
+
+            <rect
+                    class="service-box"
+                    x="760"
+                    y="214"
+                    width="150"
+                    height="62"
+                    rx="2"/>
+
+            <image
+                    class="service-icon"
+                    href="https://qdrant.tech/img/brand-resources-logos/qdrant-brandmark-black.svg"
+                    x="772"
+                    y="225"
+                    width="26"
+                    height="26"/>
+
+
+            <text
+                    class="service-title"
+                    x="835"
+                    y="233">
+                qdrant
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="835"
+                    y="253">
+                vector memory
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="835"
+                    y="264">
+                agent only
+            </text>
+
+        </g>
+
+
+        <!-- AGENT → QDRANT -->
+
+        <line
+                class="arrow agent"
+                marker-end="url(#arrow-alt-agent)"
+                x1="715"
+                y1="245"
+                x2="760"
+                y2="245"/>
+
+        <text
+                class="arrow-label"
+                x="738"
+                y="235">
+            vector search
+        </text>
+
+
+        <!-- AGENT → BACKEND -->
+
+        <line
+                class="arrow agent"
+                marker-end="url(#arrow-alt-agent)"
+                x1="638"
+                y1="214"
+                x2="638"
+                y2="136"/>
+
+        <text
+                class="arrow-label"
+                x="668"
+                y="176">
+            http/rest
+        </text>
+
+        <!-- CHAT → AGENT -->
+
+        <line
+                class="arrow"
+                marker-end="url(#arrow-primary)"
+                x1="225"
+                y1="299"
+                x2="560"
+                y2="245"/>
+
+        <text
+                class="arrow-label"
+                x="394"
+                y="268">
+            chat messages
+        </text>
+
+
+        <!-- ======================================================
+             OUTBOUND ACCESS
+             ====================================================== -->
+
+        <g
+                data-tip="nat gateway"
+                data-desc="Amazon VPC NAT Gateway provides outbound internet access for resources in the private subnet without allowing unsolicited inbound connections."
+                style="cursor:pointer">
+
+            <rect
+                    class="service-box"
+                    x="335"
+                    y="285"
+                    width="145"
+                    height="42"
+                    rx="2"/>
+
+            <image
+                    class="service-icon"
+                    href="https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/aws-res-amazon-vpc-nat-gateway/default.svg"
+                    x="347"
+                    y="294"
+                    width="24"
+                    height="24"/>
+
+            <text
+                    class="service-title"
+                    x="417"
+                    y="300">
+                nat gateway
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="417"
+                    y="316">
+                public subnet
+            </text>
+
+        </g>
+
+
+        <!-- AGENT → OUTBOUND -->
+
+        <line
+                class="arrow dashed agent"
+                marker-end="url(#arrow-alt-agent)"
+                x1="560"
+                y1="260"
+                x2="480"
+                y2="300"/>
+
+        <text
+                class="arrow-label"
+                x="520"
+                y="288">
+            outbound
+        </text>
+
+
+        <!-- OUTBOUND → CHAT -->
+
+        <line
+                class="arrow dashed soft"
+                marker-end="url(#arrow-alt)"
+                x1="335"
+                y1="306"
+                x2="225"
+                y2="306"/>
+
+        <text
+                class="arrow-label"
+                x="280"
+                y="296">
+            discord
+        </text>
+
+
+    </svg>
+
+</div>
+
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+
+<div class="aws-footer">
+
+    <button
+            class="see-agent-btn"
+            onclick="showAgentFlow()">
+        ↓ see agent flow
+    </button>
+
+    <p class="diag-note">
+        hover over any component to see the reasoning behind it.
+    </p>
+
+</div>
+
+
+<!-- ============================================================
+     AGENT FLOW OVERLAY
+     ============================================================ -->
+
+<div
+        class="agent-overlay"
+        id="agentOverlay">
+
+    <button
+            class="agent-back"
+            onclick="hideAgentFlow()">
+        ← back to aws architecture
+    </button>
+
+
+    <svg
+            class="diag-svg"
+            viewBox="0 0 740 420"
+            xmlns="http://www.w3.org/2000/svg">
+
+        <defs>
+
+            <marker
+                    id="agent-arrow"
+                    markerWidth="6"
+                    markerHeight="6"
+                    refX="5"
+                    refY="3"
+                    orient="auto">
+
+                <path
+                        d="M0,0 L0,6 L6,3 z"
+                        fill="#c8bfb0"/>
+
+            </marker>
+
+        </defs>
+
+
+        <!-- USER -->
+
+        <g
+                data-tip="you"
+                data-desc="You send a message through the external chat interface."
+                style="cursor:pointer">
+
+            <circle
+                    cx="370"
+                    cy="16"
+                    r="10"
+                    fill="none"
+                    stroke="#9a8f82"
+                    stroke-width="0.75"/>
+
+            <line
+                    x1="370"
+                    y1="26"
+                    x2="370"
+                    y2="48"
+                    stroke="#9a8f82"
+                    stroke-width="0.75"/>
+
+            <line
+                    x1="354"
+                    y1="36"
+                    x2="386"
+                    y2="36"
+                    stroke="#9a8f82"
+                    stroke-width="0.75"/>
+
+            <line
+                    x1="370"
+                    y1="48"
+                    x2="356"
+                    y2="62"
+                    stroke="#9a8f82"
+                    stroke-width="0.75"/>
+
+            <line
+                    x1="370"
+                    y1="48"
+                    x2="384"
+                    y2="62"
+                    stroke="#9a8f82"
+                    stroke-width="0.75"/>
+
+            <text
+                    class="user-label"
+                    x="370"
+                    y="72">
+                user
+            </text>
+
+        </g>
+
+
+        <!-- USER → BOT -->
+
+        <line
+                class="arrow soft"
+                marker-end="url(#agent-arrow)"
+                x1="370"
+                y1="75"
+                x2="370"
+                y2="90"/>
+
+
+        <!-- BOT -->
+
+        <g
+                data-tip="bot layer"
+                data-desc="Entry point for chat messages. Receives messages and routes them into the agent pipeline."
+                style="cursor:pointer">
+
+            <rect
+                    class="service-box"
+                    x="290"
+                    y="92"
+                    width="160"
+                    height="38"
+                    rx="2"/>
+
+            <text
+                    class="service-title"
+                    x="370"
+                    y="107">
+                bot layer
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="370"
+                    y="122">
+                for chat
+            </text>
+
+        </g>
+
+
+        <!-- BOT → GUARDRAILS -->
+
+        <line
+                class="arrow soft"
+                marker-end="url(#agent-arrow)"
+                x1="370"
+                y1="130"
+                x2="370"
+                y2="145"/>
+
+
+        <!-- GUARDRAILS -->
+
+        <g
+                data-tip="guardrails"
+                data-desc="Input and output controls that reject unsafe or malformed requests and constrain agent actions."
+                style="cursor:pointer">
+
+            <rect
+                    class="service-box"
+                    x="290"
+                    y="147"
+                    width="160"
+                    height="38"
+                    rx="2"
+                    stroke="#5a7a9e"/>
+
+            <text
+                    class="service-title"
+                    x="370"
+                    y="162">
+                guardrails
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="370"
+                    y="177">
+                input + output
+            </text>
+
+        </g>
+
+
+        <!-- GUARDRAILS → AGENT -->
+
+        <line
+                class="arrow soft"
+                marker-end="url(#agent-arrow)"
+                x1="370"
+                y1="185"
+                x2="370"
+                y2="200"/>
+
+
+        <!-- AGENT -->
+
+        <g
+                data-tip="agent layer"
+                data-desc="LangChain agent layer. Builds context, recalls memory and decides which tools to use."
+                style="cursor:pointer">
+
+            <rect
+                    class="service-box"
+                    x="290"
+                    y="202"
+                    width="160"
+                    height="46"
+                    rx="2"
+                    stroke="#5a7a9e"/>
+
+            <text
+                    class="service-title"
+                    x="370"
+                    y="221">
+                agent
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="370"
+                    y="237">
+                langchain
+            </text>
+
+        </g>
+
+
+        <!-- MEMORY TOOLS -->
+
+        <line
+                class="arrow soft"
+                marker-end="url(#agent-arrow)"
+                x1="330"
+                y1="248"
+                x2="148"
+                y2="274"/>
+
+
+        <g
+                data-tip="memory tools"
+                data-desc="Tools used by the agent to retrieve and store conversational and semantic memory."
+                style="cursor:pointer">
+
+            <rect
+                    class="service-box"
+                    x="68"
+                    y="276"
+                    width="160"
+                    height="46"
+                    rx="2"
+                    stroke="#5a7a9e"/>
+
+            <text
+                    class="service-title"
+                    x="148"
+                    y="295">
+                memory tools
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="148"
+                    y="310">
+                store · retrieve
+            </text>
+
+        </g>
+
+
+        <!-- MEMORY TOOLS → QDRANT -->
+
+        <line
+                class="arrow agent"
+                marker-end="url(#agent-arrow)"
+                x1="148"
+                y1="322"
+                x2="148"
+                y2="356"/>
+
+
+        <!-- QDRANT -->
+
+        <g
+                data-tip="qdrant"
+                data-desc="Long-term semantic memory. Qdrant is owned by the agent layer and is independent from the application database."
+                style="cursor:pointer">
+
+            <rect
+                    class="service-box"
+                    x="68"
+                    y="356"
+                    width="160"
+                    height="42"
+                    rx="2"
+                    stroke="#5a7a9e"/>
+
+            <text
+                    class="service-title"
+                    x="148"
+                    y="371">
+                qdrant
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="148"
+                    y="387">
+                vector memory
+            </text>
+
+        </g>
+
+
+        <!-- PLANNER TOOLS -->
+
+        <line
+                class="arrow soft"
+                marker-end="url(#agent-arrow)"
+                x1="410"
+                y1="248"
+                x2="534"
+                y2="274"/>
+
+
+        <g
+                data-tip="planner tools"
+                data-desc="get_week, create_task, create_event, create_meeting, create_note and update_task. These communicate with the C# backend through its REST API."
+                style="cursor:pointer">
+
+            <rect
+                    class="service-box"
+                    x="464"
+                    y="276"
+                    width="160"
+                    height="46"
+                    rx="2"/>
+
+            <text
+                    class="service-title"
+                    x="544"
+                    y="295">
+                planner tools
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="544"
+                    y="310">
+                get · create · update
+            </text>
+
+        </g>
+
+
+        <!-- PLANNER TOOLS → BACKEND -->
+
+        <line
+                class="arrow dashed soft"
+                marker-end="url(#agent-arrow)"
+                x1="544"
+                y1="322"
+                x2="544"
+                y2="340"/>
+
+
+        <g
+                data-tip="backend api"
+                data-desc="Planner tools call the C# backend API. The backend handles planner persistence through RDS."
+                style="cursor:pointer">
+
+            <rect
+                    class="service-box"
+                    x="484"
+                    y="342"
+                    width="120"
+                    height="28"
+                    rx="2"/>
+
+            <text
+                    class="service-title"
+                    x="544"
+                    y="356"
+                    style="font-size:11.5px">
+                backend api
+            </text>
+
+        </g>
+
+
+        <!-- SCHEDULER -->
+
+        <g
+                data-tip="scheduler"
+                data-desc="APScheduler handles proactive jobs such as morning briefings and deadline checks."
+                style="cursor:pointer">
+
+            <rect
+                    class="service-box"
+                    x="582"
+                    y="147"
+                    width="138"
+                    height="46"
+                    rx="2"/>
+
+            <text
+                    class="service-title"
+                    x="651"
+                    y="164">
+                scheduler
+            </text>
+
+            <text
+                    class="service-sub"
+                    x="651"
+                    y="180">
+                apscheduler
+            </text>
+
+        </g>
+
+
+        <!-- SCHEDULER → BOT -->
+
+        <line
+                class="arrow dashed soft"
+                marker-end="url(#agent-arrow)"
+                x1="582"
+                y1="166"
+                x2="452"
+                y2="118"/>
+
+        <text
+                class="arrow-label"
+                x="528"
+                y="136">
+            proactive
+        </text>
+
+
+    </svg>
+
+</div>
+
+
+<!-- ============================================================
+     TOOLTIP
+     ============================================================ -->
+
+<div
+        class="tooltip"
+        id="tooltip">
+
+  <span
+          class="tooltip-label"
+          id="tlabel">
+  </span>
+
+    <span
+            id="tdesc">
+  </span>
+
+</div>
+
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+
+<script>
+
+
+    /* ==========================================================
+       FRONTEND DEPLOYMENT TOGGLE
+       ========================================================== */
+
+    function switchAwsMode(mode, btn) {
+
+        document
+            .querySelectorAll('.aws-toggle button')
+            .forEach(button => {
+                button.classList.remove('active');
+            });
+
+        btn.classList.add('active');
+
+
+        document
+            .getElementById('aws-primary')
+            .classList.toggle(
+            'active',
+            mode === 'primary'
+        );
+
+
+        document
+            .getElementById('aws-alternative')
+            .classList.toggle(
+            'active',
+            mode === 'alternative'
+        );
+
+    }
+
+
+    /* ==========================================================
+       AGENT FLOW
+       ========================================================== */
+
+    function showAgentFlow() {
+
+        document
+            .getElementById('agentOverlay')
+            .classList.add('active');
+
+    }
+
+
+    function hideAgentFlow() {
+
+        document
+            .getElementById('agentOverlay')
+            .classList.remove('active');
+
+    }
+
+
+    /* ==========================================================
+       TOOLTIP
+       ========================================================== */
+
+    const tooltip =
+        document.getElementById('tooltip');
+
+    const tooltipLabel =
+        document.getElementById('tlabel');
+
+    const tooltipDescription =
+        document.getElementById('tdesc');
+
+    let activeTooltip = null;
+
+
+    document.addEventListener(
+        'mouseover',
+        event => {
+
+            const element =
+                event.target.closest('[data-tip]');
+
+            if (!element) return;
+
+
+            activeTooltip = element;
+
+
+            tooltipLabel.textContent =
+                element.getAttribute('data-tip');
+
+
+            tooltipDescription.textContent =
+                element.getAttribute('data-desc');
+
+
+            tooltip.classList.add('visible');
+
+
+            moveTooltip(event);
+
+        }
+    );
+
+
+    document.addEventListener(
+        'mousemove',
+        event => {
+
+            if (activeTooltip) {
+                moveTooltip(event);
+            }
+
+        }
+    );
+
+
+    document.addEventListener(
+        'mouseout',
+        event => {
+
+            const element =
+                event.target.closest('[data-tip]');
+
+            if (!element) return;
+
+
+            activeTooltip = null;
+
+            tooltip.classList.remove('visible');
+
+        }
+    );
+
+
+    function moveTooltip(event) {
+
+        const padding = 14;
+
+        const width =
+            tooltip.offsetWidth;
+
+        const height =
+            tooltip.offsetHeight;
+
+
+        let x =
+            event.clientX + padding;
+
+        let y =
+            event.clientY + padding;
+
+
+        if (
+            x + width >
+            window.innerWidth - 12
+        ) {
+
+            x =
+                event.clientX -
+                width -
+                padding;
+
+        }
+
+
+        if (
+            y + height >
+            window.innerHeight - 12
+        ) {
+
+            y =
+                event.clientY -
+                height -
+                padding;
+
+        }
+
+
+        tooltip.style.left =
+            x + 'px';
+
+        tooltip.style.top =
+            y + 'px';
+
+    }
+
+
+    /* ==========================================================
+       ESCAPE KEY
+       ========================================================== */
+
+    document.addEventListener(
+        'keydown',
+        event => {
+
+            if (
+                event.key === 'Escape' &&
+                document
+                    .getElementById('agentOverlay')
+                    .classList.contains('active')
+            ) {
+
+                hideAgentFlow();
+
+            }
+
+        }
+    );
+
+
+</script>
+
+</body>
+</html>
