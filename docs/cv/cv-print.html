@@ -3,350 +3,494 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Susana Loureiro | Machine Learning Engineer</title>
+
+    <title>Susana Loureiro — CV</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        html, body {
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-            color-adjust: exact;
-        }
 
-        @font-face {
-            font-family: 'Quentin';
-            src: url('../../fonts/Quentin.otf') format('opentype');
-        }
+    <link
+            href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@300;400;500&display=swap"
+            rel="stylesheet"
+    >
 
-        :root {
-            --bg: #ffffff;
-            --text: #1f1f1f;
-            --text-soft: #555555;
-            --accent: #b07a3a;
-            --accent-dark: #8b5e2f;
-            --border: #e6e0d6;
-            --font-serif: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
-            --font-body: 'Libre Baskerville', Georgia, serif;
-            --font-sans: 'Nunito Sans', Helvetica, Arial, sans-serif;
-        }
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: var(--font-sans);
-            background: var(--bg);
-            color: var(--text);
-            font-size: 9pt;
-            line-height: 1.4;
-        }
-
-        .cv-container {
-            width: 210mm;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 60mm 1fr;
-        }
-
-        /* LEFT COLUMN */
-        .cv-left {
-            padding: 14mm 10mm 14mm 12mm;
-            display: flex;
-            flex-direction: column;
-            gap: 7mm;
-        }
-
-        .cv-photo {
-            width: 32mm;
-            height: 40mm;
-            overflow: hidden;
-            margin: 0 auto;
-        }
-        .cv-photo img {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            border-radius: 2px;
-            display: block;
-        }
-
-        .cv-contact { display: flex; flex-direction: column; gap: 3mm; font-size: 8pt; color: var(--text-soft); }
-        .cv-contact-item { display: flex; gap: 5px; align-items: flex-start; }
-        .cv-contact-item i { width: 12px; text-align: center; color: var(--accent); margin-top: 1px; flex-shrink: 0; }
-
-        .left-section-title {
-            font-family: var(--font-serif);
-            font-size: 11pt;
-            color: var(--accent-dark);
-            border-bottom: 0.5px solid var(--border);
-            padding-bottom: 2px;
-            margin-bottom: 4mm;
-        }
-
-        .skill-group { margin-bottom: 4mm; }
-        .skill-group-title { font-size: 8.5pt; font-weight: 600; color: var(--accent-dark); margin-bottom: 2px; }
-        .skill-group p { font-size: 8pt; color: var(--text-soft); line-height: 1.5; }
-
-        .lang-item { font-size: 8.5pt; margin-bottom: 2mm; }
-
-        /* RIGHT COLUMN */
-        .cv-right {
-            padding: 14mm 14mm 14mm 12mm;
-            border-left: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            gap: 6mm;
-        }
-
-        .cv-name {
-            font-family: 'Quentin', var(--font-serif);
-            font-size: 26pt;
-            line-height: 1;
-            color: var(--text);
-        }
-        .cv-title {
-            font-family: var(--font-serif);
-            font-size: 12pt;
-            font-style: italic;
-            color: var(--accent-dark);
-            margin-top: 1mm;
-        }
-
-        .section-title {
-            font-family: var(--font-serif);
-            font-size: 11pt;
-            color: var(--accent-dark);
-            border-bottom: 0.5px solid var(--border);
-            padding-bottom: 2px;
-            margin-bottom: 4mm;
-        }
-
-        .summary {
-            font-family: var(--font-body);
-            font-size: 8.5pt;
-            color: var(--text);
-            line-height: 1.55;
-        }
-
-        .exp-role { font-weight: 600; font-size: 9.5pt; }
-        .exp-company { font-style: italic; color: var(--accent-dark); font-size: 9pt; }
-        .exp-meta { font-size: 8pt; color: var(--text-soft); margin-bottom: 2mm; }
-
-        .edu-degree { font-weight: 600; font-size: 9.5pt; }
-        .edu-school { font-style: italic; color: var(--accent-dark); font-size: 9pt; }
-        .edu-meta { font-size: 8pt; color: var(--text-soft); }
-        .edu-courses { font-size: 7.5pt; color: var(--text-soft); margin-top: 1mm; }
-
-        /* Certs as a compact 2-col grid */
-        .certs-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3mm 6mm;
-        }
-        .cert-item { font-size: 8.5pt; }
-        .cert-name { font-weight: 500; }
-        .cert-meta { font-size: 7.5pt; color: var(--text-soft); }
-
-        /* Projects compact */
-        .project-item { margin-bottom: 4mm; }
-        .project-item:last-child { margin-bottom: 0; }
-        .project-title { font-weight: 600; font-size: 9pt; margin-bottom: 1mm; }
-        .project-bullets {
-            padding-left: 12px;
-            list-style: disc;
-            font-size: 8pt;
-            line-height: 1.45;
-        }
-        .project-bullets li { margin-bottom: 1px; }
-        .tech { font-style: italic; color: var(--text-soft); font-size: 7.5pt; }
-
-        ul.bullets {
-            padding-left: 12px;
-            list-style: disc;
-            font-size: 8.5pt;
-            line-height: 1.45;
-        }
-        ul.bullets li { margin-bottom: 2px; }
-
-        @media print {
-            body { margin: 0; }
-        }
-    </style>
+    <link rel="stylesheet" href="../../css/cv.css">
 </head>
+
 <body>
-<div class="cv-container">
 
-    <!-- LEFT -->
-    <div class="cv-left">
-        <div class="cv-photo">
-            <img src="img/fotos.jpg" alt="Susana Loureiro">
-        </div>
+<main class="cv">
 
-        <div class="cv-contact">
-            <div class="cv-contact-item"><i class="fas fa-envelope"></i><span>susanamloureiro@outlook.com</span></div>
-            <div class="cv-contact-item"><i class="fas fa-phone-alt"></i><span>+351 919 390 272</span></div>
-            <div class="cv-contact-item"><i class="fas fa-map-marker-alt"></i><span>Porto, Portugal</span></div>
-            <div class="cv-contact-item"><i class="fab fa-linkedin-in"></i><span>linkedin.com/in/susanamloureiro</span></div>
-            <div class="cv-contact-item"><i class="fab fa-github"></i><span>github.com/susanamloureiro</span></div>
-            <div class="cv-contact-item"><i class="fas fa-globe"></i><span>susanamloureiro.github.io</span></div>
-        </div>
+    <!-- ─────────────────────────────────────────
+         HEADER
+    ────────────────────────────────────────── -->
 
-        <div>
-            <div class="left-section-title">Skills</div>
-            <div class="skill-group">
-                <div class="skill-group-title">Languages</div>
-                <p>Python · SQL · JavaScript · TypeScript · Java · C · C# · HTML/CSS</p>
+    <header class="cv-header">
+
+        <div class="cv-header-main">
+            <div class="cv-kicker">
+                Curriculum Vitae · 2026
             </div>
-            <div class="skill-group">
-                <div class="skill-group-title">ML / AI</div>
-                <p>PyTorch · Scikit-Learn · Pandas · Hugging Face Transformers · PEFT · QLoRA · MLflow · YOLO · Computer Vision · NLP · Fine-tuning · FastAPI Inference APIs</p>
-            </div>
-            <div class="skill-group">
-                <div class="skill-group-title">Cloud & DevOps</div>
-                <p>AWS · Docker · Linux · Git · GitHub Actions · CI/CD · ECS</p>
-            </div>
-            <div class="skill-group">
-                <div class="skill-group-title">Frameworks</div>
-                <p>FastAPI · Node.js · Next.js · Spring Boot · Angular · .NET</p>
-            </div>
-            <div class="skill-group">
-                <div class="skill-group-title">Databases</div>
-                <p>PostgreSQL · MongoDB · Firebase · Oracle</p>
+
+            <h1>
+                Susana Loureiro
+            </h1>
+
+            <div class="cv-role">
+                ML/AI Engineer
             </div>
         </div>
 
-        <div>
-            <div class="left-section-title">Languages</div>
-            <div class="lang-item"><strong>Portuguese</strong> — Native</div>
-            <div class="lang-item"><strong>English</strong> — C1 (IELTS Academic)</div>
-        </div>
-    </div>
-
-    <!-- RIGHT -->
-    <div class="cv-right">
-        <div>
-            <div class="cv-name">Susana Loureiro</div>
-            <div class="cv-title">Machine Learning Engineer</div>
+        <div class="cv-header-meta">
+            <div>Porto, Portugal</div>
+            <div>Available for ML / AI opportunities</div>
         </div>
 
-        <div>
-            <div class="section-title">Summary</div>
-            <p class="summary">Machine Learning Engineer building end-to-end AI systems across LLMs, recommendation systems, and real-time computer vision infrastructure. Experienced developing production-oriented ML pipelines including fine-tuned LLM deployment, deep learning training workflows, inference APIs, and real-time analytics systems. Currently building computer vision infrastructure at DevScope using PyTorch, YOLOv8, MongoDB, and cloud-native tooling. AWS Certified in Machine Learning, Solutions Architecture, and AI foundations.</p>
+    </header>
+
+
+    <!-- ─────────────────────────────────────────
+         CONTACT
+    ────────────────────────────────────────── -->
+
+    <section class="cv-contact">
+
+        <a href="mailto:susanamloureiro@outlook.com">
+            <i class="fa-solid fa-envelope contact-icon" aria-hidden="true"></i>
+            susanamloureiro@outlook.com
+        </a>
+
+        <span>
+        <i class="fa-solid fa-phone contact-icon" aria-hidden="true"></i>
+        +351 919 390 272
+    </span>
+
+        <a href="https://www.linkedin.com/in/susanamloureiro"
+           target="_blank"
+           rel="noopener">
+            <i class="fa-brands fa-linkedin-in contact-icon" aria-hidden="true"></i>
+            linkedin.com/in/susanamloureiro
+        </a>
+
+        <a href="https://github.com/susanamloureiro"
+           target="_blank"
+           rel="noopener">
+            <i class="fa-brands fa-github contact-icon" aria-hidden="true"></i>
+            github.com/susanamloureiro
+        </a>
+
+        <a href="https://susanamloureiro.github.io"
+           target="_blank"
+           rel="noopener">
+            <i class="fa-solid fa-globe contact-icon" aria-hidden="true"></i>
+            susanamloureiro.github.io
+        </a>
+
+    </section>
+
+
+    <!-- ─────────────────────────────────────────
+         SUMMARY
+    ────────────────────────────────────────── -->
+
+    <section class="cv-section cv-summary">
+
+        <div class="section-label">
+            01 · Profile
         </div>
 
-        <div>
-            <div class="section-title">Experience</div>
-            <div class="exp-role">ML Engineer Intern</div>
-            <div class="exp-company">DevScope</div>
-            <div class="exp-meta">February 2026 — June 2026 &nbsp;·&nbsp; Porto, Portugal (Hybrid)</div>
-            <ul class="bullets">
-                <li>Developing a real-time computer vision system for automated people counting using YOLOv8-based object detection and tracking</li>
-                <li>Building and training deep learning models in PyTorch to detect and track individuals across live video streams</li>
-                <li>Designing backend data flows persisting occupancy and tracking events into MongoDB for real-time and historical analytics</li>
-                <li>Building operational dashboards surfacing live occupancy metrics through Power BI</li>
-                <li class="tech">Technologies: Python, PyTorch, YOLOv8, MongoDB, Docker, Power BI, Computer Vision</li>
-            </ul>
+        <div class="summary-content">
+            Machine Learning Engineer focused on building AI systems from the ground up, from model development and experimentation to
+            backend infrastructure and deployment. Experienced across computer vision, recommendation systems, and agentic AI,
+            with a strong interest in understanding the systems underneath the interface.
+            Currently pursuing an MSc in Artificial Intelligence Engineering while developing practical ML projects and production-oriented solutions.
         </div>
 
-        <div>
-            <div class="section-title">Education</div>
+    </section>
 
-            <div class="edu-degree">BSc in Informatics Engineering</div>
-            <div class="edu-school">ISEP — Instituto Superior de Engenharia do Porto</div>
-            <div class="edu-meta">2022 — 2026 &nbsp;·&nbsp; Porto, Portugal</div>
-            <div class="edu-courses">Distributed Systems · Databases · Software Engineering · Algorithms & Data Structures · Artificial Intelligence · Cloud Computing</div>
+
+    <!-- ─────────────────────────────────────────
+         EXPERIENCE
+    ────────────────────────────────────────── -->
+
+    <section class="cv-section">
+
+        <div class="section-label">
+            02 · Experience
         </div>
 
-        <div>
-            <div class="section-title">Certifications</div>
-            <div class="certs-grid">
-                <div class="cert-item">
-                    <div class="cert-name">AWS Certified Solutions Architect — Associate</div>
-                    <div class="cert-meta">Amazon Web Services · August 2025</div>
+        <div class="section-content">
+
+            <article class="entry">
+
+                <div class="entry-heading">
+
+                    <div>
+                        <h2>ML Engineer Intern</h2>
+
+                        <div class="entry-organisation">
+                            DevScope
+                        </div>
+                    </div>
+
+                    <div class="entry-date">
+                        Feb 2026 — Jun 2026
+                    </div>
+
                 </div>
-                <div class="cert-item">
-                    <div class="cert-name">AWS Certified Machine Learning Engineer — Associate</div>
-                    <div class="cert-meta">Amazon Web Services · June 2025</div>
+
+                <div class="entry-location">
+                    Porto, Portugal · Hybrid
                 </div>
-                <div class="cert-item">
-                    <div class="cert-name">AWS Certified AI Practitioner — Foundational</div>
-                    <div class="cert-meta">Amazon Web Services · April 2025</div>
+
+                <ul class="entry-list">
+
+                    <li>
+                        Developed a real-time computer vision system for automated people
+                        counting using YOLOv8-based object detection and tracking.
+                    </li>
+
+                    <li>
+                        Built and trained deep learning models in PyTorch to detect and
+                        track individuals across live video streams.
+                    </li>
+
+                    <li>
+                        Designed backend data flows that persisted occupancy and tracking
+                        events into MongoDB for real-time and historical analytics.
+                    </li>
+
+                    <li>
+                        Built operational dashboards in Power BI to surface live occupancy
+                        metrics.
+                    </li>
+
+                </ul>
+
+                <div class="entry-tech">
+                    Python · PyTorch · YOLOv8 · MongoDB · Docker ·
+                    Power BI · Computer Vision
                 </div>
-                <div class="cert-item">
-                    <div class="cert-name">IELTS Academic — C1 English Proficiency</div>
-                    <div class="cert-meta">British Council · February 2026</div>
-                </div>
-            </div>
+
+            </article>
+
         </div>
 
-        <div>
-            <div class="section-title">Projects</div>
+    </section>
 
-            <div class="project-item">
-                <div class="project-item">
-                    <div class="project-title">core. — AI-powered Personal Second Brain</div>
-                    <ul class="project-bullets">
-                        <li>Building an end-to-end personal productivity system combining a digital planner with an embedded AI agent, long-term vector memory, and conversational interaction</li>
-                        <li>Designing the system across Angular, C# ASP.NET Web API, PostgreSQL, and a Python LangChain agent with authenticated communication between services</li>
-                        <li>Implementing persistent semantic memory using Qdrant for vector storage and retrieval</li>
-                        <li class="tech">Python · LangChain · Angular · C# · ASP.NET Web API · PostgreSQL · Supabase · Qdrant · Docker</li>
-                    </ul>
+
+    <!-- ─────────────────────────────────────────
+         EDUCATION
+    ────────────────────────────────────────── -->
+
+    <section class="cv-section">
+        <div class="section-label">03 · Education</div>
+
+        <div class="section-content">
+
+            <article class="entry">
+                <div class="entry-heading">
+                    <div>
+                        <h2>MSc in Artificial Intelligence Engineering</h2>
+                        <div class="entry-organisation">
+                            Instituto Superior de Engenharia do Porto
+                        </div>
+                    </div>
+                    <div class="entry-date">2026 — Present</div>
                 </div>
 
-                <div class="project-title">curate. — LLM-powered Outfit Recommendation System</div>
-                <ul class="project-bullets">
-                    <li>Fine-tuned Mistral-7B using QLoRA on 21k curated outfit examples for garment compatibility and recommendation tasks</li>
-                    <li>Tracked experiments with MLflow; served inference through FastAPI containerised with Docker and deployed on AWS ECS</li>
-                    <li class="tech">Python · PyTorch · Hugging Face PEFT · Mistral-7B · QLoRA · MLflow · FastAPI · Docker · AWS ECS</li>
-                </ul>
-            </div>
+                <div class="entry-location">
+                    Porto, Portugal
+                </div>
 
-            <div class="project-item">
-                <div class="project-title">stylist. — Image-based Compatibility Learning System</div>
-                <ul class="project-bullets">
-                    <li>Built a siamese neural network with triplet-loss optimisation and hard negative mining for outfit compatibility learning</li>
-                    <li>Developed preprocessing pipelines for large-scale fashion datasets with hierarchical category mapping</li>
-                    <li class="tech">Python · PyTorch · Metric Learning · Computer Vision</li>
-                </ul>
-            </div>
+                <div class="entry-detail">
+                    Machine Learning · Deep Learning · Intelligent Systems ·
+                    AI Engineering
+                </div>
+            </article>
 
-            <div class="project-item">
-                <div class="project-title">her. — AI Personal Stylist Platform</div>
-                <ul class="project-bullets">
-                    <li>Built end-to-end recommendation pipeline with user style profiling, contextual preferences, and feedback analysis workflows</li>
-                    <li>Designed PostgreSQL schema across 8+ tables; automated ETL workflows aggregating user feedback data</li>
-                    <li class="tech">TypeScript · Node.js · PostgreSQL · Next.js · Supabase · REST APIs</li>
-                </ul>
-            </div>
+            <article class="entry">
+                <div class="entry-heading">
+                    <div>
+                        <h2>BSc in Informatics Engineering</h2>
+                        <div class="entry-organisation">
+                            Instituto Superior de Engenharia do Porto
+                        </div>
+                    </div>
+                    <div class="entry-date">2022 — 2026</div>
+                </div>
 
-            <div class="project-item">
-                <div class="project-title">Energy & Grid Capacity Analysis — Data Analysis & Machine Learning</div>
-                <ul class="project-bullets">
-                    <li>Analysed the impact of replacing public lighting with LED technology on distribution transformer capacity and evaluated the feasibility of reallocating released power to electric vehicle charging</li>
-                    <li>Developed statistical analysis and predictive models to estimate available network capacity and classify PTD occupancy levels, including exploratory analysis, model optimisation, and statistical validation</li>
-                    <li class="tech">Python · Pandas · Scikit-Learn · Statistical Analysis · Multiple Linear Regression · Machine Learning</li>
-                </ul>
-            </div>
+                <div class="entry-location">
+                    Porto, Portugal
+                </div>
 
-            <div class="project-item">
-                <div class="project-title">Transformer from Scratch — Decoder-only Music Generation Model</div>
-                <ul class="project-bullets">
-                    <li>Built decoder-only transformer from first principles in PyTorch including multi-head self-attention, positional encoding, residual connections, and layer normalisation</li>
-                    <li>Trained autoregressive sequence models on MIDI datasets with cosine LR annealing and perplexity-based early stopping</li>
-                    <li class="tech">Python · PyTorch · Transformers · NLP · MIDI · Sequence Modelling</li>
-                </ul>
-            </div>
+                <div class="entry-detail">
+                    Distributed Systems · Databases · Software Engineering ·
+                    Algorithms &amp; Data Structures · Artificial Intelligence ·
+                    Cloud Computing
+                </div>
+            </article>
 
-            <div class="project-item">
-                <div class="project-title">Port Management System — Full-Stack Logistics Platform</div>
-                <ul class="project-bullets">
-                    <li>Developed .NET 8 Web API backend with PostgreSQL and Angular 18 frontend; containerised with Docker</li>
-                    <li class="tech">C# · .NET 8 · PostgreSQL · Angular 18 · Docker · Entity Framework Core</li>
-                </ul>
-            </div>
         </div>
-    </div>
+    </section>
 
-</div>
+
+    <!-- ─────────────────────────────────────────
+         CERTIFICATIONS
+    ────────────────────────────────────────── -->
+
+    <section class="cv-section">
+
+        <div class="section-label">
+            04 · Certifications
+        </div>
+
+        <div class="section-content cert-grid">
+
+            <article class="cert-item">
+                <div class="cert-name">
+                    AWS Certified Solutions Architect — Associate
+                </div>
+
+                <div class="cert-meta">
+                    Amazon Web Services · Aug 2025
+                </div>
+            </article>
+
+            <article class="cert-item">
+                <div class="cert-name">
+                    AWS Certified Machine Learning Engineer — Associate
+                </div>
+
+                <div class="cert-meta">
+                    Amazon Web Services · Jun 2025
+                </div>
+            </article>
+
+            <article class="cert-item">
+                <div class="cert-name">
+                    AWS Certified AI Practitioner — Foundational
+                </div>
+
+                <div class="cert-meta">
+                    Amazon Web Services · Apr 2025
+                </div>
+            </article>
+
+            <article class="cert-item">
+                <div class="cert-name">
+                    IELTS Academic — C1 English Proficiency
+                </div>
+
+                <div class="cert-meta">
+                    British Council · Feb 2026
+                </div>
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- ─────────────────────────────────────────
+         SELECTED PROJECTS
+    ────────────────────────────────────────── -->
+
+    <section class="cv-section">
+        <div class="section-label">05 · Selected Projects</div>
+
+        <div class="section-content projects-grid">
+
+            <article class="project">
+                <div class="project-header">
+                    <h2>her.</h2>
+                    <span class="project-type">AI · Recommendation</span>
+                </div>
+                <p>
+                    AI personal stylist platform combining user style profiling,
+                    contextual preferences, feedback analysis, and recommendation
+                    workflows.
+                </p>
+                <div class="project-tech">
+                    TypeScript · Node.js · PostgreSQL · Next.js · Supabase
+                </div>
+            </article>
+
+            <article class="project">
+                <div class="project-header">
+                    <h2>stylist.</h2>
+                    <span class="project-type">Computer Vision · Metric Learning</span>
+                </div>
+                <p>
+                    Siamese neural network for outfit compatibility learning,
+                    trained with triplet loss and hard negative mining on
+                    curated fashion data.
+                </p>
+                <div class="project-tech">
+                    Python · PyTorch · Metric Learning · Computer Vision
+                </div>
+            </article>
+
+            <article class="project">
+                <div class="project-header">
+                    <h2>core.</h2>
+                    <span class="project-type">Agentic AI · Systems</span>
+                </div>
+                <p>
+                    Personal second brain combining a digital planner,
+                    conversational AI agent, and long-term vector memory.
+                </p>
+                <div class="project-tech">
+                    Python · LangChain · Qdrant · Angular · C# · PostgreSQL
+                </div>
+            </article>
+
+            <article class="project">
+                <div class="project-header">
+                    <h2>Energy &amp; Grid Capacity Analysis</h2>
+                    <span class="project-type">Data Analysis · ML</span>
+                </div>
+                <p>
+                    Analysed distribution transformer capacity released through
+                    public-lighting LED replacement and its potential allocation
+                    to electric vehicle charging, using predictive modelling and
+                    statistical validation.
+                </p>
+                <div class="project-tech">
+                    Python · Pandas · Scikit-Learn · Statistical Analysis ·
+                    Linear Regression
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+
+    <!-- ─────────────────────────────────────────
+         TECHNICAL TOOLKIT
+    ────────────────────────────────────────── -->
+
+    <section class="cv-section toolkit-section">
+
+        <div class="section-label">
+            06 · Technical Toolkit
+        </div>
+
+        <div class="toolkit-grid">
+
+            <div class="toolkit-group">
+
+                <div class="toolkit-title">
+                    Languages
+                </div>
+
+                <div class="toolkit-list">
+                    Python · SQL · JavaScript · TypeScript ·
+                    Java · C · C# · HTML/CSS
+                </div>
+
+            </div>
+
+
+            <div class="toolkit-group">
+
+                <div class="toolkit-title">
+                    ML / AI
+                </div>
+
+                <div class="toolkit-list">
+                    PyTorch · Scikit-Learn · Pandas · Hugging Face
+                    Transformers · PEFT · QLoRA · MLflow · YOLO ·
+                    Computer Vision · NLP · Fine-tuning · FastAPI
+                </div>
+
+            </div>
+
+
+            <div class="toolkit-group">
+
+                <div class="toolkit-title">
+                    Cloud &amp; DevOps
+                </div>
+
+                <div class="toolkit-list">
+                    AWS · Docker · Linux · Git · GitHub Actions ·
+                    CI/CD · ECS
+                </div>
+
+            </div>
+
+
+            <div class="toolkit-group">
+
+                <div class="toolkit-title">
+                    Frameworks
+                </div>
+
+                <div class="toolkit-list">
+                    FastAPI · Node.js · Next.js · Spring Boot ·
+                    Angular · .NET
+                </div>
+
+            </div>
+
+
+            <div class="toolkit-group">
+
+                <div class="toolkit-title">
+                    Databases
+                </div>
+
+                <div class="toolkit-list">
+                    PostgreSQL · MongoDB · Firebase · Oracle
+                </div>
+
+            </div>
+
+
+            <div class="toolkit-group">
+
+                <div class="toolkit-title">
+                    Languages
+                </div>
+
+                <div class="toolkit-list">
+                    Portuguese — Native · English — C1
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ─────────────────────────────────────────
+         FOOTER
+    ────────────────────────────────────────── -->
+
+    <footer class="cv-footer">
+
+        <span>
+            Susana Loureiro
+        </span>
+
+        <span>
+            Machine Learning Engineer
+        </span>
+
+        <span>
+            CV · 2026
+        </span>
+
+    </footer>
+
+</main>
+
 </body>
 </html>

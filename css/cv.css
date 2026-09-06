@@ -1,0 +1,633 @@
+/* ============================================================
+   SUSANA LOUREIRO — PRINT CV
+   Editorial CV stylesheet
+   ============================================================ */
+
+
+/* ─────────────────────────────────────────────────────────────
+   VARIABLES
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+    --bg: #f9f7f2;
+    --paper: #ffffff;
+
+    --text: #202020;
+    --soft: #5f5f5f;
+    --muted: #858585;
+    --faint: #a5a5a5;
+
+    --line: #d9d5cd;
+    --line-dark: #bdb8af;
+
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --mono: 'DM Mono', monospace;
+
+    --page-width: 210mm;
+    --page-padding-x: 15mm;
+    --page-padding-y: 13mm;
+}
+
+@font-face {
+    font-family: 'Quentin';
+    src: url('../fonts/Quentin.otf') format('opentype');
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   RESET
+   ───────────────────────────────────────────────────────────── */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+
+    font-family: var(--serif);
+    line-height: 1.4;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   PAGE
+   ───────────────────────────────────────────────────────────── */
+
+.cv {
+    width: var(--page-width);
+    max-width: 100%;
+
+    margin: 0 auto;
+    padding: var(--page-padding-y) var(--page-padding-x);
+
+    background: var(--paper);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   HEADER
+   ───────────────────────────────────────────────────────────── */
+
+.cv-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+
+    gap: 2rem;
+
+    padding-bottom: 6mm;
+
+    border-bottom: 1px solid var(--text);
+}
+
+.cv-kicker {
+    margin-bottom: 2mm;
+
+    font-family: var(--mono);
+    font-size: 7px;
+    font-weight: 400;
+
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+
+    color: var(--muted);
+}
+
+.cv-header h1 {
+    font-family: 'Quentin', var(--serif);
+    font-size: 34pt;
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: 0;
+}
+
+.cv-role {
+    margin-top: 2mm;
+
+    font-family: var(--serif);
+    font-size: 12pt;
+    font-style: italic;
+
+    color: var(--soft);
+}
+
+.cv-header-meta {
+    padding-bottom: 1mm;
+
+    font-family: var(--mono);
+    font-size: 7px;
+
+    line-height: 1.7;
+    text-align: right;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+
+    color: var(--muted);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   CONTACT
+   ───────────────────────────────────────────────────────────── */
+
+.cv-contact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4mm;
+
+    padding: 3mm 0;
+
+    border-bottom: 1px solid var(--line);
+
+    font-family: var(--mono);
+    font-size: 6.5px;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+
+    white-space: nowrap;
+}
+
+.cv-contact a,
+.cv-contact > span {
+    display: inline-flex;
+    align-items: center;
+
+    color: inherit;
+    text-decoration: none;
+}
+
+.contact-icon {
+    width: 14px;
+    margin-right: 1.5mm;
+
+    font-size: 10px;
+    line-height: 1;
+    text-align: center;
+
+    flex-shrink: 0;
+}
+
+.cv-contact a:hover {
+    opacity: 0.6;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   GENERIC SECTION
+   ───────────────────────────────────────────────────────────── */
+
+.cv-section {
+    display: grid;
+    grid-template-columns: 34mm 1fr;
+
+    gap: 7mm;
+
+    padding: 5mm 0;
+
+    border-bottom: 1px solid var(--line);
+}
+
+.section-label {
+    padding-top: 0.5mm;
+
+    font-family: var(--mono);
+    font-size: 6.5px;
+
+    line-height: 1.5;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+
+    color: var(--muted);
+}
+
+.section-content {
+    min-width: 0;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   PROFILE
+   ───────────────────────────────────────────────────────────── */
+
+.cv-summary .summary-content {
+    max-width: 145mm;
+
+    font-family: var(--serif);
+    font-size: 11pt;
+    font-weight: 400;
+
+    line-height: 1.45;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   ENTRIES
+   ───────────────────────────────────────────────────────────── */
+
+.entry {
+    margin-bottom: 4mm;
+}
+
+.entry:last-child {
+    margin-bottom: 0;
+}
+
+.entry-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+
+    gap: 1rem;
+}
+
+.entry h2 {
+    font-family: var(--serif);
+    font-size: 12pt;
+    font-weight: 500;
+
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+}
+
+.entry-organisation {
+    margin-top: 0.8mm;
+
+    font-family: var(--serif);
+    font-size: 9.5pt;
+    font-style: italic;
+
+    color: var(--soft);
+}
+
+.entry-date {
+    flex-shrink: 0;
+
+    font-family: var(--mono);
+    font-size: 6.5px;
+
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+
+    color: var(--muted);
+}
+
+.entry-location {
+    margin-top: 1mm;
+
+    font-family: var(--mono);
+    font-size: 6.5px;
+
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+
+    color: var(--faint);
+}
+
+.entry-list {
+    margin-top: 2.5mm;
+    padding-left: 4mm;
+
+    font-family: var(--serif);
+    font-size: 8.5pt;
+
+    line-height: 1.4;
+}
+
+.entry-list li {
+    margin-bottom: 1.3mm;
+    padding-left: 1mm;
+}
+
+.entry-list li:last-child {
+    margin-bottom: 0;
+}
+
+.entry-tech {
+    margin-top: 2.5mm;
+
+    font-family: var(--mono);
+    font-size: 6.2px;
+
+    line-height: 1.6;
+    letter-spacing: 0.035em;
+
+    color: var(--muted);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   EDUCATION
+   ───────────────────────────────────────────────────────────── */
+
+.entry-detail {
+    max-width: 145mm;
+
+    margin-top: 2mm;
+
+    font-family: var(--mono);
+    font-size: 6.5px;
+
+    line-height: 1.6;
+    letter-spacing: 0.03em;
+
+    color: var(--muted);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   CERTIFICATIONS
+   ───────────────────────────────────────────────────────────── */
+
+.cert-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    column-gap: 9mm;
+    row-gap: 3.5mm;
+}
+
+.cert-item {
+    min-width: 0;
+}
+
+.cert-name {
+    font-family: var(--serif);
+    font-size: 9pt;
+    font-weight: 500;
+
+    line-height: 1.15;
+}
+
+.cert-meta {
+    margin-top: 0.8mm;
+
+    font-family: var(--mono);
+    font-size: 6.2px;
+
+    line-height: 1.5;
+    letter-spacing: 0.04em;
+
+    color: var(--muted);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   PROJECTS
+   ───────────────────────────────────────────────────────────── */
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    column-gap: 8mm;
+    row-gap: 4.5mm;
+}
+
+.project {
+    min-width: 0;
+}
+
+.project-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    margin-bottom: 1.2mm;
+}
+
+.project h2 {
+    font-family: var(--serif);
+    font-size: 11pt;
+    font-weight: 500;
+
+    line-height: 1;
+}
+
+.project-type {
+    flex-shrink: 0;
+
+    font-family: var(--mono);
+    font-size: 5.5px;
+
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+
+    color: var(--faint);
+}
+
+.project p {
+    font-family: var(--serif);
+    font-size: 7.8pt;
+
+    line-height: 1.38;
+
+    color: var(--soft);
+}
+
+.project-tech {
+    margin-top: 1.5mm;
+
+    font-family: var(--mono);
+    font-size: 5.8px;
+
+    line-height: 1.55;
+    letter-spacing: 0.025em;
+
+    color: var(--muted);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   TECHNICAL TOOLKIT
+   ───────────────────────────────────────────────────────────── */
+
+.toolkit-section {
+    grid-template-columns: 34mm 1fr;
+}
+
+.toolkit-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    column-gap: 8mm;
+    row-gap: 4mm;
+}
+
+.toolkit-group {
+    min-width: 0;
+}
+
+.toolkit-title {
+    margin-bottom: 1mm;
+
+    font-family: var(--mono);
+    font-size: 6px;
+    font-weight: 500;
+
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+
+    color: var(--text);
+}
+
+.toolkit-list {
+    font-family: var(--serif);
+    font-size: 8pt;
+
+    line-height: 1.4;
+
+    color: var(--soft);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   FOOTER
+   ───────────────────────────────────────────────────────────── */
+
+.cv-footer {
+    display: flex;
+    justify-content: space-between;
+
+    padding-top: 3mm;
+
+    font-family: var(--mono);
+    font-size: 6px;
+
+    line-height: 1.4;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+    color: var(--faint);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   PRINT
+   ───────────────────────────────────────────────────────────── */
+
+@page {
+    size: A4;
+    margin: 0;
+}
+
+@media print {
+
+    html,
+    body {
+        width: 210mm;
+        min-height: 297mm;
+    }
+
+    body {
+        background: #ffffff;
+    }
+
+    .cv {
+        width: 210mm;
+        max-width: none;
+
+        min-height: 297mm;
+
+        margin: 0;
+        padding: var(--page-padding-y) var(--page-padding-x);
+
+        background: #ffffff;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .cv-section,
+    .entry,
+    .project,
+    .cert-item,
+    .toolkit-group {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   SCREEN PREVIEW
+   ───────────────────────────────────────────────────────────── */
+
+@media screen {
+
+    body {
+        padding: 2rem 0;
+    }
+
+    .cv {
+        min-height: 297mm;
+
+        box-shadow: 0 10px 50px rgba(0, 0, 0, 0.08);
+    }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   SMALLER SCREENS
+   ───────────────────────────────────────────────────────────── */
+
+@media screen and (max-width: 900px) {
+
+    body {
+        padding: 0;
+    }
+
+    .cv {
+        width: 100%;
+        min-height: auto;
+        box-shadow: none;
+    }
+
+    .cv-header {
+        grid-template-columns: 1fr;
+        gap: 3mm;
+    }
+
+    .cv-header-meta {
+        text-align: left;
+    }
+
+    .cv-section {
+        grid-template-columns: 1fr;
+        gap: 2mm;
+    }
+
+    .section-label {
+        padding-bottom: 1.5mm;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .projects-grid,
+    .cert-grid,
+    .toolkit-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cv-contact > * {
+        margin-bottom: 1mm;
+    }
+}
