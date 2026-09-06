@@ -3,422 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotlight | Susana Loureiro</title>
-    <link rel="icon" type="image/png" href="images/favicon.png">
+    <title>Spotlight — Susana Loureiro</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
-    <style>
-        .magazine-header {
-            margin-bottom: 3rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--light-divider);
-        }
-
-        .issue-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .volume, .issue {
-            font-family: var(--font-sans);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: var(--letter-spacing-loose);
-        }
-
-        .separator {
-            color: var(--light-accent);
-        }
-
-        .page-title {
-            font-family: var(--font-serif-display);
-            font-size: 1.2rem;
-            font-style: italic;
-            color: var(--light-text-soft);
-        }
-
-        .spotlight-layout {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 4rem;
-            margin: 2rem 0 4rem;
-        }
-
-        .interview-header {
-            grid-column: 1 / -1;
-            margin-bottom: 3rem;
-            position: relative;
-        }
-
-        .interview-title {
-            font-family: var(--font-serif-display);
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .interview-subtitle {
-            font-family: var(--font-serif-body);
-            font-size: 1.2rem;
-            font-style: italic;
-            color: var(--light-text-soft);
-            max-width: 80%;
-        }
-
-        .interview-meta {
-            margin-top: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .interviewer {
-            font-family: var(--font-sans);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: var(--letter-spacing-loose);
-        }
-
-        .interview-date {
-            font-family: var(--font-serif-display);
-            font-style: italic;
-            color: var(--light-text-soft);
-        }
-
-        .profile-sidebar {
-            background-color: var(--light-bg-alt);
-            padding: 2rem;
-            margin-top: 2rem;
-        }
-
-        .sidebar-heading {
-            font-family: var(--font-serif-display);
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            position: relative;
-        }
-
-        .quick-facts {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .quick-facts li {
-            display: flex;
-            margin-bottom: 0.8rem;
-            font-family: var(--font-sans);
-            font-size: 0.9rem;
-        }
-
-        .fact-label {
-            font-weight: 600;
-            width: 120px;
-            flex-shrink: 0;
-        }
-
-        .profile-column {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .profile-image-container {
-            position: relative;
-            width: 100%;
-            height: 0;
-            padding-bottom: 125%;
-            overflow: hidden;
-        }
-
-        .profile-image-placeholder {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--light-bg-alt);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid var(--light-divider);
-        }
-
-        .profile-image-placeholder svg {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 1rem;
-            color: var(--light-accent);
-        }
-
-        .profile-image-placeholder p {
-            font-family: var(--font-serif-display);
-            font-style: italic;
-            color: var(--light-text-soft);
-            text-align: center;
-            padding: 0 1rem;
-        }
-
-        .profile-caption {
-            font-family: var(--font-sans);
-            font-size: 0.8rem;
-            font-style: italic;
-            color: var(--light-text-soft);
-            text-align: center;
-            margin-top: 0.5rem;
-            line-height: 1.5;
-        }
-
-        .interview-body {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 4rem;
-            grid-column: 1 / -1;
-        }
-
-        .interview-content {
-            font-family: var(--font-serif-body);
-        }
-
-        .interview-question {
-            font-family: var(--font-serif-display);
-            font-weight: 600;
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: var(--light-accent-dark);
-        }
-
-        .interview-answer {
-            font-family: var(--font-sans);
-            font-size: 1.1rem;
-            line-height: 1.7;
-            margin-bottom: 2rem;
-        }
-
-        .interview-quote {
-            font-family: var(--font-serif-display);
-            font-size: 1.8rem;
-            font-style: italic;
-            line-height: 1.3;
-            color: var(--light-accent-dark);
-            margin: 2.5rem 0;
-            padding-left: 2rem;
-            position: relative;
-        }
-
-        .interview-quote:before {
-            content: '"';
-            position: absolute;
-            left: 0;
-            top: -0.5rem;
-            font-size: 4rem;
-            color: var(--light-accent-light);
-            line-height: 1;
-        }
-
-        .interview-footnote {
-            font-family: var(--font-sans);
-            font-size: 0.85rem;
-            color: var(--light-text-soft);
-            border-left: 2px solid var(--light-accent);
-            padding-left: 1rem;
-            margin: -1rem 0 2rem;
-            line-height: 1.6;
-            font-style: italic;
-        }
-
-        /* Dark Theme */
-        body.dark-theme .profile-image-placeholder {
-            background-color: var(--dark-bg-alt);
-            border-color: var(--dark-divider);
-        }
-
-        body.dark-theme .profile-image-placeholder svg {
-            color: var(--dark-accent);
-        }
-
-        body.dark-theme .profile-sidebar {
-            background-color: var(--dark-bg-alt);
-        }
-
-        body.dark-theme .sidebar-heading:after {
-            background-color: var(--dark-accent);
-        }
-
-        body.dark-theme .interview-question {
-            color: var(--dark-accent-light);
-        }
-
-        body.dark-theme .interview-quote {
-            color: var(--dark-accent-light);
-        }
-
-        body.dark-theme .interview-quote:before {
-            color: var(--dark-accent-dark);
-        }
-
-        body.dark-theme .interview-footnote {
-            border-left-color: var(--dark-accent);
-            color: var(--dark-text-soft);
-        }
-
-        @media (max-width: 768px) {
-            .spotlight-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .interview-body {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .quick-facts-text {
-            border-left: 2px solid var(--light-accent);
-            padding-left: 1rem;
-            font-family: var(--font-sans);
-            font-size: 0.9rem;
-            line-height: 1.8;
-            color: var(--light-text-soft);
-        }
-
-        body.dark-theme .quick-facts-text {
-            border-left-color: var(--dark-accent);
-            color: var(--dark-text);
-        }
-    </style>
 </head>
 <body>
-<div class="cursor"></div>
-<div class="page-transition"></div>
 
-<!-- Theme Toggle -->
-<div class="theme-toggle">
-    <div class="toggle-switch">
-        <div class="toggle-circle"></div>
+<div class="page">
+
+    <nav class="nav-strip">
+        <a href="../index.html" class="nav-brand">Susana Loureiro</a>
+
+        <ul class="nav-links">
+            <li><a href="spotlight.html" class="active">Spotlight</a></li>
+            <li><a href="field-notes.html">Field Notes</a></li>
+            <li><a href="feature-articles.html">Feature Articles</a></li>
+            <li><a href="letters.html">Letters</a></li>
+        </ul>
+
+        <span class="folio-num">01</span>
+    </nav>
+
+    <div class="page-header">
+        <div>
+            <div class="page-kicker">01 · Spotlight</div>
+            <div class="page-title-lg">
+                She<br>
+                Builds<br>
+                <em>What She</em><br>
+                Wishes<br>
+                Existed.
+            </div>
+        </div>
+
+        <div class="page-subtitle">
+            On building intelligent systems from scratch, finishing a
+            degree during one of the hardest years of her life, and why
+            calling an API is not, in her view, engineering.
+        </div>
     </div>
+
+    <div class="interview-lede">
+
+        <div>
+            <div class="interview-deck">
+                Susana Loureiro has a rule — more of a reflex, really:
+                if she doesn't understand how something works under the
+                hood, she doesn't feel like she's built anything at all.
+                At 22, she's already shipping projects that solve problems
+                she actually has.
+            </div>
+
+            <div class="byline">
+                Interview by The Portfolio Magazine · Aug 2026
+            </div>
+        </div>
+
+        <div class="photo-block">
+            <img src="../docs/cv/img/fotos.jpg"
+                 alt="Susana Loureiro"
+                 onerror="this.style.display='none'">
+            <div class="photo-caption">
+                Susana Loureiro · Porto · Aug 2026
+            </div>
+        </div>
+
+    </div>
+
+    <div class="interview-body-grid">
+
+        <div class="interview-sidebar">
+            <div class="quick-facts-box">
+                <div class="qf-label">Quick Facts</div>
+                <div class="qf-text">
+                    ML &amp; AI Engineer, Porto, Portugal. BSc in Informatics
+                    Engineering from ISEP. AWS Certified in AI, ML, and
+                    Solutions Architecture. Fluent in Portuguese and English.
+                </div>
+            </div>
+        </div>
+
+        <div class="interview-content">
+
+            <p class="interview-intro">
+                Susana Loureiro is precise about the difference between
+                building and borrowing. She is not particularly interested
+                in pretending it's the same thing.
+            </p>
+
+            <div class="q">
+                her. came from a very specific want — you wished you had
+                a personal stylist. What does it actually feel like to use
+                it now that it exists?
+            </div>
+
+            <div class="a">
+                It's so awesome. I'm genuinely amazed every time, which is
+                a strange thing to say about something you built yourself.
+                But sometimes I can't believe that a machine can do something
+                like that. Just... sometimes machines feel like a human's
+                best friend. In the same way dogs are. They just help you
+                in ways that feel almost personal.
+            </div>
+
+            <div class="pull-quote">
+                "Sometimes I can't believe that a machine can do something
+                like that. They feel like a human's best friend — the same
+                way dogs are."
+            </div>
+
+            <div class="q">
+                stylist. — the compatibility model underneath her. —
+                you built from scratch. Siamese network, triplet loss,
+                hard negative mining. Most people would've just called
+                an API. What makes you unable to do that?
+            </div>
+
+            <div class="a">
+                Stubbornness, honestly. But also — I genuinely don't think
+                any model out there right now performs well on fashion.
+                Not really. The space hasn't been solved. I'm not saying
+                mine has solved it either, but it's getting there.
+                Calling someone else's API and putting my name on the result
+                doesn't feel like engineering to me. If I don't know what's
+                happening underneath, I haven't built anything — I'm just
+                using someone else's work.
+            </div>
+
+            <div class="footnote">
+                For context: a Siamese network learns by comparing pairs
+                of inputs — in this case, garments — and deciding whether
+                they belong together. Triplet loss trains the model by
+                showing it a compatible pair and an incompatible one
+                simultaneously, pulling the compatible pair closer in the
+                embedding space and pushing the incompatible one away.
+                It's a technically exacting way to teach a model something
+                as subjective as taste.
+            </div>
+
+            <div class="q">
+                You finished your degree at ISEP while building her.,
+                stylist., and completing an internship — all at the same time.
+                How?
+            </div>
+
+            <div class="a">
+                Honestly, I'm not sure I fully know. It was a complicated
+                year. But I think the thing about me is that I used to be
+                the kind of person who only did the coursework and nothing
+                else. I quit the gym — like most people do, I think.
+                If it wasn't on the syllabus, I wasn't going to follow
+                through. So the fact that I managed all of this alongside
+                the degree surprised even me. In a good way.
+            </div>
+
+            <div class="pull-quote">
+                "I used to quit everything that wasn't on the syllabus.
+                So finishing all of this surprised even me."
+            </div>
+
+            <div class="q">
+                You got three AWS certifications in AI and ML while doing
+                all of that. Who were you trying to prove something to?
+            </div>
+
+            <div class="a">
+                Myself. That's it. I chose the AI certifications because
+                that's the direction I wanted to go — I followed the instinct
+                before I could fully explain it. And then finishing them while
+                balancing everything else... that was the proof I needed
+                that I could actually do this. Not for a CV. For me.
+            </div>
+
+            <div class="q">
+                Who is her. for, ultimately?
+            </div>
+
+            <div class="a">
+                Me, first. But also women in general. A teenage girl figuring
+                out her style. A mom who wants to feel good every day and
+                doesn't have time to think about it. The want is universal —
+                I just happened to be the one who couldn't wait for someone
+                else to build it.
+            </div>
+
+            <div class="q">
+                Tell me about core.
+            </div>
+
+            <div class="a">
+                core. is my own personal assistant. Agentic AI — it has access
+                to my week, my tasks, everything, and I can actually interact
+                with it. I tried every planner, every second-brain app.
+                None of them felt mine. I'd use them for a day and then leave
+                them collecting dust. A few weeks ago I had the chance to work
+                with agentic AI and I thought — why not build the thing I
+                actually want?
+            </div>
+
+            <div class="pull-quote">
+                "I tried every planner, every app. I'd use them for a day
+                and leave them collecting dust. So I built the one that
+                actually feels mine."
+            </div>
+
+            <div class="q">
+                There's a version of you that people might see from the
+                outside — the certifications, the projects, the degree —
+                and assume it came easily. Did it?
+            </div>
+
+            <div class="a">
+                No. And I think that's important to say. I'm not a vibe coder
+                who wraps an API call and calls it an ML project. The things
+                I do take time and deliberateness. I care about understanding
+                what's underneath. That's not always the fastest route.
+                But it's the only one that feels honest to me. I'm an engineer.
+                I'm a builder. That's the whole thing.
+            </div>
+
+        </div>
+    </div>
+
+    <div class="page-nav">
+        <a href="../index.html">← Cover</a>
+        <a href="field-notes.html">Field Notes →</a>
+    </div>
+
 </div>
-
-<!-- Main Content -->
-<main class="editorial-layout">
-    <section id="spotlight" class="section-spotlight active">
-        <div class="magazine-header">
-            <div class="issue-info">
-                <span class="volume">Vol. I</span>
-                <span class="separator">|</span>
-                <span class="issue">Spotlight</span>
-            </div>
-            <div class="page-title">The Engineer's Portfolio</div>
-        </div>
-
-        <div class="spotlight-layout">
-            <div class="interview-header">
-                <h1 class="interview-title">She Builds What She Wishes Existed</h1>
-                <h2 class="interview-subtitle">On building intelligent systems from scratch, finishing a degree during one of the hardest years of her life, and why calling an API is not, in her view, engineering</h2>
-                <div class="interview-meta">
-                    <div class="interviewer">Interview by The Portfolio Magazine</div>
-                    <div class="interview-date">Aug 2026</div>
-                </div>
-            </div>
-
-            <!-- Interview body: content left, photo + facts right -->
-            <div class="interview-body">
-                <div class="interview-content">
-
-                    <p class="interview-introduction" style="font-family: var(--font-sans); font-size: 1.1rem; line-height: 1.7; margin-bottom: 2rem;">
-                        Susana Loureiro has a rule, more of a reflex, really: if she doesn't understand how something works under the hood, she doesn't feel like she's built anything at all. It's a stance that costs her time and earns her depth. At 22, she's already shipping projects that solve problems she actually has — a personal AI stylist, a compatibility model trained from scratch, an agentic assistant for a life that's about to get much busier. She is precise about the difference between building and borrowing. And she is not particularly interested in pretending it's the same thing.
-                    </p>
-
-                    <div class="interview-question">her. came from a very specific want — you wished you had a personal stylist. What does it actually feel like to use it now that it exists?</div>
-                    <div class="interview-answer">
-                        It's so awesome. I'm genuinely amazed every time, which is a strange thing to say about something you built yourself. But sometimes I can't believe that a machine can do something like that. Just... sometimes machines feel like a human's best friend. In the same way dogs are. They just help you in ways that feel almost personal.
-                    </div>
-
-                    <div class="interview-quote">
-                        Sometimes I can't believe that a machine can do something like that. They feel like a human's best friend — the same way dogs are.
-                    </div>
-
-                    <div class="interview-question">stylist. — the compatibility model underneath her. — you built from scratch. Siamese network, triplet loss, hard negative mining. Most people would've just called an API. What makes you unable to do that?</div>
-                    <div class="interview-answer">
-                        Stubbornness, honestly. But also — I genuinely don't think any model out there right now performs well on fashion. Not really. The space hasn't been solved. I'm not saying mine has solved it either, but it's getting there. I'm making sure it gets there. Calling someone else's API and putting my name on the result doesn't feel like engineering to me. If I don't know what's happening underneath, I haven't built anything — I'm just using someone else's work.
-                    </div>
-
-                    <div class="interview-footnote">
-                        For context: a siamese network learns by comparing pairs of inputs — in this case, garments — and deciding whether they belong together. Triplet loss trains the model by showing it a compatible pair and an incompatible one simultaneously, pulling the compatible pair closer in the embedding space and pushing the incompatible one away. It's a technically exacting way to teach a model something as subjective as taste.
-                    </div>
-
-                    <div class="interview-question">You finished your degree at ISEP while building her., stylist., and completing an internship — all at the same time. How?</div>
-                    <div class="interview-answer">
-                        Honestly, I'm not sure I fully know. It was a complicated year. But I think the thing about me is that I used to be the kind of person who only did the coursework and nothing else. I quit the gym — like most people do, I think. If it wasn't on the syllabus, I wasn't going to follow through. So the fact that I managed all of this alongside the degree surprised even me. In a good way.
-                    </div>
-
-                    <div class="interview-quote">
-                        I used to quit everything that wasn't on the syllabus. The gym, side projects, everything. So finishing all of this surprised even me.
-                    </div>
-
-                    <div class="interview-question">You got three AWS certifications in AI and ML while doing all of that. Who were you trying to prove something to?</div>
-                    <div class="interview-answer">
-                        Myself. That's it. I chose the AI certifications because that's the direction I wanted to go — I followed the instinct before I could fully explain it. And then finishing them while balancing everything else... that was the proof I needed that I could actually do this. Not for a CV. For me.
-                    </div>
-
-                    <div class="interview-question">Who is her. for, ultimately? Who do you picture using it?</div>
-                    <div class="interview-answer">
-                        Me, first. But also women in general. A teenage girl figuring out her style. A mom who wants to feel good every day and doesn't have time to think about it. The want is universal — I just happened to be the one who couldn't wait for someone else to build it.
-                    </div>
-
-                    <div class="interview-question">You have a new project — core. — which is a different kind of ambition. Tell me about it.</div>
-                    <div class="interview-answer">
-                        core. is my own personal assistant. Agentic AI — it has access to my week, my tasks, everything, and I can actually interact with it. It came from the fact that I'm about to be one of the busiest people I know: a master's degree on top of a full-time job. I tried a paperback planner. I tried Obsidian, all the second-brain apps. None of them felt mine. I'd use them for a day and then leave them collecting dust in the corner. A few weeks ago I had the chance to work with agentic AI and I thought — why not build the thing I actually want?
-                    </div>
-
-                    <div class="interview-quote">
-                        I tried every planner, every app. I'd use them for a day and leave them collecting dust. So I built the one that actually feels mine.
-                    </div>
-
-                    <div class="interview-question">There's a version of you that people might see from the outside — the certifications, the projects, the degree — and assume it came easily. Did it?</div>
-                    <div class="interview-answer">
-                        No. And I think that's important to say. I'm not a vibe coder who wraps an API call and calls it an ML project. The things I do take time and deliberateness. I care about understanding what's underneath. That's not always the fastest route. But it's the only one that feels honest to me. I want people to walk away understanding that my projects aren't just portfolio pieces. They exist because I either care about the problem or I need to understand something. I'm an engineer. I'm a builder. That's the whole thing.
-                    </div>
-
-                </div>
-
-                <!-- Right column: photo + quick facts -->
-                <div class="profile-column">
-                    <div class="profile-image-container">
-                        <img
-                                src="/docs/cv/img/fotos.jpg"
-                                alt="Susana Loureiro, ML/AI Engineer"
-                                style="width: 100%; display: block;"
-                        />
-                    </div>
-                    <p class="profile-caption">Susana Loureiro, Porto. Aug 2026.</p>
-
-                    <div class="profile-sidebar">
-                        <h3 class="sidebar-heading">Quick Facts</h3>
-                        <div class="quick-facts-text">
-                            Machine Learning & AI Engineer based in Porto, Portugal. BSc in Informatics Engineering from ISEP. AWS Certified in AI, ML, and Solutions Architecture. Fluent in Portuguese and English.
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Page Navigation -->
-        <div class="page-navigation">
-            <a href="../index.html" class="prev-page">← Previous</a>
-            <a href="field-notes.html" class="next-page">Next →</a>
-        </div>
-    </section>
-
-    <div class="page-number">01</div>
-</main>
-
-<script src="../js/script.js"></script>
+<script src="../js/nav.js"></script>
 </body>
 </html>

@@ -3,503 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Letters | Susana Loureiro</title>
-    <link rel="icon" type="image/png" href="images/favicon.png">
+    <title>Letters — Susana Loureiro</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
-    <style>
-        /* Letters Page Specific Styles */
-        .magazine-header {
-            margin-bottom: 3rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--light-divider);
-        }
-
-        .issue-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .volume, .issue {
-            font-family: var(--font-sans);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: var(--letter-spacing-loose);
-        }
-
-        .separator {
-            color: var(--light-accent);
-        }
-
-        .page-title {
-            font-family: var(--font-serif-display);
-            font-size: 1.2rem;
-            font-style: italic;
-            color: var(--light-text-soft);
-        }
-        .letters-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            margin: 2rem 0 4rem;
-        }
-
-        .letters-intro {
-            grid-column: 1 / -1;
-            font-family: var(--font-serif-body);
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-            max-width: 800px;
-        }
-
-        .letter-form-container {
-            background-color: var(--light-bg-alt);
-            padding: 3rem;
-            border: 1px solid var(--light-divider);
-        }
-
-        .letter-form-header {
-            margin-bottom: 2rem;
-        }
-
-        .letter-form-title {
-            font-family: var(--font-serif-display);
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .letter-form-subtitle {
-            font-family: var(--font-serif-body);
-            font-style: italic;
-            color: var(--light-text-soft);
-        }
-
-        .letter-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .form-label {
-            font-family: var(--font-serif-display);
-            font-size: 1.1rem;
-        }
-
-        .form-input,
-        .form-textarea {
-            font-family: var(--font-sans);
-            font-size: 1rem;
-            padding: 0.8rem 1rem;
-            border: 1px solid var(--light-divider);
-            background-color: white;
-            transition: border-color var(--transition-fast);
-        }
-
-        .form-input:focus,
-        .form-textarea:focus {
-            outline: none;
-            border-color: var(--light-accent);
-        }
-
-        .form-textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-
-        .form-submit {
-            font-family: var(--font-serif-display);
-            font-size: 1.1rem;
-            padding: 0.8rem 2rem;
-            background-color: var(--light-accent);
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: background-color var(--transition-fast);
-            align-self: flex-start;
-            margin-top: 1rem;
-        }
-
-        .form-submit:hover {
-            background-color: var(--light-accent-dark);
-        }
-
-        .contact-sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 3rem;
-        }
-
-        .contact-info {
-            margin-bottom: 2rem;
-        }
-
-        .contact-heading {
-            font-family: var(--font-serif-display);
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            position: relative;
-            display: inline-block;
-        }
-
-        .contact-heading:after {
-            content: '';
-            position: absolute;
-            bottom: -0.5rem;
-            left: 0;
-            width: 60%;
-            height: 1px;
-            background-color: var(--light-accent);
-        }
-
-        .contact-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .contact-icon {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: var(--light-bg-accent);
-            border-radius: 50%;
-        }
-
-        .contact-icon svg {
-            width: 20px;
-            height: 20px;
-            color: var(--light-accent);
-        }
-
-        .contact-text {
-            font-family: var(--font-sans);
-        }
-
-        .contact-label {
-            font-size: 0.9rem;
-            color: var(--light-text-soft);
-            margin-bottom: 0.2rem;
-        }
-
-        .contact-value {
-            font-size: 1.1rem;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .social-link {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: var(--light-bg-accent);
-            border-radius: 50%;
-            transition: background-color var(--transition-fast), transform var(--transition-fast);
-        }
-
-        .social-link:hover {
-            background-color: var(--light-accent-light);
-            transform: translateY(-3px);
-        }
-
-        .social-link svg {
-            width: 20px;
-            height: 20px;
-            color: var(--light-accent-dark);
-        }
-
-        .resume-download {
-            padding: 2rem;
-            background-color: var(--light-bg-accent);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            align-self: start;
-        }
-
-        .resume-title {
-            font-family: var(--font-serif-display);
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-        }
-
-        .resume-description {
-            font-family: var(--font-serif-body);
-            font-style: italic;
-            color: var(--light-text-soft);
-            margin-bottom: 1.5rem;
-        }
-
-        .download-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-family: var(--font-serif-display);
-            font-size: 1rem;
-            padding: 0.8rem 1.5rem;
-            background-color: var(--light-accent);
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: background-color var(--transition-fast);
-        }
-
-        .download-button:hover {
-            background-color: var(--light-accent-dark);
-        }
-
-        .download-button svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        /* Dark Theme Adjustments */
-        body.dark-theme .letter-form-container {
-            background-color: var(--dark-bg-alt);
-            border-color: var(--dark-divider);
-        }
-
-        body.dark-theme .form-input,
-        body.dark-theme .form-textarea {
-            border-color: var(--dark-divider);
-            background-color: var(--dark-bg);
-            color: var(--dark-text);
-        }
-
-        body.dark-theme .form-input:focus,
-        body.dark-theme .form-textarea:focus {
-            border-color: var(--dark-accent);
-        }
-
-        body.dark-theme .form-submit {
-            background-color: var(--dark-accent);
-        }
-
-        body.dark-theme .form-submit:hover {
-            background-color: var(--dark-accent-dark);
-        }
-
-        body.dark-theme .contact-heading:after {
-            background-color: var(--dark-accent);
-        }
-
-        body.dark-theme .contact-icon,
-        body.dark-theme .social-link {
-            background-color: var(--dark-bg-accent);
-        }
-
-        body.dark-theme .contact-icon svg {
-            color: var(--dark-accent);
-        }
-
-        body.dark-theme .social-link:hover {
-            background-color: var(--dark-accent-dark);
-        }
-
-        body.dark-theme .social-link svg {
-            color: var(--dark-accent-light);
-        }
-
-        body.dark-theme .resume-download {
-            background-color: var(--dark-bg-accent);
-        }
-
-        body.dark-theme .download-button {
-            background-color: var(--dark-accent);
-        }
-
-        body.dark-theme .download-button:hover {
-            background-color: var(--dark-accent-dark);
-        }
-
-        @media (max-width: 768px) {
-            .letters-layout {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
 </head>
 <body>
-    <div class="cursor"></div>
-    <div class="page-transition"></div>
-    <!-- Theme Toggle -->
-    <div class="theme-toggle">
-        <div class="toggle-switch">
-            <div class="toggle-circle"></div>
+
+<div class="page">
+
+    <nav class="nav-strip">
+        <a href="../index.html" class="nav-brand">Susana Loureiro</a>
+
+        <ul class="nav-links">
+            <li><a href="spotlight.html">Spotlight</a></li>
+            <li><a href="field-notes.html">Field Notes</a></li>
+            <li><a href="feature-articles.html">Feature Articles</a></li>
+            <li><a href="letters.html" class="active">Letters</a></li>
+        </ul>
+
+        <span class="folio-num">04</span>
+    </nav>
+
+    <div class="page-header">
+        <div>
+            <div class="page-kicker">04 · Letters</div>
+            <div class="page-title-lg">
+                Let's<br>
+                <em>Talk.</em>
+            </div>
+        </div>
+
+        <div class="page-subtitle">
+            I'm always interested in connecting with fellow engineers,
+            potential collaborators, and people with interesting problems
+            to solve.
         </div>
     </div>
 
-    <!-- Main Content -->
-    <main class="editorial-layout">
-        <!-- Letters Section -->
-        <section id="letters" class="section-letters active">
-            <div class="magazine-header">
-                <div class="issue-info">
-                    <span class="volume">Vol. I</span>
-                    <span class="separator">|</span>
-                    <span class="issue">Letters</span>
-                </div>
-                <div class="page-title">The Engineer's Portfolio</div>
-            </div>
+    <div class="letters-grid">
 
-            <div class="letters-intro">
-                <p>I'm always interested in connecting with fellow engineers, potential collaborators, and those with interesting problems to solve. Whether you have a project in mind, a question about my work, or simply want to say hello, I'd love to hear from you.</p>
-            </div>
+        <div class="letters-col">
 
-            <div class="letters-layout">
+            <p class="letters-lede">
+                If you have an interesting problem, a collaboration in mind,
+                or just want to talk about building things properly — reach out.
+            </p>
 
-                <div class="contact-sidebar">
-                    <div class="contact-info">
-                        <h3 class="contact-heading">Contact Details</h3>
-
-                        <ul class="contact-list">
-                            <li class="contact-item">
-                                <div class="contact-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                                        <polyline points="22,6 12,13 2,6"></polyline>
-                                    </svg>
-                                </div>
-                                <div class="contact-text">
-                                    <div class="contact-label">Email</div>
-                                    <div class="contact-value">susanamloureiro@outlook.com</div>
-                                </div>
-                            </li>
-
-                            <li class="contact-item">
-                                <div class="contact-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                                        <circle cx="12" cy="10" r="3"></circle>
-                                    </svg>
-                                </div>
-                                <div class="contact-text">
-                                    <div class="contact-label">Location</div>
-                                    <div class="contact-value">Porto, Portugal</div>
-                                </div>
-                            </li>
-
-                            <!--<li class="contact-item">
-                                <div class="contact-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                                    </svg>
-                                </div>
-                                <div class="contact-text">
-                                    <div class="contact-label">Phone Number</div>
-                                    <div class="contact-value">+351 919 390 272</div>
-                                </div>
-                            </li>-->
-
-                        </ul>
-
-                        <h3 class="contact-heading">Connect</h3>
-                        <div class="social-links">
-                            <a href="https://github.com/susanamloureiro" class="social-link" aria-label="GitHub">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                                </svg>
-                            </a>
-
-                            <a href="https://www.linkedin.com/in/susanamloureiro/" class="social-link" aria-label="LinkedIn">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                                    <rect x="2" y="9" width="4" height="12"></rect>
-                                    <circle cx="4" cy="4" r="2"></circle>
-                                </svg>
-                            </a>
-
-                            <a href="https://x.com/heyitssaine" class="social-link" aria-label="LinkedIn">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.657l-5.214-6.817-5.963 6.817H1.684l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                                </svg>
-                            </a>
-
-                            <a href="https://www.credly.com/users/susanamloureiro/badges#credly" class="social-link" aria-label="Credly">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M23.8 13.154a.299.299 0 0 0-.101-.024.407.407 0 0 0-.202.048c-.06.028-.092.08-.127.136-.087.128-.15.268-.226.4-.107.187-.246.351-.38.515-.135.156-.286.291-.424.44-.028.027-.072.043-.107.027-.028-.016-.036-.056-.032-.088.04-.38.075-.763.123-1.138.02-.172.043-.336.063-.512.028-.247.056-.487.087-.735l.234-1.824c.02-.128.032-.372-.135-.52a.446.446 0 0 0-.233-.116.46.46 0 0 0-.254.06c-.226.16-.297.504-.365.76-.142.603-.178 1.241-.471 1.804a1.772 1.772 0 0 1-.202.316.668.668 0 0 1-.186.18.332.332 0 0 1-.246.051.365.365 0 0 1-.238-.207.871.871 0 0 1-.063-.324 4.499 4.499 0 0 1 .24-1.585c.045-.132.089-.252.104-.383.028-.156.028-.38-.114-.516-.131-.128-.337-.18-.504-.128-.194.056-.31.244-.372.392-.198.463-.25.95-.317 1.446-.044.327-.127.64-.293.926a2.717 2.717 0 0 1-.603.72c-.118.087-.222.123-.328.107a.376.376 0 0 1-.278-.208.875.875 0 0 1-.095-.315 3.361 3.361 0 0 1-.036-.616c.004-.223 0-.44.044-.658.075-.39.678-1.937.808-2.345.135-.407.262-.823.353-1.246.08-.38.123-.767.11-1.15-.007-.277-.07-.576-.288-.736a.611.611 0 0 0-.603-.048.968.968 0 0 0-.455.428 2.53 2.53 0 0 0-.226.59 12.01 12.01 0 0 0-.266 1.29c-.071.429-.138.848-.206 1.268-.06.355-.206 1.614-.261 1.88-.06.272-.175.54-.301.787-.131.268-.258.536-.408.791a.694.694 0 0 1-.175.224c-.08.06-.182.088-.27.048-.102-.048-.146-.176-.166-.292-.075-.435-.012-.875.072-1.302.083-.431.44-2.4.519-2.851.099-.532.24-1.05.285-1.59.028-.388.09-.88-.202-1.187-.115-.136-.31-.16-.44-.136-.174.036-.31.176-.388.296-.1.128-.186.28-.258.467-.115.284-.186.615-.261.91l-.032.129c-.083.383-.143.77-.186 1.162a16.95 16.948 0 0 0-.06.632c-.008.1-.016.203-.027.307 0 .08.007.168-.028.244a.304.304 0 0 1-.052.068c-.08.072-.202.06-.31.056-.557-.016-1.045.3-1.35.755-.18.252-.281.542-.39.834-.01.048-.034.1-.054.152-.051.143-.13.327-.222.511a3.037 3.037 0 0 1-.317.46 3.285 3.285 0 0 1-.384.41 1.123 1.123 0 0 1-.515.26c-.174.04-.384-.043-.543-.203a.916.916 0 0 1-.206-.54c-.004-.055-.004-.115.028-.163.05-.068.146-.072.23-.076a1.623 1.623 0 0 0 1.375-1.015c.138-.34.178-.698.122-1.046a1.193 1.193 0 0 0-.19-.48.9.9 0 0 0-.396-.323c-.293-.14-.658-.127-1.01.004-.575.232-.951.74-1.134 1.562l-.02.088c-.114.487-.23 1-.582 1.354-.127.12-.261.163-.368.143-.044-.004-.08-.04-.103-.075-.096-.16.003-.532.15-1a4.1 4.1 0 0 0 .1-.366.925.925 0 0 0-.108-.495.783.783 0 0 0-.372-.324c-.143-.064-.31-.06-.468-.06h-.047c-.044 0-.103 0-.151-.012a.215.215 0 0 1-.147-.127.485.485 0 0 1 .016-.232c.004-.02.012-.048.016-.072a.368.368 0 0 0-.162-.412.509.509 0 0 0-.468-.036.768.768 0 0 0-.364.348.769.769 0 0 0-.103.48c.04.13.07.32.043.475-.055.28-.222.51-.384.74-.04.05-.072.106-.107.16a4.96 4.96 0 0 1-.706.825c-.372.335-.804.575-1.232.67-.745.165-1.506-.06-1.91-.734-.222-.38-.32-.827-.348-1.266a5.425 5.425 0 0 1 .424-2.516c.328-.76.816-1.52 1.715-1.614.353-.04.753.083.912.4.115.23.075.506 0 .75-.072.244-.175.49-.18.75-.003.26.124.54.37.616.238.072.495-.08.634-.29.138-.21.186-.46.245-.704a6.282 6.281 0 0 1 .662-1.634c.139-.236.297-.488.254-.76a.543.543 0 0 0-.373-.415.543.543 0 0 0-.535.144c-.134.148-.206.371-.387.43-.17.06-.35-.055-.507-.134-.6-.32-1.336-.312-1.963-.048-.634.25-1.146.735-1.526 1.294C.462 8.53.098 9.508.022 10.48c-.027.34-.031.695 0 1.038.036.46.1.854.214 1.206.139.423.317.79.547 1.094.266.34.587.6.94.747.372.148.784.22 1.192.208a3.172 3.172 0 0 0 1.177-.283 4.29 4.29 0 0 0 1.026-.68c.309-.26.594-.559.84-.89.162-.224.309-.46.44-.708a4.83 4.83 0 0 0 .178-.383c.044-.104.087-.215.202-.26.056-.043.15-.02.202.013.064.04.115.075.135.135.048.116.02.232-.004.332v.012c-.028.1-.055.203-.091.303-.14.424-.238.811-.16 1.195.045.207.128.387.25.527a.84.84 0 0 0 .504.264c.246.04.51-.028.725-.132.143-.068.278-.156.397-.26.06-.06.122-.12.174-.184.044-.06.087-.147.178-.143a.15.15 0 0 1 .107.064c.028.031.04.071.06.115.23.52.776.84 1.335.84h.07c.27 0 .556-.093.79-.22.27-.14.48-.348.7-.552.02-.016.045-.04.073-.044.035-.008.07.012.099.044a.26.26 0 0 1 .047.1c.135.34.46.6.824.66a1.1 1.1 0 0 0 .99-.356c.056-.06.104-.128.167-.176.064-.044.15-.076.222-.044.107.04.135.164.182.268.107.235.357.371.615.375.289 0 .554-.148.764-.34.195-.183.353-.399.516-.61a.328.328 0 0 1 .106-.096c.04-.024.096-.028.13 0 .033.024.045.06.06.091.163.4.587.652 1.01.648.417-.004.809-.224 1.103-.516.095-.092.194-.2.32-.21.14-.017.207.114.254.22.072.142.115.238.25.338.158.116.36.152.547.1.17-.04.34-.156.47-.316.072-.088.112-.204.19-.284.092-.087.132.028.136.1.016.116.016.236.008.352-.016.236-.052.471-.08.703-.011.068-.02.136-.063.188-.06.068-.166.08-.253.064a2.898 2.898 0 0 0-.321-.028l-.14-.016c-.201-.012-.4-.036-.61-.044h-.185c-.404 0-.733.048-1.03.16-.48.187-.852.57-1.003 1.018a1.305 1.305 0 0 0-.052.64c.04.203.13.403.282.587.265.315.68.515 1.149.543.408.02.852-.064 1.292-.26.848-.367 1.482-1.094 1.696-1.95 0-.02.01-.039.023-.043.298-.104.57-.248.813-.428.245-.187.467-.399.65-.643.09-.12.174-.243.253-.37.07-.125.13-.257.202-.38a.906.906 0 0 0 .13-.316.411.411 0 0 0-.05-.328.257.257 0 0 0-.135-.124"/>
-                                </svg>
-                            </a>
-
-
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="resume-download">
-                    <h3 class="resume-title">Download My Resume</h3>
-                    <p class="resume-description">A comprehensive overview of my skills, experience, and education</p>
-                    <a href="../docs/cv/cv-print.html"
-                       class="download-button"
-                       target="_blank"
-                       rel="noopener noreferrer">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             viewBox="0 0 24 24"
-                             fill="none"
-                             stroke="currentColor"
-                             stroke-width="2"
-                             stroke-linecap="round"
-                             stroke-linejoin="round">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="7 10 12 15 17 10"></polyline>
-                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                        </svg>
-                        Resume (PDF)
+            <div class="contact-row">
+                <div class="contact-label">Email</div>
+                <div class="contact-value">
+                    <a href="mailto:susanamloureiro@outlook.com">
+                        susanamloureiro@outlook.com
                     </a>
                 </div>
             </div>
 
-            <!-- Page Navigation -->
-            <div class="page-navigation">
-                <a href="feature-articles.html" class="prev-page">← Previous</a>
-                <a href="../index.html" class="next-page">Back to Cover →</a>
+            <div class="contact-row">
+                <div class="contact-label">Location</div>
+                <div class="contact-value">
+                    Porto, Portugal
+                </div>
             </div>
-        </section>
 
-        <!-- Page Numbers -->
-        <div class="page-number">04</div>
-    </main>
+            <div class="socials">
+                <a href="https://github.com/susanamloureiro" class="social-link" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                    GitHub
+                </a>
+                <a href="https://www.linkedin.com/in/susanamloureiro/" class="social-link" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                    LinkedIn
+                </a>
+                <a href="https://x.com/heyitssaine" class="social-link" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.657l-5.214-6.817-5.963 6.817H1.684l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    X
+                </a>
+                <a href="https://www.credly.com/users/susanamloureiro/badges#credly" class="social-link" aria-label="Credly">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M23.8 13.154a.299.299 0 0 0-.101-.024.407.407 0 0 0-.202.048c-.06.028-.092.08-.127.136-.087.128-.15.268-.226.4-.107.187-.246.351-.38.515-.135.156-.286.291-.424.44-.028.027-.072.043-.107.027-.028-.016-.036-.056-.032-.088.04-.38.075-.763.123-1.138.02-.172.043-.336.063-.512.028-.247.056-.487.087-.735l.234-1.824c.02-.128.032-.372-.135-.52a.446.446 0 0 0-.233-.116.46.46 0 0 0-.254.06c-.226.16-.297.504-.365.76-.142.603-.178 1.241-.471 1.804a1.772 1.772 0 0 1-.202.316.668.668 0 0 1-.186.18.332.332 0 0 1-.246.051.365.365 0 0 1-.238-.207.871.871 0 0 1-.063-.324 4.499 4.499 0 0 1 .24-1.585c.045-.132.089-.252.104-.383.028-.156.028-.38-.114-.516-.131-.128-.337-.18-.504-.128-.194.056-.31.244-.372.392-.198.463-.25.95-.317 1.446-.044.327-.127.64-.293.926a2.717 2.717 0 0 1-.603.72c-.118.087-.222.123-.328.107a.376.376 0 0 1-.278-.208.875.875 0 0 1-.095-.315 3.361 3.361 0 0 1-.036-.616c.004-.223 0-.44.044-.658.075-.39.678-1.937.808-2.345.135-.407.262-.823.353-1.246.08-.38.123-.767.11-1.15-.007-.277-.07-.576-.288-.736a.611.611 0 0 0-.603-.048.968.968 0 0 0-.455.428 2.53 2.53 0 0 0-.226.59 12.01 12.01 0 0 0-.266 1.29c-.071.429-.138.848-.206 1.268-.06.355-.206 1.614-.261 1.88-.06.272-.175.54-.301.787-.131.268-.258.536-.408.791a.694.694 0 0 1-.175.224c-.08.06-.182.088-.27.048-.102-.048-.146-.176-.166-.292-.075-.435-.012-.875.072-1.302.083-.431.44-2.4.519-2.851.099-.532.24-1.05.285-1.59.028-.388.09-.88-.202-1.187-.115-.136-.31-.16-.44-.136-.174.036-.31.176-.388.296-.1.128-.186.28-.258.467-.115.284-.186.615-.261.91l-.032.129c-.083.383-.143.77-.186 1.162a16.95 16.948 0 0 0-.06.632c-.008.1-.016.203-.027.307 0 .08.007.168-.028.244a.304.304 0 0 1-.052.068c-.08.072-.202.06-.31.056-.557-.016-1.045.3-1.35.755-.18.252-.281.542-.39.834-.01.048-.034.1-.054.152-.051.143-.13.327-.222.511a3.037 3.037 0 0 1-.317.46 3.285 3.285 0 0 1-.384.41 1.123 1.123 0 0 1-.515.26c-.174.04-.384-.043-.543-.203a.916.916 0 0 1-.206-.54c-.004-.055-.004-.115.028-.163.05-.068.146-.072.23-.076a1.623 1.623 0 0 0 1.375-1.015c.138-.34.178-.698.122-1.046a1.193 1.193 0 0 0-.19-.48.9.9 0 0 0-.396-.323c-.293-.14-.658-.127-1.01.004-.575.232-.951.74-1.134 1.562l-.02.088c-.114.487-.23 1-.582 1.354-.127.12-.261.163-.368.143-.044-.004-.08-.04-.103-.075-.096-.16.003-.532.15-1a4.1 4.1 0 0 0 .1-.366.925.925 0 0 0-.108-.495.783.783 0 0 0-.372-.324c-.143-.064-.31-.06-.468-.06h-.047c-.044 0-.103 0-.151-.012a.215.215 0 0 1-.147-.127.485.485 0 0 1 .016-.232c.004-.02.012-.048.016-.072a.368.368 0 0 0-.162-.412.509.509 0 0 0-.468-.036.768.768 0 0 0-.364.348.769.769 0 0 0-.103.48c.04.13.07.32.043.475-.055.28-.222.51-.384.74-.04.05-.072.106-.107.16a4.96 4.96 0 0 1-.706.825c-.372.335-.804.575-1.232.67-.745.165-1.506-.06-1.91-.734-.222-.38-.32-.827-.348-1.266a5.425 5.425 0 0 1 .424-2.516c.328-.76.816-1.52 1.715-1.614.353-.04.753.083.912.4.115.23.075.506 0 .75-.072.244-.175.49-.18.75-.003.26.124.54.37.616.238.072.495-.08.634-.29.138-.21.186-.46.245-.704a6.282 6.281 0 0 1 .662-1.634c.139-.236.297-.488.254-.76a.543.543 0 0 0-.373-.415.543.543 0 0 0-.535.144c-.134.148-.206.371-.387.43-.17.06-.35-.055-.507-.134-.6-.32-1.336-.312-1.963-.048-.634.25-1.146.735-1.526 1.294C.462 8.53.098 9.508.022 10.48c-.027.34-.031.695 0 1.038.036.46.1.854.214 1.206.139.423.317.79.547 1.094.266.34.587.6.94.747.372.148.784.22 1.192.208a3.172 3.172 0 0 0 1.177-.283 4.29 4.29 0 0 0 1.026-.68c.309-.26.594-.559.84-.89.162-.224.309-.46.44-.708a4.83 4.83 0 0 0 .178-.383c.044-.104.087-.215.202-.26.056-.043.15-.02.202.013.064.04.115.075.135.135.048.116.02.232-.004.332v.012c-.028.1-.055.203-.091.303-.14.424-.238.811-.16 1.195.045.207.128.387.25.527a.84.84 0 0 0 .504.264c.246.04.51-.028.725-.132.143-.068.278-.156.397-.26.06-.06.122-.12.174-.184.044-.06.087-.147.178-.143a.15.15 0 0 1 .107.064c.028.031.04.071.06.115.23.52.776.84 1.335.84h.07c.27 0 .556-.093.79-.22.27-.14.48-.348.7-.552.02-.016.045-.04.073-.044.035-.008.07.012.099.044a.26.26 0 0 1 .047.1c.135.34.46.6.824.66a1.1 1.1 0 0 0 .99-.356c.056-.06.104-.128.167-.176.064-.044.15-.076.222-.044.107.04.135.164.182.268.107.235.357.371.615.375.289 0 .554-.148.764-.34.195-.183.353-.399.516-.61a.328.328 0 0 1 .106-.096c.04-.024.096-.028.13 0 .033.024.045.06.06.091.163.4.587.652 1.01.648.417-.004.809-.224 1.103-.516.095-.092.194-.2.32-.21.14-.017.207.114.254.22.072.142.115.238.25.338.158.116.36.152.547.1.17-.04.34-.156.47-.316.072-.088.112-.204.19-.284.092-.087.132.028.136.1.016.116.016.236.008.352-.016.236-.052.471-.08.703-.011.068-.02.136-.063.188-.06.068-.166.08-.253.064a2.898 2.898 0 0 0-.321-.028l-.14-.016c-.201-.012-.4-.036-.61-.044h-.185c-.404 0-.733.048-1.03.16-.48.187-.852.57-1.003 1.018a1.305 1.305 0 0 0-.052.64c.04.203.13.403.282.587.265.315.68.515 1.149.543.408.02.852-.064 1.292-.26.848-.367 1.482-1.094 1.696-1.95 0-.02.01-.039.023-.043.298-.104.57-.248.813-.428.245-.187.467-.399.65-.643.09-.12.174-.243.253-.37.07-.125.13-.257.202-.38a.906.906 0 0 0 .13-.316.411.411 0 0 0-.05-.328.257.257 0 0 0-.135-.124"/>
+                    </svg>
+                    Credly
+                </a>
+            </div>
 
-    <script src="../js/script.js"></script>
-    <script>
-        // Simple form submission handling
-        document.getElementById('contact-form').addEventListener('submit', function(e) {
-            e.preventDefault();
+        </div>
 
-            // In a real implementation, you would send the form data to a server
-            // For now, we'll just show a success message
-            alert('Thank you for your message! I will get back to you soon.');
-            this.reset();
-        });
-    </script>
+        <div class="letters-col">
+            <div class="resume-block">
+                <div class="resume-block-label">Curriculum Vitae</div>
+                <div class="resume-block-title">Download My Resume</div>
+                <p class="resume-block-desc">A comprehensive overview of my skills, experience, and education. Available as a print-ready PDF.</p>
+                <a href="../docs/cv/cv-print.html" class="resume-download-btn" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Resume (PDF)
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="colophon">
+        The Engineer's Portfolio · Vol. II · 2026 · Porto, Portugal — This is not a catalogue of things made. It is a record of questions that became systems.
+    </div>
+
+
+</div>
+<script src="../js/nav.js"></script>
 </body>
 </html>
