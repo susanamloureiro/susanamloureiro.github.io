@@ -411,18 +411,16 @@ body.page-leaving .page {
     font-size: 0.9rem;
 }
 
-/* ─── SPOTLIGHT LEDE ─── */
+/* ─── SPOTLIGHT ─── */
 
 .interview-lede {
-    display: grid;
-    grid-template-columns: 1.65fr 0.8fr;
-    gap: 5vw;
-    padding: 5rem 5vw 4rem;
-    border-bottom: 1px solid var(--line);
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 4rem 5vw 3.5rem;
+    /*border-bottom: 1px solid var(--line);*/
 }
 
 .interview-deck {
-    max-width: 62ch;
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
     font-size: 1.35rem;
@@ -439,90 +437,20 @@ body.page-leaving .page {
     color: var(--faint);
     padding-top: 0.8rem;
     border-top: 1px solid var(--line);
+    text-align: center;
 }
 
-.photo-block {
-    width: 265px;
-    max-width: 100%;
-    justify-self: end;
-    padding-top: 2rem;
+.interview-article {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 4rem 5vw 6rem;
 }
 
-.photo-block img {
-    width: 100%;
-    display: block;
-    aspect-ratio: 265 / 336;
-    object-fit: cover;
-    object-position: center top;
-}
-
-.photo-caption {
-    margin-top: 0.55rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.52rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--faint);
-}
-
-.interview-body-grid {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 5vw;
-    padding: 4rem 5vw;
-}
-
-.interview-sidebar {
-    align-self: start;
-}
-
-.quick-facts-box {
-    border: 1px solid var(--line);
-    padding: 1.5rem;
-}
-
-.qf-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.58rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--faint);
-    padding-bottom: 0.6rem;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid var(--line);
-}
-
-.qf-text {
-    font-size: 0.9rem;
-    line-height: 1.7;
-    color: var(--soft);
-}
-
-.interview-content {
-    max-width: 68ch;
-}
-
-.interview-intro {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.35rem;
-    line-height: 1.55;
+.interview-body {
+    font-size: 1rem;
+    line-height: 1.85;
     color: var(--body);
-    margin-bottom: 3rem;
-}
-
-.q {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.15rem;
-    font-style: italic;
-    line-height: 1.45;
-    color: var(--muted);
-    margin: 2.5rem 0 0.7rem;
-}
-
-.a {
-    font-size: 0.96rem;
-    line-height: 1.8;
-    color: var(--body);
+    margin-bottom: 1.6rem;
 }
 
 .pull-quote {
@@ -537,29 +465,42 @@ body.page-leaving .page {
     line-height: 1.3;
 }
 
-.footnote {
-    border-left: 2px solid var(--warm);
-    padding: 0.8rem 1rem;
-    margin: 1.8rem 0;
-    font-size: 0.83rem;
-    line-height: 1.7;
-    color: var(--muted);
+.interview-photo-inline {
+    float: right;
+    margin: 0.5rem 0 2rem 3rem;
+    width: 200px;
+    clear: right;
+}
+
+.interview-photo-inline img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 200 / 260;
+    object-fit: cover;
+    object-position: center top;
+}
+
+.photo-caption {
+    margin-top: 0.55rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.52rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--faint);
 }
 
 @media (max-width: 768px) {
-
-    .interview-lede {
-        grid-template-columns: 1fr;
-        gap: 3rem;
-        padding: 3rem 1.5rem;
+    .interview-lede,
+    .interview-article {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
     }
 
-    .photo-block {
-        width: 265px;
-        justify-self: start;
-        padding-top: 0;
+    .interview-photo-inline {
+        float: none;
+        width: 100%;
+        margin: 2rem 0;
     }
-
 }
 
 /* ─── FIELD NOTES ─── */
