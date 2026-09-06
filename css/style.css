@@ -1371,7 +1371,6 @@ body.page-leaving .page {
 }
 
 /* ─── LETTERS ─── */
-
 .letters-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
