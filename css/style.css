@@ -337,7 +337,7 @@ body.page-leaving .page {
     font-size: 0.65rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: #6b6456;
+    color: var(--muted);
     border-top: 1px solid #d9d1bf;
     padding-top: 1.2rem;
     margin-top: auto;
@@ -351,7 +351,7 @@ body.page-leaving .page {
 }
 .cover-deck {
     padding-top: 2rem;
-    border-top: 1px solid #d9d1bf;
+    border-top: 1px solid var(--line);
 }
 .cover-deck-head {
     font-family: 'Cormorant Garamond', serif;
@@ -363,7 +363,7 @@ body.page-leaving .page {
 .cover-deck-body {
     font-size: 0.92rem;
     line-height: 1.7;
-    color: #4d4840;
+    color: var(--soft);
     max-width: 38ch;
 }
 
@@ -489,6 +489,11 @@ body.page-leaving .page {
     color: var(--faint);
 }
 
+/* Mobile-only version of the spotlight photo */
+.interview-photo-mobile {
+    display: none;
+}
+
 @media (max-width: 768px) {
     .interview-lede,
     .interview-article {
@@ -500,6 +505,25 @@ body.page-leaving .page {
         float: none;
         width: 100%;
         margin: 2rem 0;
+    }
+
+    .interview-photo-mobile {
+        display: block;
+        width: 100%;
+        margin: 2rem 0 0;
+    }
+
+    .interview-photo-mobile img {
+        width: 100%;
+        display: block;
+        aspect-ratio: 200 / 260;
+        object-fit: cover;
+        object-position: center top;
+    }
+
+    /* Hide the original desktop-positioned photo on mobile */
+    .interview-photo-inline {
+        display: none;
     }
 }
 
@@ -1095,43 +1119,40 @@ body.page-leaving .page {
 
 /* Mobile */
 
-@media (max-width: 768px) {
-
+@media (max-width: 900px) {
+    /* Core */
     .featured-projects {
-        grid-template-columns: 1fr;
+        display: block !important;
+        width: 100% !important;
     }
 
     .core-feature {
-        padding: 2.5rem 1.5rem;
-        border-right: none;
+        display: block !important;
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 2.5rem 1.5rem 5rem !important;
+        border: 0 !important;
     }
 
     .future-project-slot {
-        display: none;
-    }
-
-    .core-header {
-        margin-bottom: 3rem;
-    }
-
-    .core-logo-title img {
-        width: 190px;
-    }
-
-    .core-header .project-lead {
-        font-size: 1.15rem;
+        display: none !important;
     }
 
     .core-content {
-        grid-template-columns: 1fr;
-        gap: 3rem;
+        display: block !important;
+        width: 100% !important;
     }
 
-    .core-links {
-        flex-wrap: wrap;
-        gap: 1rem;
+    .core-description {
+        width: 100% !important;
+        max-width: none !important;
     }
 
+    .core-header {
+        width: 100% !important;
+        max-width: none !important;
+    }
 }
 
 /* ─── ARCHIVE DRAWERS ─── */
@@ -1369,8 +1390,13 @@ body.page-leaving .page {
 
 .socials {
     display: flex;
-    flex-wrap: wrap;
-    gap: 1.2rem;
+    align-items: center;
+    gap: 1.75rem;
+}
+
+.socials svg {
+    width: 1.35rem;
+    height: 1.35rem;
 }
 
 .social-link {
@@ -1480,10 +1506,16 @@ body.page-leaving .page {
         grid-template-columns: 1fr;
     }
 
-    .cover-name-block {
-        min-height: 58vh;
+    cover-name-block {
+        min-height: 52vh;
         border-right: 0;
         border-bottom: 1px solid var(--line);
+
+        justify-content: center;
+    }
+
+    .cover-name-block .cover-role {
+        margin-top: 2rem;
     }
 
     .cover-right {

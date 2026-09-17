@@ -454,6 +454,20 @@ body {
     color: var(--muted);
 }
 
+.archive-card-link {
+    grid-column: 1 / -1;
+    justify-self: end;
+
+    font-family: 'DM Mono', monospace;
+    font-size: 0.38rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+
+    color: #000000;
+    border-bottom: 1px solid #000000;
+}
+
 
 /* ─────────────────────────────────────────────────────────────
    TECHNICAL TOOLKIT
@@ -580,6 +594,9 @@ body {
 
     .cv {
         min-height: 297mm;
+
+        /* Make the A4 CV easier to read at 100% browser zoom */
+        zoom: 1.15;
 
         box-shadow: 0 10px 50px rgba(0, 0, 0, 0.08);
     }
