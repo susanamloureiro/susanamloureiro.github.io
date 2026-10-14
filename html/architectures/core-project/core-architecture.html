@@ -72,6 +72,7 @@
     .diag-note { font-family: var(--font-serif); font-size: 11.5px; font-style: italic; color: var(--muted); margin-top: 12px; letter-spacing: 0.02em; }
     .see-agent-btn { font-family: var(--font-sans); font-size: 8.5px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--agent); background: none; border: 0.5px solid var(--agent); cursor: pointer; padding: 5px 12px; transition: background 0.15s, color 0.15s; margin-top: 14px; display: inline-block; }
     .see-agent-btn:hover { background: var(--agent); color: var(--cream); }
+    .agent-toggle { margin: 0 0 0 auto; }  /* same line as the infrastructure toggle, pushed to the right */
     .tooltip { position: fixed; background: var(--text); color: var(--cream); font-family: var(--font-serif); font-size: 12.5px; font-weight: 400; line-height: 1.5; padding: 9px 13px; max-width: 230px; pointer-events: none; opacity: 0; transition: opacity 0.15s; z-index: 9999; }
     .tooltip.visible { opacity: 1; }
     .tooltip-label { font-family: var(--font-sans); font-size: 8.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--border); display: block; margin-bottom: 4px; }
@@ -87,6 +88,7 @@
       <button class="active" onclick="switchDeploy('current',this)">current</button>
       <button onclick="switchDeploy('aws',this)">aws</button>
     </div>
+    <button class="see-agent-btn agent-toggle" onclick="showAgentFlow()">agent architecture</button>
   </div>
 
   <div class="diagram-area" id="diagramArea">
@@ -146,7 +148,7 @@
 
         <text class="server-label" x="178" y="70">server 1 · frontend</text>
 
-        <g data-tip="angular frontend" data-desc="Angular 17 standalone application. Renders the weekly planner, handles JWT auth and communicates with the backend via HTTP." style="cursor:pointer">
+        <g data-tip="angular frontend" data-desc="Angular 17 standalone application. Renders the planner, lists and financials, handles JWT auth and talks to the backend over HTTP. Anything the agent created shows up in blue." style="cursor:pointer">
 
           <rect class="node-box" x="185" y="87" width="145" height="68" rx="2"/>
 
@@ -162,7 +164,7 @@
 
         <text class="server-label" x="413" y="70">server 2 · backend</text>
 
-        <g data-tip="c# backend" data-desc="ASP.NET backend. Handles application logic, JWT authentication and persistence access. The REST API is consumed by the frontend and agent." style="cursor:pointer">
+        <g data-tip="c# backend" data-desc="ASP.NET backend and the source of truth. Handles application logic, auth and persistence. Also decides what the agent may do: it gets a short-lived token carrying only its grants, deny by default, and no delete — ever." style="cursor:pointer">
 
           <rect class="node-box" x="425" y="87" width="155" height="68" rx="2"/>
 
@@ -178,7 +180,7 @@
 
         <text class="server-label" x="668" y="70">server 4 · database</text>
 
-        <g data-tip="postgresql" data-desc="PostgreSQL database. Stores the planner data. Only accessible through the backend." style="cursor:pointer">
+        <g data-tip="postgresql" data-desc="PostgreSQL database. Stores the planner, lists and financial data, plus the agent's identity and grants. Only accessible through the backend." style="cursor:pointer">
 
           <ellipse cx="742" cy="94" rx="57" ry="9" fill="#EDE7DC" stroke="#C8BFB0" stroke-width="0.5"/>
           <rect x="685" y="94" width="114" height="47" fill="#EDE7DC"/>
@@ -196,7 +198,7 @@
 
         <text class="server-label" x="668" y="250">server 5 · vector database</text>
 
-        <g data-tip="qdrant vector database" data-desc="QDrant vector database. Stores the long-term agent memory." style="cursor:pointer">
+        <g data-tip="qdrant vector database" data-desc="Qdrant vector database. Stores the agent's episodes: dated things that happened, searched by meaning and only pulled in when they relate to the current message." style="cursor:pointer">
 
           <ellipse cx="742" cy="267" rx="57" ry="9" fill="#EDE7DC" stroke="#C8BFB0" stroke-width="0.5"/>
           <rect x="685" y="267" width="114" height="47" fill="#EDE7DC"/>
@@ -238,16 +240,28 @@
 
         <!-- SERVER 3 -->
 
-        <rect class="server-box" x="380" y="235" width="225" height="115" rx="2"/>
+        <rect class="server-box" x="380" y="235" width="225" height="125" rx="2"/>
 
         <text class="server-label" x="393" y="250">server 3 · agent</text>
 
-        <g data-tip="python agent" data-desc="Python agent using LangChain. Handles chat messages, memory, planner tools and scheduled jobs. Currently functioning with the GPT-4o" style="cursor:pointer">
+        <g data-tip="python agent" data-desc="Python agent on LangGraph. Its own identity with scoped permissions, not a user. Reads the planner, lists and finances, asks before editing or touching money, and remembers on its own. GPT-4o for the conversation, GPT-4o-mini for memory." style="cursor:pointer">
 
-          <rect class="node-box agent-col" x="405" y="267" width="175" height="55" rx="2"/>
+          <rect class="node-box agent-col" x="405" y="260" width="175" height="50" rx="2"/>
 
-          <text class="node-label" x="492" y="287">python agent</text>
-          <text class="node-sub" x="492" y="306">langchain</text>
+          <text class="node-label" x="492" y="278">python agent</text>
+          <text class="node-sub" x="492" y="297">langgraph · gpt-4o</text>
+
+        </g>
+
+        <!-- AGENT → PROFILE -->
+
+        <line class="arrow agent" marker-end="url(#ah-current-agent)" x1="492" y1="310" x2="492" y2="322"/>
+
+        <g data-tip="profile.md" data-desc="A markdown profile of the owner: routine, preferences, money habits, goals. Loaded whole into every prompt, edited automatically line by line, and every change is logged. Lives on the agent's server, never in git." style="cursor:pointer">
+
+          <rect class="node-box agent-col" x="447" y="324" width="90" height="24" rx="2"/>
+
+          <text class="node-label" x="492" y="337" style="font-size:11px">profile.md</text>
 
         </g>
 
@@ -256,25 +270,25 @@
 
         <!-- DISCORD → AGENT -->
 
-        <line class="arrow" marker-end="url(#ah-current)" x1="315" y1="315" x2="405" y2="295"/>
-        <text class="arrow-label" x="360" y="294">sends requests to</text>
+        <line class="arrow" marker-end="url(#ah-current)" x1="315" y1="315" x2="405" y2="290"/>
+        <text class="arrow-label" x="360" y="292">sends requests to</text>
 
 
         <!-- AGENT → BACKEND -->
 
-        <line class="arrow agent" marker-end="url(#ah-current-agent)" x1="492" y1="267" x2="502" y2="155"/>
-        <text class="arrow-label" x="525" y="214">http/rest</text>
+        <line class="arrow agent" marker-end="url(#ah-current-agent)" x1="492" y1="260" x2="502" y2="155"/>
+        <text class="arrow-label" x="537" y="205">scoped token</text>
+        <text class="arrow-label" x="537" y="215">http/rest</text>
 
 
         <!-- AGENT → VECTOR DATABASE -->
 
-        <line class="arrow agent" marker-end="url(#ah-current-agent)" x1="580" y1="295" x2="685" y2="295"/>
-        <text class="arrow-label" x="633" y="285">writes to</text>
+        <line class="arrow agent" marker-end="url(#ah-current-agent)" x1="580" y1="288" x2="685" y2="290"/>
+        <text class="arrow-label" x="633" y="280">reads · writes</text>
 
 
       </svg>
 
-      <button class="see-agent-btn" onclick="showAgentFlow()">↓ see agent flow</button>
       <p class="diag-note">hover over any component to see the reasoning behind it.</p>
 
     </div>
@@ -296,7 +310,7 @@
 
       <button class="agent-back" onclick="hideAgentFlow()">← back to system architecture</button>
 
-      <svg class="diag-svg" viewBox="0 0 740 420" xmlns="http://www.w3.org/2000/svg">
+      <svg class="diag-svg" viewBox="0 0 740 455" xmlns="http://www.w3.org/2000/svg">
 
         <defs>
 
@@ -333,7 +347,7 @@
 
         <rect class="flow-node" x="290" y="92" width="160" height="38"
               data-tip="bot layer"
-              data-desc="Currently configured for Discord, but can be replaced for any other chat interface (i.e: Whatsapp). Entry point. Receives messages and routes to guardrails."/>
+              data-desc="Currently configured for Discord, but can be replaced for any other chat interface (i.e: Whatsapp). Entry point. Receives messages, handles commands like !profile and !memories, sends the reply — and hands the exchange to memory once the reply is out."/>
 
         <text class="flow-label" x="370" y="107">bot layer</text>
         <text class="flow-sub" x="370" y="122">for chat</text>
@@ -345,79 +359,144 @@
 
         <rect class="flow-node hl" x="290" y="147" width="160" height="38"
               data-tip="guardrails"
-              data-desc="Input guard blocks empty, oversized and injection-style requests. Output guard controls which agent actions are allowed."/>
+              data-desc="Input guard blocks empty, oversized and injection-style messages before anything reaches the model. What the agent is allowed to do is enforced further down: by the confirmation step, and by the backend itself."/>
 
         <text class="flow-label" x="370" y="162">guardrails</text>
-        <text class="flow-sub" x="370" y="177">input + output</text>
+        <text class="flow-sub" x="370" y="177">input guard</text>
 
         <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="370" y1="185" x2="370" y2="200"/>
 
 
         <!-- Agent -->
 
-        <rect class="flow-node hl" x="290" y="202" width="160" height="46"
+        <rect class="flow-node hl" x="290" y="202" width="160" height="48"
               data-tip="agent layer"
-              data-desc="LangChain AgentExecutor + ChatOpenAI. Builds prompt context, recalls memory and decides the tool sequence. Currently uses GPT-4o, but this is modifiable for any other provider."/>
+              data-desc="LangGraph ReAct loop with a checkpointer per conversation. Reads the prompt context, decides which tools to call, at most 8 rounds per message. GPT-4o today — the model is a setting, not a rewrite."/>
 
         <text class="flow-label" x="370" y="221">agent</text>
-        <text class="flow-sub" x="370" y="237">langchain</text>
+        <text class="flow-sub" x="370" y="238">langgraph · gpt-4o</text>
 
 
-        <!-- Memory tools -->
+        <!-- Prompt context → Agent -->
 
-        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="330" y1="248" x2="148" y2="274"/>
-        <g data-tip="memory tools" data-desc="Tools used by the agent to retrieve and store conversational memory." style="cursor:pointer">
-          <rect class="flow-node hl" x="68" y="276" width="160" height="46" rx="2"/>
-          <text class="flow-label" x="148" y="295">memory tools</text>
-          <text class="flow-sub" x="148" y="310">store · retrieve</text>
+        <g data-tip="prompt context" data-desc="Rebuilt every message: the profile in full, a snapshot of right now (dates, today and tomorrow, cash left, budgets) fetched from the backend, and the episodes related to the message. So 'what's on today' needs no tool call." style="cursor:pointer">
+          <rect class="flow-node hl" x="40" y="202" width="170" height="48" rx="2"/>
+          <text class="flow-label" x="125" y="221">prompt context</text>
+          <text class="flow-sub" x="125" y="238">profile · snapshot · memories</text>
+        </g>
+
+        <line stroke="#5a7a9e" stroke-width="0.75" marker-end="url(#ah2)" x1="210" y1="226" x2="288" y2="226"/>
+
+
+        <!-- Memory stores → Prompt context -->
+
+        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="75" y1="298" x2="90" y2="252"/>
+        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="170" y1="290" x2="155" y2="252"/>
+
+
+        <!-- Profile -->
+
+        <g data-tip="profile.md" data-desc="Who the owner is: routine, preferences, money habits, goals. Plain markdown, loaded whole into every prompt — never searched. Edited line by line as the agent learns, every change logged with before → after." style="cursor:pointer">
+          <rect class="flow-node hl" x="30" y="300" width="90" height="44" rx="2"/>
+          <text class="flow-label" x="75" y="317">profile.md</text>
+          <text class="flow-sub" x="75" y="333">always loaded</text>
         </g>
 
 
-        <!-- Memory tools → Memory -->
-        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="148" y1="322" x2="148" y2="356"/>
+        <!-- Episodes -->
 
-        <!-- Memory -->
-
-        <g data-tip="memory" data-desc="Short-term conversation state plus long-term semantic memory stored in vector database currently hosted in QDrant." style="cursor:pointer">
-          <ellipse cx="148" cy="365" rx="65" ry="9" fill="#EDE7DC" stroke="#5a7a9e" stroke-width="0.75"/>
-          <rect x="83" y="365" width="130" height="32" fill="#EDE7DC"/>
-          <line x1="83" y1="365" x2="83" y2="397" stroke="#5a7a9e" stroke-width="0.75"/>
-          <line x1="213" y1="365" x2="213" y2="397" stroke="#5a7a9e" stroke-width="0.75"/>
-          <ellipse cx="148" cy="397" rx="65" ry="9" fill="#EDE7DC" stroke="#5a7a9e" stroke-width="0.75"/>
-          <text class="flow-label" x="148" y="379">memory</text>
-          <text class="flow-sub" x="148" y="393">qdrant vector database</text>
+        <g data-tip="episodes" data-desc="Dated things that happened, in a Qdrant vector database. Searched by meaning and only pulled in when they relate to what's being said." style="cursor:pointer">
+          <ellipse cx="170" cy="300" rx="50" ry="8" fill="#EDE7DC" stroke="#5a7a9e" stroke-width="0.75"/>
+          <rect x="120" y="300" width="100" height="40" fill="#EDE7DC"/>
+          <line x1="120" y1="300" x2="120" y2="340" stroke="#5a7a9e" stroke-width="0.75"/>
+          <line x1="220" y1="300" x2="220" y2="340" stroke="#5a7a9e" stroke-width="0.75"/>
+          <ellipse cx="170" cy="340" rx="50" ry="8" fill="#EDE7DC" stroke="#5a7a9e" stroke-width="0.75"/>
+          <text class="flow-label" x="170" y="317">episodes</text>
+          <text class="flow-sub" x="170" y="331">qdrant</text>
         </g>
+
+
+        <!-- Extractor → Memory stores -->
+
+        <line stroke="#5a7a9e" stroke-width="0.75" marker-end="url(#ah2)" x1="75" y1="400" x2="75" y2="347"/>
+        <line stroke="#5a7a9e" stroke-width="0.75" marker-end="url(#ah2)" x1="170" y1="400" x2="170" y2="351"/>
+
+
+        <!-- Memory extractor -->
+
+        <g data-tip="memory extractor" data-desc="Runs after the reply is sent, so nobody waits. A smaller model reads the exchange and decides: a lasting fact edits the profile, something that happened becomes an episode — and most of the time, nothing. Duplicates are skipped, and the user sees 🧠 / 📝 with a short note." style="cursor:pointer">
+          <rect class="flow-node hl" x="40" y="400" width="175" height="44" rx="2"/>
+          <text class="flow-label" x="127" y="418">memory extractor</text>
+          <text class="flow-sub" x="127" y="434">gpt-4o-mini · after reply</text>
+        </g>
+
+
+        <!-- Agent → Extractor (after the reply) -->
+
+        <line stroke="#c8bfb0" stroke-width="0.75" stroke-dasharray="4 3" marker-end="url(#ah2)" x1="305" y1="250" x2="217" y2="412"/>
+        <text class="arrow-label" x="276" y="350">after reply</text>
+
+
+        <!-- Agent → Tools -->
+
+        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="350" y1="250" x2="362" y2="288"/>
+        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="390" y1="250" x2="502" y2="288"/>
+        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="430" y1="250" x2="650" y2="288"/>
+
+
+        <!-- List tools -->
+
+        <rect class="flow-node" x="300" y="290" width="125" height="46"
+              data-tip="list tools"
+              data-desc="get_lists, get_list and add_list_item. Read any list, add to the bottom of one. No ticking off, no new lists — the backend refuses both."/>
+
+        <text class="flow-label" x="362" y="308">list tools</text>
+        <text class="flow-sub" x="362" y="324">read · add items</text>
 
 
         <!-- Planner tools -->
 
-        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="410" y1="248" x2="534" y2="274"/>
-
-        <rect class="flow-node" x="464" y="276" width="160" height="46"
+        <rect class="flow-node" x="440" y="290" width="125" height="46"
               data-tip="planner tools"
-              data-desc="get_week, create_task, create_event, create_meeting, create_note and update_task. These tools communicate with the C# backend."/>
+              data-desc="get_week, create_task, create_event, create_meeting, create_note and update_task. Updating a task goes through the confirmation step first."/>
 
-        <text class="flow-label" x="544" y="295">planner tools</text>
-        <text class="flow-sub" x="544" y="310">get · create · update</text>
+        <text class="flow-label" x="502" y="308">planner tools</text>
+        <text class="flow-sub" x="502" y="324">read · add · update</text>
 
-        <!-- Planner tools -->
 
-        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)"
-              x1="410" y1="248" x2="534" y2="274"/>
+        <!-- Finance tools -->
 
-        <rect class="flow-node" x="464" y="276" width="160" height="46"
-              data-tip="planner tools"
-              data-desc="get_week, create_task, create_event, create_meeting, create_note and update_task. These tools communicate with the C# backend through its REST API."/>
+        <rect class="flow-node" x="580" y="290" width="140" height="46"
+              data-tip="finance tools"
+              data-desc="get_month, get_budgets, get_savings, can_i_afford, log_transaction and add_one_off_income. The money maths is done in code, not by the model. Writes go through the confirmation step."/>
 
-        <text class="flow-label" x="544" y="295">planner tools</text>
-        <text class="flow-sub" x="544" y="310">get · create · update</text>
+        <text class="flow-label" x="650" y="308">finance tools</text>
+        <text class="flow-sub" x="650" y="324">read · afford · log</text>
+
+
+        <!-- Tools → Confirmation -->
+
+        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="502" y1="336" x2="502" y2="350"/>
+        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="650" y1="336" x2="650" y2="350"/>
+
+
+        <!-- Confirmation -->
+
+        <rect class="flow-node hl" x="440" y="352" width="280" height="26"
+              data-tip="confirmation"
+              data-desc="Edits and money writes pause the graph and ask first — 'log 3.50€ · coffee · food?'. Only a clear yes resumes it. Anything else cancels, and the agent reads what was actually said instead."/>
+
+        <text class="flow-label" x="580" y="366" style="font-size:11.5px">confirmation · interrupt()</text>
+
 
         <!-- Backend API -->
-        <line stroke="#c8bfb0" stroke-width="0.75" stroke-dasharray="4 3" marker-end="url(#ah2)" x1="544" y1="322" x2="544" y2="340"/>
 
-        <g data-tip="backend api" data-desc="The planner tools communicate with the C# backend through its REST API to read and modify planner data." style="cursor:pointer">
-          <rect x="484" y="342" width="120" height="28" rx="2" fill="rgba(200,191,176,0.08)" stroke="#c8bfb0" stroke-width="0.75" stroke-dasharray="4 3"/>
-          <text class="flow-label" x="544" y="356" style="font-size:11.5px; pointer-events:none">backend api</text>
+        <line stroke="#c8bfb0" stroke-width="0.75" stroke-dasharray="4 3" marker-end="url(#ah2)" x1="362" y1="336" x2="362" y2="402"/>
+        <line stroke="#c8bfb0" stroke-width="0.75" stroke-dasharray="4 3" marker-end="url(#ah2)" x1="580" y1="378" x2="580" y2="402"/>
+
+        <g data-tip="backend api" data-desc="Every tool goes through the C# backend's REST API with a short-lived token carrying only the agent's grants. The backend checks each call — and there is no delete, at any level." style="cursor:pointer">
+          <rect x="300" y="404" width="420" height="28" rx="2" fill="rgba(200,191,176,0.08)" stroke="#c8bfb0" stroke-width="0.75" stroke-dasharray="4 3"/>
+          <text class="flow-label" x="510" y="418" style="font-size:11.5px; pointer-events:none">backend api · scoped token</text>
         </g>
 
 
@@ -425,10 +504,10 @@
 
         <rect class="flow-node" x="582" y="147" width="138" height="46"
               data-tip="apscheduler"
-              data-desc="Two jobs: morning_briefing and deadline_check. Manual Discord commands can trigger them as well."/>
+              data-desc="Morning briefing on weekdays — today, tomorrow, the week, a money line and a short heads-up written from the profile — and an evening deadline check. Both can be triggered by hand with !briefing and !deadline."/>
 
         <text class="flow-label" x="651" y="164">scheduler</text>
-        <text class="flow-sub" x="651" y="180">apscheduler</text>
+        <text class="flow-sub" x="651" y="180">briefing · deadlines</text>
 
         <line stroke="#c8bfb0" stroke-width="0.75" stroke-dasharray="4 3" marker-end="url(#ah2)" x1="582" y1="166" x2="452" y2="118"/>
 
@@ -467,9 +546,13 @@
     document.getElementById('agentOverlay').classList.remove('active');
   }
 
-  document.getElementById('closeBtn').addEventListener('click', () => {
-    if (window.parent && window.parent.closeArch) window.parent.closeArch();
-  });
+  // the close button only exists when the portfolio wraps this page in a modal
+  const closeBtn = document.getElementById('closeBtn');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      if (window.parent && window.parent.closeArch) window.parent.closeArch();
+    });
+  }
 
 
   const tt = document.getElementById('tooltip');
