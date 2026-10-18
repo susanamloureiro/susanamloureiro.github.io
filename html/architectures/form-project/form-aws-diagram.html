@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>form. — aws architecture</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --cream: #F5F0E8;
+            --cream-dark: #EDE7DC;
+            --border: #c8bfb0;
+            --text: #1e1a17;
+            --muted: #7a7068;
+            --agent: #5a7a9e;
+
+            --aws-orange: #ED7100;
+            --aws-purple: #8C4FFF;
+            --aws-red: #DD344C;
+            --aws-dark: #232F3E;
+
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Montserrat', sans-serif;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100%;
+            background: var(--cream);
+            color: var(--text);
+            font-family: var(--font-serif);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body { padding: 18px 24px 24px; }
+
+        /* ── frontend deployment toggle ── */
+
+        .aws-mode { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+        .aws-mode-label { font-family: var(--font-sans); font-size: 8px; color: var(--muted); letter-spacing: 0.13em; text-transform: uppercase; }
+        .aws-toggle { display: flex; border: 0.5px solid var(--border); }
+        .aws-toggle button { border: none; background: none; color: var(--muted); font-family: var(--font-sans); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; cursor: pointer; transition: background 0.15s, color 0.15s; }
+        .aws-toggle button + button { border-left: 0.5px solid var(--border); }
+        .aws-toggle button.active { background: var(--text); color: var(--cream); }
+
+        /* ── diagram ── */
+
+        .aws-view { display: none; }
+        .aws-view.active { display: block; }
+        .diag-svg { width: 100%; height: auto; display: block; }
+
+        /* ── groups ── */
+
+        .vpc-box { fill: rgba(200, 191, 176, 0.055); stroke: #8d857c; stroke-width: 0.8; stroke-dasharray: 5 3; }
+        .az-box { fill: none; stroke: #b5aca1; stroke-width: 0.6; stroke-dasharray: 2 3; }
+        .subnet-box { fill: rgba(200, 191, 176, 0.025); stroke: #aaa096; stroke-width: 0.65; stroke-dasharray: 4 3; }
+        .external-box { fill: rgba(200, 191, 176, 0.04); stroke: var(--border); stroke-width: 0.65; stroke-dasharray: 4 3; }
+        .group-label { font-family: var(--font-sans); font-size: 7px; fill: #7a7068; letter-spacing: 0.14em; text-transform: uppercase; }
+        .group-label.aws { fill: var(--aws-dark); }
+
+        /* ── service nodes ── */
+
+        .service { cursor: pointer; }
+        .service-box { fill: #FAF8F4; stroke: #aaa096; stroke-width: 0.8; transition: fill 0.15s, stroke 0.15s; }
+        .service:hover .service-box { fill: #f0ebe3; }
+        .service.aws-orange .service-box { stroke: var(--aws-orange); }
+        .service.aws-purple .service-box { stroke: var(--aws-purple); }
+        .service.aws-red .service-box { stroke: var(--aws-red); }
+        .service.agent .service-box { stroke: var(--agent); }
+        .service.standby .service-box { stroke-dasharray: 4 3; fill: rgba(250, 248, 244, 0.5); }
+        .service-title { font-family: var(--font-serif); font-size: 12px; font-weight: 400; fill: var(--text); text-anchor: middle; dominant-baseline: middle; pointer-events: none; }
+        .service-sub { font-family: var(--font-sans); font-size: 6.7px; fill: var(--muted); text-anchor: middle; dominant-baseline: middle; letter-spacing: 0.065em; text-transform: uppercase; pointer-events: none; }
+        .service-icon { pointer-events: none; }
+
+        /* ── arrows ── */
+
+        .arrow { stroke: var(--aws-dark); stroke-width: 0.75; fill: none; }
+        .arrow.soft { stroke: #9a8f82; }
+        .arrow.agent { stroke: var(--agent); }
+        .arrow.dashed { stroke-dasharray: 4 3; }
+        .arrow-label { font-family: var(--font-sans); font-size: 6.7px; fill: #7a7068; text-anchor: middle; letter-spacing: 0.06em; text-transform: uppercase; }
+
+        /* ── user ── */
+
+        .user-stroke { stroke: #9a8f82; stroke-width: 0.75; fill: none; }
+        .user-label { font-family: var(--font-sans); font-size: 7px; fill: #7a7068; text-anchor: middle; letter-spacing: 0.08em; text-transform: uppercase; }
+
+        /* ── footer ── */
+
+        .aws-footer { margin-top: 8px; }
+        .diag-note { font-family: var(--font-serif); font-size: 11px; font-style: italic; color: var(--muted); letter-spacing: 0.02em; }
+
+        /* ── tooltip ── */
+
+        .tooltip { position: fixed; background: var(--text); color: var(--cream); font-family: var(--font-serif); font-size: 12px; line-height: 1.5; padding: 9px 13px; max-width: 260px; pointer-events: none; opacity: 0; transition: opacity 0.15s; z-index: 9999; }
+        .tooltip.visible { opacity: 1; }
+        .tooltip-label { display: block; margin-bottom: 4px; font-family: var(--font-sans); font-size: 8px; color: var(--border); letter-spacing: 0.14em; text-transform: uppercase; }
+    </style>
+</head>
+
+<body>
+
+<!-- ============================================================
+     FRONTEND DEPLOYMENT TOGGLE
+     ============================================================ -->
+
+<div class="aws-mode">
+    <span class="aws-mode-label">frontend deployment</span>
+    <div class="aws-toggle">
+        <button class="active" onclick="switchAwsMode('primary', this)">s3 + cloudfront</button>
+        <button onclick="switchAwsMode('alternative', this)">ec2 alternative</button>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     PRIMARY — S3 + CLOUDFRONT
+     ============================================================ -->
+
+<div class="aws-view active" id="aws-primary">
+    <svg class="diag-svg" viewBox="0 0 980 500" xmlns="http://www.w3.org/2000/svg">
+
+        <defs>
+            <marker id="arrow-p" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto-start-reverse">
+                <path d="M0,0 L0,6 L6,3 z" fill="#232F3E"/>
+            </marker>
+            <marker id="arrow-p-soft" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto-start-reverse">
+                <path d="M0,0 L0,6 L6,3 z" fill="#9a8f82"/>
+            </marker>
+            <marker id="arrow-p-agent" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto-start-reverse">
+                <path d="M0,0 L0,6 L6,3 z" fill="#5a7a9e"/>
+            </marker>
+        </defs>
+
+
+        <!-- USER -->
+
+        <g data-tip="user" data-desc="One way in: the app on the phone, through CloudFront. The chat with the trainer is part of the app, so there's no second entry point — and the user never reaches anything inside the VPC directly." style="cursor:pointer">
+            <circle cx="45" cy="205" r="11" class="user-stroke"/>
+            <line x1="45" y1="216" x2="45" y2="245" class="user-stroke"/>
+            <line x1="27" y1="230" x2="63" y2="230" class="user-stroke"/>
+            <line x1="45" y1="245" x2="29" y2="265" class="user-stroke"/>
+            <line x1="45" y1="245" x2="61" y2="265" class="user-stroke"/>
+            <text class="user-label" x="45" y="280">user</text>
+        </g>
+
+
+        <!-- CLOUDFRONT -->
+
+        <g data-tip="cloudfront" data-desc="The single public domain. Two origins: the S3 bucket for the React build, and the load balancer for /api/*. One domain means no CORS. WAF sits here to stop abuse before it reaches the app, with TLS from an ACM certificate." class="service aws-purple">
+            <rect class="service-box" x="90" y="60" width="140" height="56" rx="2"/>
+            <image class="service-icon" href="https://datadef.io/icons/cloud-providers/aws/aws-cloudfront.svg" x="100" y="72" width="22" height="22"/>
+            <text class="service-title" x="172" y="80">cloudfront</text>
+            <text class="service-sub" x="160" y="102">waf · acm · 2 origins</text>
+        </g>
+
+
+        <!-- S3 STATIC -->
+
+        <g data-tip="s3 · static site" data-desc="The React + Vite build. The bucket is private: only CloudFront can read it, through Origin Access Control. Nothing in it is public on its own." class="service aws-purple">
+            <rect class="service-box" x="90" y="150" width="140" height="52" rx="2"/>
+            <image class="service-icon" href="https://datadef.io/icons/cloud-providers/aws/aws-simple-storage-service.svg" x="100" y="160" width="22" height="22"/>
+            <text class="service-title" x="172" y="170">s3 bucket</text>
+            <text class="service-sub" x="160" y="191">static site · private · oac</text>
+        </g>
+
+
+        <!-- SECRETS MANAGER -->
+
+        <g data-tip="secrets manager" data-desc="The JWT signing key, the database password, the OpenAI key, the agent's key and the internal key the backend uses to call the agent. Each instance reads only its own, through its IAM role — no .env on disk." class="service aws-red">
+            <rect class="service-box" x="90" y="300" width="140" height="52" rx="2"/>
+            <text class="service-title" x="160" y="320">secrets manager</text>
+            <text class="service-sub" x="160" y="338">keys · via iam role</text>
+        </g>
+
+
+        <!-- S3 PROFILE -->
+
+        <g data-tip="s3 · agent profile" data-desc="profile.md — what the trainer knows about you: goals, injuries, preferences, routine — kept out of the instance so replacing it loses nothing. Versioning keeps every past version, which doubles as the change history. Reached through an S3 gateway endpoint: free, and no NAT traffic." class="service aws-purple agent">
+            <rect class="service-box" x="90" y="410" width="140" height="52" rx="2"/>
+            <image class="service-icon" href="https://datadef.io/icons/cloud-providers/aws/aws-simple-storage-service.svg" x="100" y="420" width="22" height="22"/>
+            <text class="service-title" x="172" y="430">s3 bucket</text>
+            <text class="service-sub" x="160" y="451">agent profile · versioned</text>
+        </g>
+
+
+        <!-- USER → CLOUDFRONT -->
+
+        <line class="arrow soft" marker-end="url(#arrow-p-soft)" x1="58" y1="196" x2="90" y2="104"/>
+        <text class="arrow-label" x="58" y="145">https</text>
+
+        <!-- CLOUDFRONT → S3 -->
+
+        <line class="arrow" marker-end="url(#arrow-p)" x1="160" y1="116" x2="160" y2="149"/>
+        <text class="arrow-label" x="188" y="136">static</text>
+
+
+        <!-- VPC / AZs / SUBNETS -->
+
+        <rect class="vpc-box" x="250" y="20" width="560" height="470" rx="2"/>
+        <text class="group-label aws" x="262" y="33">aws vpc</text>
+
+        <rect class="az-box" x="262" y="40" width="268" height="440" rx="1"/>
+        <text class="group-label" x="272" y="52">availability zone a</text>
+
+        <rect class="az-box" x="538" y="40" width="262" height="440" rx="1"/>
+        <text class="group-label" x="548" y="52">availability zone b</text>
+
+        <rect class="subnet-box" x="270" y="60" width="252" height="110" rx="1"/>
+        <text class="group-label" x="280" y="73">public subnet</text>
+
+        <rect class="subnet-box" x="546" y="60" width="246" height="110" rx="1"/>
+        <text class="group-label" x="556" y="73">public subnet</text>
+
+        <rect class="subnet-box" x="270" y="185" width="252" height="288" rx="1"/>
+        <text class="group-label" x="280" y="198">private subnet</text>
+
+        <rect class="subnet-box" x="546" y="185" width="246" height="288" rx="1"/>
+        <text class="group-label" x="556" y="198">private subnet</text>
+
+
+        <!-- ALB -->
+
+        <g data-tip="application load balancer" data-desc="The only entry into the VPC. Spans both availability zones — an ALB needs two. HTTPS with an ACM certificate, HTTP redirected. Its security group only allows CloudFront's managed prefix list, so it isn't open to the whole internet." class="service aws-orange">
+            <rect class="service-box" x="450" y="82" width="170" height="50" rx="2"/>
+            <image class="service-icon" href="https://datadef.io/icons/cloud-providers/aws/aws-elastic-load-balancing.svg" x="460" y="96" width="22" height="22"/>
+            <text class="service-title" x="548" y="100">load balancer</text>
+            <text class="service-sub" x="548" y="119">alb · https · both azs</text>
+        </g>
+
+        <line class="arrow" marker-end="url(#arrow-p)" x1="230" y1="90" x2="450" y2="104"/>
+        <text class="arrow-label" x="330" y="89">/api/*</text>
+
+
+        <!-- NAT -->
+
+        <g data-tip="nat gateway" data-desc="Outbound-only internet for the private subnets, through the internet gateway — in practice, the agent reaching OpenAI. Nothing can connect in. One NAT keeps cost down (~$32/month plus data); one per AZ is the fully resilient version, and a NAT instance the cheap one." class="service">
+            <rect class="service-box" x="280" y="112" width="140" height="44" rx="2"/>
+            <image class="service-icon" href="https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/aws-res-amazon-vpc-nat-gateway/default.svg" x="290" y="122" width="24" height="24"/>
+            <text class="service-title" x="360" y="128">nat gateway</text>
+            <text class="service-sub" x="352" y="145">outbound only</text>
+        </g>
+
+
+        <!-- BACKEND (AZ A) -->
+
+        <g data-tip="c# backend api" data-desc="Dockerised ASP.NET API in an Auto Scaling group behind the load balancer, so a failed instance is replaced on its own. The source of truth, and the only thing that calls the agent. Secrets come from Secrets Manager through the instance's IAM role. Access through SSM Session Manager, no SSH. Logs and alarms in CloudWatch. Containers make ECS Fargate the natural next step." class="service aws-orange">
+            <rect class="service-box" x="285" y="212" width="150" height="56" rx="2"/>
+            <image class="service-icon" href="https://datadef.io/icons/cloud-providers/aws/aws-ec2.svg" x="295" y="224" width="23" height="23"/>
+            <text class="service-title" x="368" y="230">c# backend api</text>
+            <text class="service-sub" x="362" y="249">ec2 · auto scaling</text>
+            <text class="service-sub" x="362" y="259">sg: from alb + agent</text>
+        </g>
+
+
+        <!-- BACKEND (AZ B, STANDBY) -->
+
+        <g data-tip="second backend instance" data-desc="Where the Auto Scaling group places a second instance — for load, or when zone a has trouble. Single-user today, so it can stay at one; the subnet is ready." class="service aws-orange standby">
+            <rect class="service-box" x="560" y="212" width="150" height="56" rx="2"/>
+            <image class="service-icon" href="https://datadef.io/icons/cloud-providers/aws/aws-ec2.svg" x="570" y="224" width="23" height="23"/>
+            <text class="service-title" x="643" y="230">c# backend api</text>
+            <text class="service-sub" x="637" y="249">2nd instance</text>
+            <text class="service-sub" x="637" y="259">scales here</text>
+        </g>
+
+        <line class="arrow" marker-end="url(#arrow-p)" x1="500" y1="132" x2="380" y2="211"/>
+        <text class="arrow-label" x="472" y="172">http</text>
+
+        <line class="arrow dashed" marker-end="url(#arrow-p)" x1="580" y1="132" x2="630" y2="211"/>
+
+
+        <!-- RDS (AZ A) -->
+
+        <g data-tip="rds postgresql" data-desc="The programme, the menu, sessions, meals, check-ins, the chat thread, the agent's proposals, and its identity and grants. Private, encrypted at rest, automated backups. Its security group allows 5432 from the backend's security group only — the agent never touches it." class="service aws-purple">
+            <rect class="service-box" x="285" y="298" width="150" height="56" rx="2"/>
+            <image class="service-icon" href="https://datadef.io/icons/cloud-providers/aws/aws-rds.svg" x="295" y="311" width="23" height="23"/>
+            <text class="service-title" x="368" y="316">rds postgresql</text>
+            <text class="service-sub" x="362" y="335">primary · encrypted</text>
+            <text class="service-sub" x="362" y="345">sg: from backend only</text>
+        </g>
+
+        <line class="arrow" marker-end="url(#arrow-p)" x1="360" y1="268" x2="360" y2="297"/>
+        <text class="arrow-label" x="383" y="286">5432</text>
+
+
+        <!-- RDS (AZ B, STANDBY) -->
+
+        <g data-tip="rds standby" data-desc="The DB subnet group must span two availability zones even for a single instance. Turning on Multi-AZ puts a synchronous standby here with automatic failover — optional, it doubles the database cost." class="service aws-purple standby">
+            <rect class="service-box" x="560" y="298" width="150" height="56" rx="2"/>
+            <image class="service-icon" href="https://datadef.io/icons/cloud-providers/aws/aws-rds.svg" x="570" y="311" width="23" height="23"/>
+            <text class="service-title" x="643" y="316">rds standby</text>
+            <text class="service-sub" x="637" y="335">optional · multi-az</text>
+        </g>
+
+
+        <!-- AGENT -->
+
+        <g data-tip="python agent" data-desc="Dockerised FastAPI + LangChain service. One inbound rule: port 8000 from the backend's security group, and every call must carry the internal key. It reaches out to OpenAI through the NAT, to the backend with a short-lived scoped token, and to S3 for its profile. Its own identity with its own grants, never the user's." class="service aws-orange agent">
+            <rect class="service-box" x="285" y="395" width="150" height="56" rx="2"/>
+            <image class="service-icon" href="https://datadef.io/icons/cloud-providers/aws/aws-ec2.svg" x="295" y="407" width="23" height="23"/>
+            <text class="service-title" x="368" y="413">python agent</text>
+            <text class="service-sub" x="362" y="432">ec2 · langchain</text>
+            <text class="service-sub" x="362" y="442">sg: from backend only</text>
+        </g>
+
+        <!-- BACKEND → AGENT -->
+
+        <polyline class="arrow" marker-end="url(#arrow-p)" points="436,256 444,256 444,425 436,425"/>
+        <text class="arrow-label" x="491" y="368">message</text>
+        <text class="arrow-label" x="491" y="378">internal key</text>
+
+        <!-- AGENT → BACKEND -->
+
+        <polyline class="arrow agent" marker-end="url(#arrow-p-agent)" points="435,410 458,410 458,240 436,240"/>
+        <text class="arrow-label" x="491" y="296">proposals</text>
+        <text class="arrow-label" x="491" y="306">scoped token</text>
+
+        <!-- AGENT → NAT -->
+
+        <polyline class="arrow agent dashed" marker-end="url(#arrow-p-agent)" points="285,425 274,425 274,150 279,150"/>
+
+        <!-- AGENT → S3 PROFILE -->
+
+        <line class="arrow agent" marker-end="url(#arrow-p-agent)" x1="285" y1="440" x2="231" y2="436"/>
+        <text class="arrow-label" x="258" y="455">endpoint</text>
+
+
+        <!-- OUTSIDE AWS -->
+
+        <rect class="external-box" x="822" y="150" width="150" height="110" rx="2"/>
+        <text class="group-label" x="832" y="164">outside aws</text>
+
+        <g data-tip="openai api" data-desc="The models behind the trainer: GPT-4o for the conversation, GPT-4o-mini for deciding what to remember. Only the agent calls it, through the NAT; the key lives in Secrets Manager." class="service">
+            <rect class="service-box" x="835" y="185" width="125" height="50" rx="2"/>
+            <text class="service-title" x="897" y="203">openai api</text>
+            <text class="service-sub" x="897" y="221">gpt-4o · gpt-4o-mini</text>
+        </g>
+
+        <!-- NAT → OUTSIDE AWS -->
+
+        <line class="arrow agent dashed" marker-end="url(#arrow-p-agent)" x1="420" y1="140" x2="834" y2="208"/>
+        <text class="arrow-label" x="745" y="188">https</text>
+
+    </svg>
+</div>
+
+
+<!-- ============================================================
+     ALTERNATIVE — EC2 FRONTEND
+     ============================================================ -->
+
+<div class="aws-view" id="aws-alternative">
+    <svg class="diag-svg" viewBox="0 0 980 500" xmlns="http://www.w3.org/2000/svg">
+
+        <defs>
+            <marker id="arrow-a" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto-start-reverse">
+                <path d="M0,0 L0,6 L6,3 z" fill="#232F3E"/>
+            </marker>
+            <marker id="arrow-a-soft" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto-start-reverse">
+                <path d="M0,0 L0,6 L6,3 z" fill="#9a8f82"/>
+            </marker>
+            <marker id="arrow-a-agent" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto-start-reverse">
+                <path d="M0,0 L0,6 L6,3 z" fill="#5a7a9e"/>
+            </marker>
+        </defs>
+
+
+        <!-- USER -->
+
+        <g data-tip="user" data-desc="Same single way in. The web app still goes through CloudFront — only where the React build is served from changes." style="cursor:pointer">
+            <circle cx="45" cy="205" r="11" class="user-stroke"/>
+            <line x1="45" y1="216" x2="45" y2="245" class="user-stroke"/>
+            <line x1="27" y1="230" x2="63" y2="230" class="user-stroke"/>
+            <line x1="45" y1="245" x2="29" y2="265" class="user-stroke"/>
+            <line x1="45" y1="245" x2="61" y2="265" class="user-stroke"/>
+            <text class="user-label" x="45" y="280">user</text>
+        </g>
+
+
+        <!-- CLOUDFRONT -->
+
+        <g data-tip="cloudfront" data-desc="Kept in front even here: caching, WAF and TLS at the edge. One origin — the load balancer — which routes by path." class="service aws-purple">
+            <rect class="service-box" x="90" y="60" width="140" height="56" rx="2"/>
+            <image class="service-icon" href="https://datadef.io/icons/cloud-providers/aws/aws-cloudfront.svg" x="100" y="72" width="22" height="22"/>
+            <text class="service-title" x="172" y="80">cloudfront</text>
+            <text class="service-sub" x="160" y="102">waf · acm · origin: alb</text>
+        </g>
+
+
+        <!-- SECRETS MANAGER -->
+
+        <g data-tip="secrets manager" data-desc="JWT signing key, database password, OpenAI key, agent key and internal key — each instance reads only its own through its IAM role. Same as in the primary deployment." class="service aws-red">
+            <rect class="service-box" x="90" y="300" width="140" height="52" rx="2"/>
+            <text class="service-title" x="160" y="320">secrets manager</text>
+            <text class="service-sub" x="160" y="338">keys · via iam role</text>
+        </g>
+
+
+        <!-- S3 PROFILE -->
+
+        <g data-tip="s3 · agent profile" data-desc="profile.md, versioned, reached through an S3 gateway endpoint. Same as in the primary deployment." class="service aws-purple agent">
+            <rect class="service-box" x="90" y="410" width="140" height="52" rx="2"/>
+            <image class="service-icon" href="https://datadef.io/icons/cloud-providers/aws/aws-simple-storage-service.svg" x="100" y="420" width="22" height="22"/>
+            <text class="service-title" x="172" y="430">s3 bucket</text>
+            <text class="service-sub" x="160" y="451">agent profile · versioned</text>
+        </g>
+
+
+        <!-- USER → CLOUDFRONT -->
+
+        <line class="arrow soft" marker-end="url(#arrow-a-soft)" x1="58" y1="196" x2="90" y2="104"/>
+        <text class="arrow-label" x="58" y="145">https</text>
+
+
+        <!-- VPC / AZs / SUBNETS -->
+
+        <rect class="vpc-box" x="250" y="20" width="560" height="470" rx="2"/>
+        <text class="group-label aws" x="262" y="33">aws vpc</text>
+
+        <rect class="az-box" x="262" y="40" width="268" height="440" rx="1"/>
+        <text class="group-label" x="272" y="52">availability zone a</text>
+
+        <rect class="az-box" x="538" y="40" width="262" height="440" rx="1"/>
+        <text class="group-label" x="548" y="52">availability zone b</text>
+
+        <rect class="subnet-box" x="270" y="60" width="252" height="110" rx="1"/>
+        <text class="group-label" x="280" y="73">public subnet</text>
+
+        <rect class="subnet-box" x="546" y="60" width="246" height="110" rx="1"/>
+        <text class="group-label" x="556" y="73">public subnet</text>
+
+        <rect class="subnet-box" x="270" y="185" width="252" height="288" rx="1"/>
+        <text class="group-label" x="280" y="198">private subnet</text>
+
+        <rect class="subnet-box" x="546" y="185" width="246" height="288" rx="1"/>
+        <text class="group-label" x="556" y="198">private subnet</text>
+
+
+        <!-- ALB -->
+
+        <g data-tip="application load balancer" data-desc="Path routing: / goes to the frontend instance, /api/* to the backend. Spans both availability zones, HTTPS with ACM, and only accepts traffic from CloudFront's prefix list." class="service aws-orange">
+            <rect class="service-box" x="450" y="82" width="170" height="50" rx="2"/>
+            <image class="service-icon" href="https://datadef.io/icons/cloud-providers/aws/aws-elastic-load-balancing.svg" x="460" y="96" width="22" height="22"/>
+            <text class="service-title" x="548" y="100">load balancer</text>
+            <text class="service-sub" x="548" y="119">path routing · both azs</text>
+        </g>
+
+        <line class="arrow" marker-end="url(#arrow-a)" x1="230" y1="90" x2="450" y2="104"/>
+        <text class="arrow-label" x="330" y="89">https</text>
+
+
+        <!-- NAT -->
+
+        <g data-tip="nat gateway" data-desc="Outbound-only internet for the private subnets — the agent reaching OpenAI. Nothing can connect in." class="service">
+            <rect class="service-box" x="280" y="112" width="140" height="44" rx="2"/>
+            <image class="service-icon" href="https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/aws-res-amazon-vpc-nat-gateway/default.svg" x="290" y="122" width="24" height="24"/>
+            <text class="service-title" x="360" y="128">nat gateway</text>
+            <text class="service-sub" x="352" y="145">outbound only</text>
+        </g>
+
+
+        <!-- BACKEND -->
+
+        <g data-tip="c# backend api" data-desc="Dockerised ASP.NET API in an Auto Scaling group, reached only through the load balancer and by the agent. Secrets from Secrets Manager, access through SSM, logs in CloudWatch." class="service aws-orange">
+            <rect class="service-box" x="285" y="212" width="150" height="56" rx="2"/>
+            <image class="service-icon" href="https://datadef.io/icons/cloud-providers/aws/aws-ec2.svg" x="295" y="224" width="23" height="23"/>
+            <text class="service-title" x="368" y="230">c# backend api</text>
+            <text class="service-sub" x="362" y="249">ec2 · auto scaling</text>
+            <text class="service-sub" x="362" y="259">sg: from alb + agent</text>
+        </g>
+
+
+        <!-- FRONTEND EC2 -->
+
+        <g data-tip="react frontend — alternative" data-desc="Instead of S3, the React build is served by nginx on an EC2 instance — in the private subnet like everything else, behind the load balancer. Simpler to reason about as 'just another server', but gives up serverless static hosting: there's an instance to patch and pay for." class="service aws-orange">
+            <rect class="service-box" x="560" y="212" width="150" height="56" rx="2"/>
+            <image class="service-icon" href="https://datadef.io/icons/cloud-providers/aws/aws-ec2.svg" x="570" y="224" width="23" height="23"/>
+            <text class="service-title" x="643" y="230">react frontend</text>
+            <text class="service-sub" x="637" y="249">ec2 · nginx</text>
+            <text class="service-sub" x="637" y="259">sg: from alb only</text>
+        </g>
+
+        <line class="arrow" marker-end="url(#arrow-a)" x1="500" y1="132" x2="380" y2="211"/>
+        <text class="arrow-label" x="472" y="172">/api/*</text>
+
+        <line class="arrow" marker-end="url(#arrow-a)" x1="580" y1="132" x2="630" y2="211"/>
+        <text class="arrow-label" x="618" y="172">/</text>
+
+
+        <!-- RDS -->
+
+        <g data-tip="rds postgresql" data-desc="Private, encrypted, automated backups. 5432 from the backend's security group only." class="service aws-purple">
+            <rect class="service-box" x="285" y="298" width="150" height="56" rx="2"/>
+            <image class="service-icon" href="https://datadef.io/icons/cloud-providers/aws/aws-rds.svg" x="295" y="311" width="23" height="23"/>
+            <text class="service-title" x="368" y="316">rds postgresql</text>
+            <text class="service-sub" x="362" y="335">primary · encrypted</text>
+            <text class="service-sub" x="362" y="345">sg: from backend only</text>
+        </g>
+
+        <line class="arrow" marker-end="url(#arrow-a)" x1="360" y1="268" x2="360" y2="297"/>
+        <text class="arrow-label" x="383" y="286">5432</text>
+
+        <g data-tip="rds standby" data-desc="The DB subnet group spans both availability zones. Multi-AZ puts a synchronous standby here — optional." class="service aws-purple standby">
+            <rect class="service-box" x="560" y="298" width="150" height="56" rx="2"/>
+            <image class="service-icon" href="https://datadef.io/icons/cloud-providers/aws/aws-rds.svg" x="570" y="311" width="23" height="23"/>
+            <text class="service-title" x="643" y="316">rds standby</text>
+            <text class="service-sub" x="637" y="335">optional · multi-az</text>
+        </g>
+
+
+        <!-- AGENT -->
+
+        <g data-tip="python agent" data-desc="Dockerised FastAPI + LangChain service, inbound only from the backend with the internal key. Reaches OpenAI through the NAT, the backend with a scoped token, and S3 for its profile." class="service aws-orange agent">
+            <rect class="service-box" x="285" y="395" width="150" height="56" rx="2"/>
+            <image class="service-icon" href="https://datadef.io/icons/cloud-providers/aws/aws-ec2.svg" x="295" y="407" width="23" height="23"/>
+            <text class="service-title" x="368" y="413">python agent</text>
+            <text class="service-sub" x="362" y="432">ec2 · langchain</text>
+            <text class="service-sub" x="362" y="442">sg: from backend only</text>
+        </g>
+
+        <polyline class="arrow" marker-end="url(#arrow-a)" points="436,256 444,256 444,425 436,425"/>
+        <text class="arrow-label" x="491" y="368">message</text>
+        <text class="arrow-label" x="491" y="378">internal key</text>
+
+        <polyline class="arrow agent" marker-end="url(#arrow-a-agent)" points="435,410 458,410 458,240 436,240"/>
+        <text class="arrow-label" x="491" y="296">proposals</text>
+        <text class="arrow-label" x="491" y="306">scoped token</text>
+
+        <polyline class="arrow agent dashed" marker-end="url(#arrow-a-agent)" points="285,425 274,425 274,150 279,150"/>
+
+        <line class="arrow agent" marker-end="url(#arrow-a-agent)" x1="285" y1="440" x2="231" y2="436"/>
+        <text class="arrow-label" x="258" y="455">endpoint</text>
+
+
+        <!-- OUTSIDE AWS -->
+
+        <rect class="external-box" x="822" y="150" width="150" height="110" rx="2"/>
+        <text class="group-label" x="832" y="164">outside aws</text>
+
+        <g data-tip="openai api" data-desc="GPT-4o for the conversation, GPT-4o-mini for memory. Through the NAT; key in Secrets Manager." class="service">
+            <rect class="service-box" x="835" y="185" width="125" height="50" rx="2"/>
+            <text class="service-title" x="897" y="203">openai api</text>
+            <text class="service-sub" x="897" y="221">gpt-4o · gpt-4o-mini</text>
+        </g>
+
+        <line class="arrow agent dashed" marker-end="url(#arrow-a-agent)" x1="420" y1="140" x2="834" y2="208"/>
+        <text class="arrow-label" x="745" y="188">https</text>
+
+    </svg>
+</div>
+
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+
+<div class="aws-footer">
+    <p class="diag-note">hover over any component to see the reasoning behind it.</p>
+</div>
+
+
+<!-- ============================================================
+     TOOLTIP
+     ============================================================ -->
+
+<div class="tooltip" id="tooltip">
+    <span class="tooltip-label" id="tlabel"></span>
+    <span id="tdesc"></span>
+</div>
+
+
+<script>
+
+    function switchAwsMode(mode, btn) {
+        document.querySelectorAll('.aws-toggle button').forEach(button => button.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('aws-primary').classList.toggle('active', mode === 'primary');
+        document.getElementById('aws-alternative').classList.toggle('active', mode === 'alternative');
+    }
+
+
+    const tooltip = document.getElementById('tooltip');
+    const tooltipLabel = document.getElementById('tlabel');
+    const tooltipDescription = document.getElementById('tdesc');
+    let activeTooltip = null;
+
+    document.addEventListener('mouseover', event => {
+        const element = event.target.closest('[data-tip]');
+        if (!element) return;
+        activeTooltip = element;
+        tooltipLabel.textContent = element.getAttribute('data-tip');
+        tooltipDescription.textContent = element.getAttribute('data-desc');
+        tooltip.classList.add('visible');
+        moveTooltip(event);
+    });
+
+    document.addEventListener('mousemove', event => {
+        if (activeTooltip) moveTooltip(event);
+    });
+
+    document.addEventListener('mouseout', event => {
+        if (!event.target.closest('[data-tip]')) return;
+        activeTooltip = null;
+        tooltip.classList.remove('visible');
+    });
+
+    function moveTooltip(event) {
+        const padding = 14;
+        let x = event.clientX + padding;
+        let y = event.clientY + padding;
+        if (x + tooltip.offsetWidth > window.innerWidth - 12) x = event.clientX - tooltip.offsetWidth - padding;
+        if (y + tooltip.offsetHeight > window.innerHeight - 12) y = event.clientY - tooltip.offsetHeight - padding;
+        tooltip.style.left = x + 'px';
+        tooltip.style.top = y + 'px';
+    }
+
+</script>
+
+</body>
+</html>

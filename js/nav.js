@@ -74,13 +74,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ─── ARCHITECTURE MODAL ───
 
-const architectureLink = document.querySelector('[data-architecture]');
+const architectureLinks = document.querySelectorAll('[data-architecture]');
 const architectureModal = document.querySelector('#architectureModal');
 
-if (architectureLink && architectureModal) {
+if (architectureLinks.length && architectureModal) {
 
     const architectureIframe =
         architectureModal.querySelector('iframe');
+
+    const architectureTitle =
+        architectureModal.querySelector('.architecture-title');
 
     const architectureClose =
         architectureModal.querySelector('.architecture-close');
@@ -89,9 +92,14 @@ if (architectureLink && architectureModal) {
         architectureModal.querySelector('.architecture-backdrop');
 
 
-    function openArchitecture() {
+    function openArchitecture(link) {
 
-        architectureIframe.src = architectureLink.href;
+        const project = link.dataset.architecture;
+        const title = project ? `${project} · Architecture` : 'Architecture';
+
+        architectureTitle.textContent = title;
+        architectureIframe.title = title;
+        architectureIframe.src = link.href;
 
         architectureModal.classList.add('open');
         architectureModal.setAttribute('aria-hidden', 'false');
@@ -113,11 +121,15 @@ if (architectureLink && architectureModal) {
     }
 
 
-    architectureLink.addEventListener('click', (event) => {
+    architectureLinks.forEach(link => {
 
-        event.preventDefault();
+        link.addEventListener('click', (event) => {
 
-        openArchitecture();
+            event.preventDefault();
+
+            openArchitecture(link);
+
+        });
 
     });
 

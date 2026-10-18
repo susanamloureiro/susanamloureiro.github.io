@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>form. — architecture</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #F5F0E8; --cream-dark: #EDE7DC; --border: #c8bfb0;
+      --text: #1e1a17; --muted: #7a7068; --agent: #5a7a9e;
+      --font-serif: 'Cormorant Garamond', serif; --font-sans: 'Montserrat', sans-serif;
+    }
+    .aws-diagram-frame {
+      width: 100%;
+      height: 520px;
+      border: none;
+      display: block;
+    }
+    html, body { height: 100%; background: var(--cream); font-family: var(--font-serif); color: var(--text); -webkit-font-smoothing: antialiased; }
+    .shell { display: flex; flex-direction: column; height: 100vh; }
+    .modal-header { padding: 18px 32px 14px; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+    .modal-title { font-size: 19px; font-weight: 300; letter-spacing: 0.04em; }
+    .modal-title span { font-style: italic; color: var(--muted); font-size: 13px; margin-left: 10px; letter-spacing: 0.06em; }
+    .modal-close { font-family: var(--font-sans); font-size: 10px; letter-spacing: 0.12em; color: var(--muted); background: none; border: none; cursor: pointer; text-transform: uppercase; transition: color 0.15s; }
+    .modal-close:hover { color: var(--text); }
+    .deploy-toggle { display: flex; align-items: center; gap: 10px; padding: 10px 32px; border-bottom: 0.5px solid var(--border); flex-shrink: 0; }
+    .deploy-toggle-label { font-family: var(--font-sans); font-size: 9px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--muted); }
+    .toggle-pill { display: flex; border: 0.5px solid var(--border); }
+    .toggle-pill button { font-family: var(--font-sans); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 13px; background: none; border: none; cursor: pointer; color: var(--muted); transition: background 0.15s, color 0.15s; }
+    .toggle-pill button.active { background: var(--text); color: var(--cream); }
+    .diagram-area { overflow-y: auto; flex: 1; padding: 20px 32px 24px; position: relative; }
+    .diagram-panel { display: none; }
+    .diagram-panel.active { display: block; }
+    .diag-svg { width: 100%; height: auto; display: block; }
+
+    /* Current deployment */
+    .server-box { fill: rgba(200,191,176,0.08); stroke: var(--border); stroke-width: 0.75; stroke-dasharray: 5 3; }
+    .server-label { font-family: var(--font-sans); font-size: 7.5px; fill: var(--muted); letter-spacing: 0.13em; text-transform: uppercase; }
+    .node-box { fill: var(--cream-dark); stroke: var(--border); stroke-width: 0.5; cursor: pointer; transition: fill 0.15s; }
+    .node-box:hover { fill: #e0d9cf; }
+    .node-box.agent-col { stroke: var(--agent); }
+    .node-box.agent-col:hover { fill: #dde5ee; }
+    .node-label { font-family: var(--font-serif); font-size: 12.5px; font-weight: 400; fill: #1e1a17; text-anchor: middle; dominant-baseline: middle; pointer-events: none; }
+    .node-sub { font-family: var(--font-sans); font-size: 7px; fill: #7a7068; text-anchor: middle; dominant-baseline: middle; pointer-events: none; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    .arrow { stroke: #c8bfb0; stroke-width: 0.75; fill: none; }
+    .arrow.agent { stroke: var(--agent); }
+    .arrow-label { font-family: var(--font-sans); font-size: 7px; fill: #9a8f82; text-anchor: middle; letter-spacing: 0.06em; }
+
+    /* User */
+    .user-stroke { stroke: #9a8f82; stroke-width: 0.75; fill: none; }
+    .user-label { font-family: var(--font-sans); font-size: 8px; fill: #7a7068; text-anchor: middle; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* AWS */
+    .group-box { fill: rgba(200,191,176,0.08); stroke: var(--border); stroke-width: 0.75; stroke-dasharray: 5 3; }
+    .group-label { font-family: var(--font-sans); font-size: 7.5px; fill: #9a8f82; letter-spacing: 0.13em; text-transform: uppercase; }
+    .flow-node { fill: var(--cream-dark); stroke: var(--border); stroke-width: 0.5; cursor: pointer; transition: fill 0.15s; }
+    .flow-node:hover { fill: #e0d9cf; }
+    .flow-node.hl { stroke: var(--agent); }
+    .flow-node.hl:hover { fill: #dde5ee; }
+    .flow-label { font-family: var(--font-serif); font-size: 12.5px; font-weight: 400; fill: #1e1a17; text-anchor: middle; dominant-baseline: middle; pointer-events: none; }
+    .flow-sub { font-family: var(--font-sans); font-size: 7px; fill: #7a7068; text-anchor: middle; dominant-baseline: middle; pointer-events: none; letter-spacing: 0.07em; text-transform: uppercase; }
+
+    .agent-overlay { display: none; position: absolute; inset: 0; background: var(--cream); z-index: 10; padding: 20px 32px 24px; overflow-y: auto; }
+    .agent-overlay.active { display: block; }
+    .agent-back { font-family: var(--font-sans); font-size: 9px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--muted); background: none; border: none; cursor: pointer; transition: color 0.15s; padding: 0; margin-bottom: 18px; display: inline-block; }
+    .agent-back:hover { color: var(--text); }
+    .diag-note { font-family: var(--font-serif); font-size: 11.5px; font-style: italic; color: var(--muted); margin-top: 12px; letter-spacing: 0.02em; }
+    .see-agent-btn { font-family: var(--font-sans); font-size: 8.5px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--agent); background: none; border: 0.5px solid var(--agent); cursor: pointer; padding: 5px 12px; transition: background 0.15s, color 0.15s; margin-top: 14px; display: inline-block; }
+    .see-agent-btn:hover { background: var(--agent); color: var(--cream); }
+    .agent-toggle { margin: 0 0 0 auto; }  /* same line as the infrastructure toggle, pushed to the right */
+    .tooltip { position: fixed; background: var(--text); color: var(--cream); font-family: var(--font-serif); font-size: 12.5px; font-weight: 400; line-height: 1.5; padding: 9px 13px; max-width: 230px; pointer-events: none; opacity: 0; transition: opacity 0.15s; z-index: 9999; }
+    .tooltip.visible { opacity: 1; }
+    .tooltip-label { font-family: var(--font-sans); font-size: 8.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--border); display: block; margin-bottom: 4px; }
+  </style>
+</head>
+
+<body>
+<div class="shell">
+
+  <div class="deploy-toggle">
+    <span class="deploy-toggle-label">infrastructure</span>
+    <div class="toggle-pill">
+      <button class="active" onclick="switchDeploy('current',this)">current</button>
+      <button onclick="switchDeploy('aws',this)">aws</button>
+    </div>
+    <button class="see-agent-btn agent-toggle" onclick="showAgentFlow()">agent architecture</button>
+  </div>
+
+  <div class="diagram-area" id="diagramArea">
+
+    <!-- ── CURRENT ── -->
+    <div class="diagram-panel active" id="deploy-current">
+
+      <svg class="diag-svg" viewBox="0 0 860 420" xmlns="http://www.w3.org/2000/svg">
+
+        <defs>
+          <marker id="ah-current" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L6,3 z" fill="#c8bfb0"/>
+          </marker>
+
+          <marker id="ah-current-agent" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L6,3 z" fill="#5a7a9e"/>
+          </marker>
+        </defs>
+
+
+        <!-- USER -->
+
+        <g data-tip="user" data-desc="One way in: the app, on the phone. Training, meals, progress — and the trainer, which lives in the app as its own tab rather than in a separate chat platform." style="cursor:pointer">
+
+          <circle cx="55" cy="157" r="11" class="user-stroke"/>
+          <line x1="55" y1="168" x2="55" y2="197" class="user-stroke"/>
+          <line x1="37" y1="182" x2="73" y2="182" class="user-stroke"/>
+          <line x1="55" y1="197" x2="39" y2="217" class="user-stroke"/>
+          <line x1="55" y1="197" x2="71" y2="217" class="user-stroke"/>
+
+          <text class="user-label" x="55" y="233">user</text>
+
+        </g>
+
+
+        <!-- USER → FRONTEND -->
+
+        <line class="arrow" marker-end="url(#ah-current)" x1="77" y1="157" x2="165" y2="112"/>
+
+        <text class="arrow-label" x="119" y="129">browser</text>
+
+
+        <!-- SERVER 1 -->
+
+        <rect class="server-box" x="165" y="55" width="185" height="120" rx="2"/>
+
+        <text class="server-label" x="178" y="70">server 1 · frontend</text>
+
+        <g data-tip="react frontend" data-desc="React + Vite + TypeScript, mobile first, on Vercel. Feature-based, with the same layering inside every feature — components, controller hooks, services, repositories — and every API response validated with Zod. Has the chat with the agent built in; anything the agent did shows up in its own blue." style="cursor:pointer">
+
+          <rect class="node-box" x="185" y="87" width="145" height="68" rx="2"/>
+
+          <text class="node-label" x="257" y="120">frontend</text>
+          <text class="node-sub" x="257" y="143">react · vite</text>
+
+        </g>
+
+
+        <!-- SERVER 2 -->
+
+        <rect class="server-box" x="400" y="55" width="205" height="120" rx="2"/>
+
+        <text class="server-label" x="413" y="70">server 2 · backend</text>
+
+        <g data-tip="c# backend" data-desc="ASP.NET Core and the source of truth: the programme, the menu, sessions, check-ins and the conversation. Controllers → services → repositories, plain Npgsql. It also decides what the agent may do — deny by default, no delete ever — and the agent can't write at all: it proposes, you confirm, the backend runs it." style="cursor:pointer">
+
+          <rect class="node-box" x="425" y="87" width="155" height="68" rx="2"/>
+
+          <text class="node-label" x="502" y="120">backend</text>
+          <text class="node-sub" x="502" y="143">c# · asp.net</text>
+
+        </g>
+
+
+        <!-- SERVER 4 -->
+
+        <rect class="server-box" x="655" y="55" width="175" height="120" rx="2"/>
+
+        <text class="server-label" x="668" y="70">server 4 · database</text>
+
+        <g data-tip="postgresql" data-desc="PostgreSQL on Supabase. The programme and menu (seeded from the app's own JSON), workout sessions, week-scoped swaps and meals eaten, check-ins, the chat thread, the agent's proposals, and its identity and grants. Every row scoped to its owner. Only reachable through the backend." style="cursor:pointer">
+
+          <ellipse cx="742" cy="94" rx="57" ry="9" fill="#EDE7DC" stroke="#C8BFB0" stroke-width="0.5"/>
+          <rect x="685" y="94" width="114" height="47" fill="#EDE7DC"/>
+          <line x1="685" y1="94" x2="685" y2="141" stroke="#C8BFB0" stroke-width="0.5"/>
+          <line x1="799" y1="94" x2="799" y2="141" stroke="#C8BFB0" stroke-width="0.5"/>
+          <ellipse cx="742" cy="141" rx="57" ry="9" fill="#EDE7DC" stroke="#C8BFB0" stroke-width="0.5"/>
+
+          <text class="node-label" x="742" y="113" style="font-size:11.5px">postgresql</text>
+          <text class="node-sub" x="742" y="130" style="font-size:6.5px">supabase</text>
+
+        </g>
+
+
+        <!-- FRONTEND → BACKEND -->
+
+        <line class="arrow" marker-end="url(#ah-current)" x1="350" y1="121" x2="425" y2="121"/>
+        <text class="arrow-label" x="388" y="111">http/rest</text>
+        <text class="arrow-label" x="388" y="135">jwt</text>
+
+
+        <!-- BACKEND → DATABASE -->
+
+        <line class="arrow" marker-end="url(#ah-current)" x1="605" y1="121" x2="685" y2="121"/>
+        <text class="arrow-label" x="645" y="111">writes to</text>
+
+
+        <!-- ON THE PHONE -->
+
+        <g data-tip="on the phone" data-desc="The browser keeps only what it needs to keep working: the session, and for the gym page a copy of the programme and the last month of sessions. No signal at the gym still opens today's session; ticks land here first and are sent in order when the connection is back." style="cursor:pointer">
+
+          <rect class="node-box" x="165" y="280" width="150" height="70" rx="2"/>
+
+          <text class="node-label" x="240" y="310">on the phone</text>
+          <text class="node-sub" x="240" y="328">cache · offline queue</text>
+
+        </g>
+
+
+        <!-- FRONTEND → PHONE -->
+
+        <line class="arrow" marker-end="url(#ah-current)" x1="250" y1="155" x2="240" y2="280"/>
+        <text class="arrow-label" x="276" y="222">offline</text>
+        <text class="arrow-label" x="276" y="232">gym ticks</text>
+
+
+        <!-- SERVER 3 -->
+
+        <rect class="server-box" x="380" y="235" width="225" height="125" rx="2"/>
+
+        <text class="server-label" x="393" y="250">server 3 · agent</text>
+
+        <g data-tip="python agent" data-desc="form., the trainer. LangChain on GPT-4o behind a private FastAPI service only the backend can call. Its own identity with scoped grants, not a user. Reads the programme, sessions, meals and progress; can only propose changes. Stateless — the backend sends the recent history with every message." style="cursor:pointer">
+
+          <rect class="node-box agent-col" x="405" y="260" width="175" height="50" rx="2"/>
+
+          <text class="node-label" x="492" y="278">python agent</text>
+          <text class="node-sub" x="492" y="297">langchain · gpt-4o</text>
+
+        </g>
+
+        <!-- AGENT → PROFILE -->
+
+        <line class="arrow agent" marker-end="url(#ah-current-agent)" x1="492" y1="310" x2="492" y2="322"/>
+
+        <g data-tip="profile.md" data-desc="What a trainer needs to know beyond the data: goals, injuries, training preferences, food likes and dislikes, routine. Loaded whole into every prompt, edited one line at a time — replaced, not piled up, as things change — and every change logged. Lives on the agent's server, never in git." style="cursor:pointer">
+
+          <rect class="node-box agent-col" x="447" y="324" width="90" height="24" rx="2"/>
+
+          <text class="node-label" x="492" y="337" style="font-size:11px">profile.md</text>
+
+        </g>
+
+
+        <!-- BACKEND → AGENT -->
+
+        <line class="arrow" marker-end="url(#ah-current)" x1="470" y1="155" x2="470" y2="260"/>
+        <text class="arrow-label" x="432" y="200">message</text>
+        <text class="arrow-label" x="432" y="210">+ history</text>
+        <text class="arrow-label" x="432" y="220">internal key</text>
+
+
+        <!-- AGENT → BACKEND -->
+
+        <line class="arrow agent" marker-end="url(#ah-current-agent)" x1="525" y1="260" x2="525" y2="155"/>
+        <text class="arrow-label" x="565" y="200">scoped token</text>
+        <text class="arrow-label" x="565" y="210">reads · proposals</text>
+
+
+        <!-- OUTSIDE -->
+
+        <rect class="server-box" x="655" y="235" width="175" height="120" rx="2"/>
+
+        <text class="server-label" x="668" y="250">outside · model provider</text>
+
+        <g data-tip="openai api" data-desc="The models: GPT-4o for the conversation, GPT-4o-mini for deciding what's worth remembering after each reply. Only the agent talks to it; the key never leaves the agent's server." style="cursor:pointer">
+
+          <rect class="node-box" x="675" y="270" width="135" height="50" rx="2"/>
+
+          <text class="node-label" x="742" y="288">openai api</text>
+          <text class="node-sub" x="742" y="306">gpt-4o · gpt-4o-mini</text>
+
+        </g>
+
+
+        <!-- AGENT → OPENAI -->
+
+        <line class="arrow agent" marker-end="url(#ah-current-agent)" x1="580" y1="285" x2="675" y2="292"/>
+        <text class="arrow-label" x="628" y="280">https</text>
+
+
+      </svg>
+
+      <p class="diag-note">hover over any component to see the reasoning behind it.</p>
+
+    </div>
+
+
+    <div class="diagram-panel" id="deploy-aws">
+      <iframe
+              src="form-aws-diagram.html"
+              class="aws-diagram-frame"
+              title="AWS deployment architecture">
+      </iframe>
+    </div>
+
+
+
+    <!-- ── AGENT FLOW OVERLAY ── -->
+
+    <div class="agent-overlay" id="agentOverlay">
+
+      <button class="agent-back" onclick="hideAgentFlow()">← back to system architecture</button>
+
+      <svg class="diag-svg" viewBox="0 0 740 510" xmlns="http://www.w3.org/2000/svg">
+
+        <defs>
+
+          <marker id="ah2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L6,3 z" fill="#c8bfb0"/>
+          </marker>
+
+        </defs>
+
+
+        <!-- User -->
+
+        <g data-tip="you (messages)" data-desc="You write to form. in its tab — what you did, what you measured, what to eat — or just open the app and read today's line." style="cursor:pointer">
+
+          <circle cx="370" cy="16" r="10" fill="none" stroke="#9a8f82" stroke-width="0.75"/>
+          <line x1="370" y1="26" x2="370" y2="48" stroke="#9a8f82" stroke-width="0.75"/>
+          <line x1="354" y1="36" x2="386" y2="36" stroke="#9a8f82" stroke-width="0.75"/>
+          <line x1="370" y1="48" x2="356" y2="62" stroke="#9a8f82" stroke-width="0.75"/>
+          <line x1="370" y1="48" x2="384" y2="62" stroke="#9a8f82" stroke-width="0.75"/>
+          <text class="flow-sub" x="370" y="72">user</text>
+
+        </g>
+
+
+        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="370" y1="75" x2="370" y2="90"/>
+
+
+        <!-- Coach tab -->
+
+        <rect class="flow-node" x="290" y="92" width="160" height="38"
+              data-tip="coach tab"
+              data-desc="The chat, built into the app: the thread, a card under the reply for anything form. proposed — confirm or cancel — and everything the agent did in its own blue. No chat platform in between."/>
+
+        <text class="flow-label" x="370" y="107">coach tab</text>
+        <text class="flow-sub" x="370" y="122">react · in the app</text>
+
+        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="370" y1="130" x2="370" y2="145"/>
+
+
+        <!-- Backend chat -->
+
+        <rect class="flow-node" x="290" y="147" width="160" height="38"
+              data-tip="backend chat"
+              data-desc="The backend owns the conversation. It stores your message, sends it to the agent with the last 20 messages — each old proposal tagged with what became of it — and stores the reply. Rate limited: every message is a paid model call."/>
+
+        <text class="flow-label" x="370" y="162">backend chat</text>
+        <text class="flow-sub" x="370" y="177">thread · internal key</text>
+
+        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="370" y1="185" x2="370" y2="200"/>
+
+
+        <!-- Guardrails -->
+
+        <rect class="flow-node hl" x="290" y="202" width="160" height="38"
+              data-tip="guardrails"
+              data-desc="Only the backend can call the agent, with a shared key compared in constant time. Empty and oversized messages stop before the model. What the agent may actually do is enforced further down — by the backend, and by you."/>
+
+        <text class="flow-label" x="370" y="217">guardrails</text>
+        <text class="flow-sub" x="370" y="232">internal key · input guard</text>
+
+        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="370" y1="240" x2="370" y2="255"/>
+
+
+        <!-- Agent -->
+
+        <rect class="flow-node hl" x="290" y="257" width="160" height="48"
+              data-tip="agent layer"
+              data-desc="LangChain's create_agent on GPT-4o, stateless: no checkpointer, because the backend holds the thread. Strict but on your side, specific praise, short sentences. At most 6 tool rounds per message. The model is a setting, not a rewrite."/>
+
+        <text class="flow-label" x="370" y="276">agent</text>
+        <text class="flow-sub" x="370" y="293">langchain · gpt-4o</text>
+
+
+        <!-- Prompt context → Agent -->
+
+        <g data-tip="prompt context" data-desc="Rebuilt every message: the persona and its rules, the profile in full, a snapshot of right now, and the recent thread. So 'what's today?' needs no tool call." style="cursor:pointer">
+          <rect class="flow-node hl" x="40" y="257" width="170" height="48" rx="2"/>
+          <text class="flow-label" x="125" y="276">prompt context</text>
+          <text class="flow-sub" x="125" y="293">profile · snapshot · history</text>
+        </g>
+
+        <line stroke="#5a7a9e" stroke-width="0.75" marker-end="url(#ah2)" x1="210" y1="281" x2="288" y2="281"/>
+
+
+        <!-- Sources → Prompt context -->
+
+        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="75" y1="353" x2="90" y2="307"/>
+        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="175" y1="353" x2="160" y2="307"/>
+
+
+        <!-- Profile -->
+
+        <g data-tip="profile.md" data-desc="Goals, body & injuries, training preferences, food likes & dislikes, routine. Plain markdown, loaded whole into every prompt — never searched. When something changes, its line is replaced; the body evolves, so old facts don't pile up. Every change logged, before → after." style="cursor:pointer">
+          <rect class="flow-node hl" x="30" y="355" width="90" height="44" rx="2"/>
+          <text class="flow-label" x="75" y="372">profile.md</text>
+          <text class="flow-sub" x="75" y="388">always loaded</text>
+        </g>
+
+
+        <!-- Snapshot -->
+
+        <g data-tip="snapshot" data-desc="Right now, fetched from the backend in parallel with every message: the date, today's session and what's ticked, today's meals, whether this week is measured, the latest measurements. Real data, never remembered data." style="cursor:pointer">
+          <rect class="flow-node hl" x="130" y="355" width="90" height="44" rx="2"/>
+          <text class="flow-label" x="175" y="372">snapshot</text>
+          <text class="flow-sub" x="175" y="388">right now</text>
+        </g>
+
+
+        <!-- Extractor → Profile -->
+
+        <line stroke="#5a7a9e" stroke-width="0.75" marker-end="url(#ah2)" x1="75" y1="455" x2="75" y2="402"/>
+
+
+        <!-- Memory extractor -->
+
+        <g data-tip="memory extractor" data-desc="Runs after the reply is sent, so nobody waits. A smaller model reads the exchange and decides whether anything was a lasting fact — most of the time, nothing was. One line added or replaced at a time, never a section rewrite. What you trained, ate or measured is never stored here: that's the backend's." style="cursor:pointer">
+          <rect class="flow-node hl" x="40" y="455" width="175" height="44" rx="2"/>
+          <text class="flow-label" x="127" y="473">memory extractor</text>
+          <text class="flow-sub" x="127" y="489">gpt-4o-mini · after reply</text>
+        </g>
+
+
+        <!-- Agent → Extractor (after the reply) -->
+
+        <line stroke="#c8bfb0" stroke-width="0.75" stroke-dasharray="4 3" marker-end="url(#ah2)" x1="305" y1="305" x2="217" y2="467"/>
+        <text class="arrow-label" x="285" y="425">after reply</text>
+
+
+        <!-- Agent → Tools -->
+
+        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="325" y1="305" x2="342" y2="343"/>
+        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="370" y1="305" x2="437" y2="343"/>
+        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="410" y1="305" x2="532" y2="343"/>
+        <line stroke="#5a7a9e" stroke-width="0.75" marker-end="url(#ah2)" x1="450" y1="295" x2="650" y2="343"/>
+
+
+        <!-- Training tools -->
+
+        <rect class="flow-node" x="300" y="345" width="85" height="46"
+              data-tip="training tools"
+              data-desc="get_programme and get_training_history: every training day with its exercises, sets, reps and form notes, and what was done day by day — the gaps are the skipped sessions."/>
+
+        <text class="flow-label" x="342" y="363">training</text>
+        <text class="flow-sub" x="342" y="379">read · history</text>
+
+
+        <!-- Meal tools -->
+
+        <rect class="flow-node" x="395" y="345" width="85" height="46"
+              data-tip="meal tools"
+              data-desc="get_week_menu, get_meal_options and get_shopping_list: the week's meals with swaps and what was eaten, what each slot can be swapped to, and the list ready to paste."/>
+
+        <text class="flow-label" x="437" y="363">meals</text>
+        <text class="flow-sub" x="437" y="379">read · list</text>
+
+
+        <!-- Progress tools -->
+
+        <rect class="flow-node" x="490" y="345" width="85" height="46"
+              data-tip="progress tools"
+              data-desc="get_progress and progress_trend: the latest measurements and how they changed, and the rate per week fitted across every check-in. The maths is done in code, not by the model."/>
+
+        <text class="flow-label" x="532" y="363">progress</text>
+        <text class="flow-sub" x="532" y="379">read · trend</text>
+
+
+        <!-- Propose tools -->
+
+        <rect class="flow-node hl" x="590" y="345" width="130" height="46"
+              data-tip="propose tools"
+              data-desc="propose_log_workout, propose_exercise_change, propose_meal_swap and propose_check_in. They don't change anything: the backend checks each one against the same rules the change would face and writes the summary itself — so the card shows exactly what will run."/>
+
+        <text class="flow-label" x="655" y="363">propose tools</text>
+        <text class="flow-sub" x="655" y="379">nothing runs yet</text>
+
+
+        <!-- Propose → Confirmation -->
+
+        <line stroke="#c8bfb0" stroke-width="0.75" marker-end="url(#ah2)" x1="655" y1="391" x2="655" y2="405"/>
+
+
+        <!-- Confirmation -->
+
+        <rect class="flow-node hl" x="590" y="407" width="130" height="26"
+              data-tip="you confirm"
+              data-desc="A card under the reply with confirm and cancel. Nothing happens until you tap confirm — then the backend runs it once, even on a double tap, as the agent, after checking its grant again. Proposals expire after a day."/>
+
+        <text class="flow-label" x="655" y="421" style="font-size:11.5px">you confirm · the card</text>
+
+
+        <!-- Backend API -->
+
+        <line stroke="#c8bfb0" stroke-width="0.75" stroke-dasharray="4 3" marker-end="url(#ah2)" x1="342" y1="391" x2="342" y2="458"/>
+        <line stroke="#c8bfb0" stroke-width="0.75" stroke-dasharray="4 3" marker-end="url(#ah2)" x1="437" y1="391" x2="437" y2="458"/>
+        <line stroke="#c8bfb0" stroke-width="0.75" stroke-dasharray="4 3" marker-end="url(#ah2)" x1="532" y1="391" x2="532" y2="458"/>
+        <line stroke="#c8bfb0" stroke-width="0.75" stroke-dasharray="4 3" marker-end="url(#ah2)" x1="655" y1="433" x2="655" y2="458"/>
+
+        <g data-tip="backend api" data-desc="Every tool goes through the C# backend with a short-lived token that carries identity only — the grants are checked against the database on every call, so revoking the agent works on its next request. The client has no PUT or DELETE, and the backend refuses any write from the agent outside a proposal." style="cursor:pointer">
+          <rect x="300" y="460" width="420" height="28" rx="2" fill="rgba(200,191,176,0.08)" stroke="#c8bfb0" stroke-width="0.75" stroke-dasharray="4 3"/>
+          <text class="flow-label" x="510" y="474" style="font-size:11.5px; pointer-events:none">backend api · scoped token</text>
+        </g>
+
+
+        <!-- Greeting -->
+
+        <rect class="flow-node" x="560" y="147" width="160" height="46"
+              data-tip="daily greeting"
+              data-desc="When you open the app, the trainer comes at you first: one line about today — the session, a check-in that's due, a skip it noticed. Asked of the model once a day, without tools, and cached; after that it waits for you."/>
+
+        <text class="flow-label" x="640" y="164">greeting</text>
+        <text class="flow-sub" x="640" y="180">once a day · no tools</text>
+
+        <line stroke="#c8bfb0" stroke-width="0.75" stroke-dasharray="4 3" marker-end="url(#ah2)" x1="452" y1="166" x2="558" y2="170"/>
+
+        <text class="arrow-label" x="505" y="160">on app open</text>
+
+      </svg>
+
+      <p class="diag-note">hover over any component to see the reasoning behind it.</p>
+
+    </div>
+
+  </div>
+</div>
+
+
+<div class="tooltip" id="tooltip">
+  <span class="tooltip-label" id="tlabel"></span>
+  <span id="tdesc"></span>
+</div>
+
+
+<script>
+
+  function switchDeploy(mode, btn) {
+    document.querySelectorAll('.toggle-pill button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('deploy-current').classList.toggle('active', mode === 'current');
+    document.getElementById('deploy-aws').classList.toggle('active', mode === 'aws');
+  }
+
+  function showAgentFlow() {
+    document.getElementById('agentOverlay').classList.add('active');
+  }
+
+  function hideAgentFlow() {
+    document.getElementById('agentOverlay').classList.remove('active');
+  }
+
+  // the close button only exists when the portfolio wraps this page in a modal
+  const closeBtn = document.getElementById('closeBtn');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      if (window.parent && window.parent.closeArch) window.parent.closeArch();
+    });
+  }
+
+
+  const tt = document.getElementById('tooltip');
+  const tl = document.getElementById('tlabel');
+  const td = document.getElementById('tdesc');
+  let ttT = null;
+
+  document.addEventListener('mouseover', e => {
+    const el = e.target.closest('[data-tip]');
+    if (el) {
+      ttT = el;
+      tl.textContent = el.getAttribute('data-tip');
+      td.textContent = el.getAttribute('data-desc');
+      tt.classList.add('visible');
+      move(e);
+    }
+  });
+
+  document.addEventListener('mousemove', e => {
+    if (ttT) move(e);
+  });
+
+  document.addEventListener('mouseout', e => {
+    if (e.target.closest('[data-tip]')) {
+      ttT = null;
+      tt.classList.remove('visible');
+    }
+  });
+
+  function move(e) {
+    const pad = 14;
+    const tw = tt.offsetWidth;
+    const th = tt.offsetHeight;
+
+    let x = e.clientX + pad;
+    let y = e.clientY + pad;
+
+    if (x + tw > window.innerWidth - 12) x = e.clientX - tw - pad;
+    if (y + th > window.innerHeight - 12) y = e.clientY - th - pad;
+
+    tt.style.left = x + 'px';
+    tt.style.top = y + 'px';
+  }
+
+</script>
+
+</body>
+</html>
